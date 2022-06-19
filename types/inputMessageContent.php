@@ -9,10 +9,10 @@ use stdClass;
  * currently support the following 5 types:
  */
 class inputMessageContent extends types {
-	/** Keep all of properties which has sub properties */
-	private const subs = [];
+    /** Keep all of properties which has sub properties */
+    private const subs = [];
 
-	public function __construct(stdClass $update) {
-		parent::__construct($update, self::subs);
-	}
+    public function __construct(stdClass $update) {
+        parent::__construct($update, self::subs);
+    }
 }

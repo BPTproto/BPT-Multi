@@ -9,20 +9,20 @@ use stdClass;
  * alert set by another user.
  */
 class proximityAlertTriggered extends types {
-	/** Keep all of properties which has sub properties */
-	private const subs = ['traveler' => 'BPT\types\user', 'watcher' => 'BPT\types\user'];
+    /** Keep all of properties which has sub properties */
+    private const subs = ['traveler' => 'BPT\types\user', 'watcher' => 'BPT\types\user'];
 
-	/** User that triggered the alert */
-	public user $traveler;
+    /** User that triggered the alert */
+    public user $traveler;
 
-	/** User that set the alert */
-	public user $watcher;
+    /** User that set the alert */
+    public user $watcher;
 
-	/** The distance between the users */
-	public int $distance;
+    /** The distance between the users */
+    public int $distance;
 
 
-	public function __construct(stdClass $update) {
-		parent::__construct($update, self::subs);
-	}
+    public function __construct(stdClass $update) {
+        parent::__construct($update, self::subs);
+    }
 }
