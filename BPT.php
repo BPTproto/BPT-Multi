@@ -4,7 +4,6 @@ namespace BPT;
 
 use BPT\api\request;
 use BPT\types\update;
-use JetBrains\PhpStorm\NoReturn;
 use stdClass;
 use BPT\types\botCommandScope;
 use BPT\types\chatAdministratorRights;
@@ -238,7 +237,7 @@ class BPT{
         }
     }
 
-    #[NoReturn] public static function close () {
+    public static function close () {
         die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
     }
 }

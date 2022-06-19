@@ -161,7 +161,7 @@ class emojis {
 	public const LEFT_SPEECH_BUBBLE = '🗨';
 	public const RIGHT_ANGER_BUBBLE = '🗯';
 	public const THOUGHT_BALLOON = '💭';
-	public const ZZZ = '💤';
+    public const ZZZ = '💤';
 	public const WAVING_HAND = '👋';
 	public const WAVING_HAND_LIGHT_SKIN_TONE = '👋🏻';
 	public const WAVING_HAND_MEDIUM_LIGHT_SKIN_TONE = '👋🏼';

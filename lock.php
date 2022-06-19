@@ -11,7 +11,7 @@ class lock {
         return touch("$name.lock");
     }
 
-    public static function save(string $name, string $data): bool {
+    public static function save(string $name, string $data): bool|int {
         return file_put_contents("$name.lock", $data);
 
     }

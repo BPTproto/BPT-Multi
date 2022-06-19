@@ -130,7 +130,7 @@ class tools {
      * @return bool
      */
     public static function isJoined (array|string|int $ids , int|null $user_id = null): bool {
-        if (is_string($ids) || is_numeric($ids)) {
+        if (is_numeric($ids) || is_string($ids)) {
             $ids = [$ids];
         }
         //$user_id = $user_id ?? $this->catchFields(['field' => 'user_id']);

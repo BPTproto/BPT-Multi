@@ -31,12 +31,10 @@ class webhook {
 
     public static function processUpdate(): update {
         $update = json_decode(file_get_contents("php://input"));
-        if ($update) {
-            return new update($update);
-        }
-        else {
+        if (!$update) {
             BPT::close();
         }
+        return new update($update);
     }
 
     public static function deleteOldLocks() {

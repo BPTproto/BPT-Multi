@@ -16,5 +16,5 @@ class chatType {
 	public const SUPERGROUP = 'supergroup';
 
 	/** Chat type is channel */
-	public const CHANNEL = 'channel';
+    public const CHANNEL = 'channel';
 }

@@ -6,7 +6,7 @@ namespace BPT\constants;
  * Different type of passport
  */
 class passportTypes {
-	public const PERSONAL_DETAILS = 'personal_details';
+    public const PERSONAL_DETAILS = 'personal_details';
 	public const PASSPORT = 'passport';
 	public const DRIVER_LICENSE = 'driver_license';
 	public const IDENTITY_CARD = 'identity_card';
@@ -19,4 +19,5 @@ class passportTypes {
 	public const TEMPORARY_REGISTRATION = 'temporary_registration';
 	public const PHONE_NUMBER = 'phone_number';
 	public const EMAIL = 'email';
+	
 }
