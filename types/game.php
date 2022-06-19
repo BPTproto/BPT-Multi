@@ -9,33 +9,33 @@ use stdClass;
  * identifiers.
  */
 class game extends types {
-	/** Keep all of properties which has sub properties */
-	private const subs = ['animation' => 'BPT\types\animation'];
+    /** Keep all of properties which has sub properties */
+    private const subs = ['animation' => 'BPT\types\animation'];
 
-	/** Title of the game */
-	public string $title;
+    /** Title of the game */
+    public string $title;
 
-	/** Description of the game */
-	public string $description;
+    /** Description of the game */
+    public string $description;
 
-	/** Photo that will be displayed in the game message in chats. */
-	public array $photo;
+    /** Photo that will be displayed in the game message in chats. */
+    public array $photo;
 
-	/**
-	 * Optional. Brief description of the game or high scores included in the game message. Can be automatically
-	 * edited to include current high scores for the game when the bot calls setGameScore, or manually edited using
-	 * editMessageText. 0-4096 characters.
-	 */
-	public string $text;
+    /**
+     * Optional. Brief description of the game or high scores included in the game message. Can be automatically
+     * edited to include current high scores for the game when the bot calls setGameScore, or manually edited using
+     * editMessageText. 0-4096 characters.
+     */
+    public string $text;
 
-	/** Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc. */
-	public array $text_entities;
+    /** Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc. */
+    public array $text_entities;
 
-	/** Optional. Animation that will be displayed in the game message in chats. Upload via BotFather */
-	public animation $animation;
+    /** Optional. Animation that will be displayed in the game message in chats. Upload via BotFather */
+    public animation $animation;
 
 
-	public function __construct(stdClass $update) {
-		parent::__construct($update, self::subs);
-	}
+    public function __construct(stdClass $update) {
+        parent::__construct($update, self::subs);
+    }
 }
