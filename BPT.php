@@ -4,6 +4,7 @@ namespace BPT;
 
 use BPT\api\request;
 use BPT\types\update;
+use JetBrains\PhpStorm\NoReturn;
 use stdClass;
 use BPT\types\botCommandScope;
 use BPT\types\chatAdministratorRights;
@@ -35,7 +36,7 @@ use BPT\types\replyKeyboardRemove;
  * @method getMe (string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
  * @method me (string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) A simple method for testing your bot's authentication token. Requires no parameters. Returns basic information about the bot in form of a User object.
  * @method logOut (string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes. Returns True on success. Requires no parameters.
- * @method close (string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
+ * @method out (string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to close the bot instance before moving it from one local server to another. You need to delete the webhook before calling this method to ensure that the bot isn't launched again after server restart. The method will return error 429 in the first 10 minutes after the bot is launched. Returns True on success. Requires no parameters.
  * @method sendMessage (string $text, int|string|null $chat_id = null, string|null $parse_mode = null, array|null $entities = null, bool|null $disable_web_page_preview = null, bool|null $disable_notification = null, bool|null $protect_content = null, int|null $reply_to_message_id = null, bool|null $allow_sending_without_reply = null, inlineKeyboardMarkup|replyKeyboardMarkup|replyKeyboardRemove|forceReply|null $reply_markup = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send text messages. On success, the sent Message is returned.
  * @method send (string $text, int|string|null $chat_id = null, string|null $parse_mode = null, array|null $entities = null, bool|null $disable_web_page_preview = null, bool|null $disable_notification = null, bool|null $protect_content = null, int|null $reply_to_message_id = null, bool|null $allow_sending_without_reply = null, inlineKeyboardMarkup|replyKeyboardMarkup|replyKeyboardRemove|forceReply|null $reply_markup = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send text messages. On success, the sent Message is returned.
  * @method forwardMessage (int|string $chat_id, int|string|null $from_chat_id = null, bool|null $disable_notification = null, bool|null $protect_content = null, int|null $message_id = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to forward messages of any kind. Service messages can't be forwarded. On success, the sent Message is returned.
@@ -218,11 +219,14 @@ use BPT\types\replyKeyboardRemove;
  * @method getGameHigh (int|null $user_id = null, int|null $chat_id = null, int|null $message_id = null, string|null $inline_message_id = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. On success, returns an Array of GameHighScore objects.
  */
 class BPT{
-    public update $update;
+    public static update $update;
+
+    public static BPT $handler;
 
 
     public function __construct (array|stdClass $settings) {
         settings::init($settings);
+        static::$handler = &$this;
     }
 
     public function __call (string $name, array $arguments) {
@@ -232,5 +236,9 @@ class BPT{
         else {
             request::$name($arguments);
         }
+    }
+
+    #[NoReturn] public static function close () {
+        die("<div style='width:98vw;height:98vh;display:flex;justify-content:center;align-items:center;font-size:25vw'>BPT</div>");
     }
 }

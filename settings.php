@@ -132,6 +132,7 @@ class settings {
     }
 
     private static function webhook() {
+        //self::$multi ? multi::init() : self::getUpdates();
         webhook::init();
     }
 }
