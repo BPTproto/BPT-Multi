@@ -128,6 +128,15 @@ class message extends types {
     /** Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters */
     public string $text;
 
+    /** Optional. If user message was a commend , this parameter will be the commend */
+    public string $commend;
+
+    /** Optional. If user message was a commend , this parameter will be the commend username(if exist) */
+    public string $commend_username;
+
+    /** Optional. If user message was a commend , this parameter will be the commend payload(if exist) */
+    public string $commend_payload;
+
     /** Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
     public array $entities;
 

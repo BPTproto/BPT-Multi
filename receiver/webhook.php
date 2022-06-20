@@ -94,26 +94,18 @@ class webhook {
         }
     }
 
-    private static function setMessageExtra(update &$update) {
-        if((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))){
-            if (isset($update->message)) $type = 'message';
-            else $type = 'edited_message';
-
+    private static function setMessageExtra (update &$update) {
+        if ((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))) {
+            $type = isset($update->message) ? 'message' : 'edited_message';
             $text = &$update->$type->text;
-            if (settings::$security){
+            if (settings::$security) {
                 $text = tools::clearText($text);
             }
-            if (str_starts_with($text, '/')){
-                preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/',$text,$result);
-                if (!empty($result[1])){
-                    $update->$type->commend = $result[1];
-                }
-                if (!empty($result[2])){
-                    $update->$type->commend_username = $result[2];
-                }
-                if (!empty($result[3])){
-                    $update->$type->commend_payload = $result[3];
-                }
+            if (str_starts_with($text, '/')) {
+                preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
+                $update->$type->commend = $result[1] ?? null;
+                $update->$type->commend_username = $result[2] ?? null;
+                $update->$type->commend_payload = $result[3] ?? null;
             }
         }
     }
