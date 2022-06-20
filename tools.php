@@ -21,7 +21,7 @@ class tools {
      * @param string $username Your text to be check is username or not e.g. : 'BPT_CH' | '@BPT_CH'
      * @return bool
      */
-    public static function isUsername(string $username): bool {
+    public static function isUsername (string $username): bool {
         $length = strlen($username);
         return strpos($username, '__') === false && $length >= 5 && $length <= 33 && preg_match('/^@?([a-zA-Z])(\w{4,31})$/', $username);
     }
@@ -332,5 +332,9 @@ class tools {
         }
         $string['status'] = $status;
         return count($string) > 1 ? $string : ['status' => 'now'];
+    }
+
+    public static function clearText(string $text): string {
+        return htmlentities(strip_tags(htmlspecialchars(stripslashes(trim($text)))));
     }
 }
