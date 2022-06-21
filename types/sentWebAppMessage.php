@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * Contains information about an inline message sent by a Web App on behalf of a user.
+ * Describes an inline message sent by a Web App on behalf of a user.
  */
 class sentWebAppMessage extends types {
     /** Keep all of properties which has sub properties */

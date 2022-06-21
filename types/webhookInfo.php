@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * Contains information about the current status of a webhook.
+ * Describes the current status of a webhook.
  */
 class webhookInfo extends types {
     /** Keep all of properties which has sub properties */
@@ -38,7 +38,7 @@ class webhookInfo extends types {
      */
     public int $last_synchronization_error_date;
 
-    /** Optional. Maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
+    /** Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
     public int $max_connections;
 
     /** Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member */

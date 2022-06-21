@@ -33,6 +33,12 @@ class user extends types {
     /** Optional. IETF language tag of the user's language */
     public string $language_code;
 
+    /** Optional. True, if this user is a Telegram Premium user */
+    public bool $is_premium;
+
+    /** Optional. True, if this user added the bot to the attachment menu */
+    public bool $added_to_attachment_menu;
+
     /** Optional. True, if the bot can be invited to groups. Returned only in getMe. */
     public bool $can_join_groups;
 

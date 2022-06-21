@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * Contains information about Telegram Passport data shared with the bot by the user.
+ * Describes Telegram Passport data shared with the bot by the user.
  */
 class passportData extends types {
     /** Keep all of properties which has sub properties */

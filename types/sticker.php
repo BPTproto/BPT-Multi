@@ -9,7 +9,11 @@ use stdClass;
  */
 class sticker extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['thumb' => 'BPT\types\photoSize', 'mask_position' => 'BPT\types\maskPosition'];
+    private const subs = [
+        'thumb' => 'BPT\types\photoSize',
+        'premium_animation' => 'BPT\types\file',
+        'mask_position' => 'BPT\types\maskPosition',
+    ];
 
     /** Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
@@ -40,6 +44,9 @@ class sticker extends types {
 
     /** Optional. Name of the sticker set to which the sticker belongs */
     public string $set_name;
+
+    /** Optional. Premium animation for the sticker, if the sticker is premium */
+    public file $premium_animation;
 
     /** Optional. For mask stickers, the position where the mask should be placed */
     public maskPosition $mask_position;

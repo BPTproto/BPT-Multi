@@ -11,7 +11,7 @@ class shippingAddress extends types {
     /** Keep all of properties which has sub properties */
     private const subs = [];
 
-    /** ISO 3166-1 alpha-2 country code */
+    /** Two-letter ISO 3166-1 alpha-2 country code */
     public string $country_code;
 
     /** State, if applicable */

@@ -57,7 +57,7 @@ class message extends types {
     /**
      * Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts,
      * the supergroup itself for messages from anonymous group administrators, the linked channel for messages
-     * automatically forwarded to the discussion group.  For backward compatibility, the field from contains a fake
+     * automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake
      * sender user in non-channel chats, if the message was sent on behalf of a chat.
      */
     public chat $sender_chat;
@@ -125,7 +125,7 @@ class message extends types {
      */
     public string $author_signature;
 
-    /** Optional. For text messages, the actual UTF-8 text of the message, 0-4096 characters */
+    /** Optional. For text messages, the actual UTF-8 text of the message */
     public string $text;
 
     /** Optional. If user message was a commend , this parameter will be the commend */
@@ -167,7 +167,7 @@ class message extends types {
     /** Optional. Message is a voice message, information about the file */
     public voice $voice;
 
-    /** Optional. Caption for the animation, audio, document, photo, video or voice, 0-1024 characters */
+    /** Optional. Caption for the animation, audio, document, photo, video or voice */
     public string $caption;
 
     /**

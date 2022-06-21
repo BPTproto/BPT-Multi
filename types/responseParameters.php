@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * Contains information about why a request was unsuccessful.
+ * Describes why a request was unsuccessful.
  */
 class responseParameters extends types {
     /** Keep all of properties which has sub properties */

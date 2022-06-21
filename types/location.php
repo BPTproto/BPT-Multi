@@ -30,7 +30,7 @@ class location extends types {
     public int $heading;
 
     /**
-     * Optional. Maximum distance for proximity alerts about approaching another chat member, in meters. For sent
+     * Optional. The maximum distance for proximity alerts about approaching another chat member, in meters. For sent
      * live locations only.
      */
     public int $proximity_alert_radius;

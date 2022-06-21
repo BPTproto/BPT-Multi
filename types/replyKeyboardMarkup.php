@@ -24,8 +24,8 @@ class replyKeyboardMarkup extends types {
 
     /**
      * Optional. Requests clients to hide the keyboard as soon as it's been used. The keyboard will still be
-     * available, but clients will automatically display the usual letter-keyboard in the chat – the user can press
-     * a special button in the input field to see the custom keyboard again. Defaults to false.
+     * available, but clients will automatically display the usual letter-keyboard in the chat - the user can press a
+     * special button in the input field to see the custom keyboard again. Defaults to false.
      */
     public bool $one_time_keyboard;
 

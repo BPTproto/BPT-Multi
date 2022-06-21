@@ -33,7 +33,7 @@ class preCheckoutQuery extends types {
     /** Optional. Identifier of the shipping option chosen by the user */
     public string $shipping_option_id;
 
-    /** Optional. Order info provided by the user */
+    /** Optional. Order information provided by the user */
     public orderInfo $order_info;
 
 

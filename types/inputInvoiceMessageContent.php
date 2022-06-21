@@ -23,7 +23,7 @@ class inputInvoiceMessageContent extends types {
      */
     public string $payload;
 
-    /** Payment provider token, obtained via Botfather */
+    /** Payment provider token, obtained via BotFather */
     public string $provider_token;
 
     /** Three-letter ISO 4217 currency code, see more on currencies */
@@ -58,11 +58,11 @@ class inputInvoiceMessageContent extends types {
 
     /**
      * Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a
-     * service. People like it better when they see what they are paying for.
+     * service.
      */
     public string $photo_url;
 
-    /** Optional. Photo size */
+    /** Optional. Photo size in bytes */
     public int $photo_size;
 
     /** Optional. Photo width */
@@ -83,10 +83,10 @@ class inputInvoiceMessageContent extends types {
     /** Optional. Pass True, if you require the user's shipping address to complete the order */
     public bool $need_shipping_address;
 
-    /** Optional. Pass True, if user's phone number should be sent to provider */
+    /** Optional. Pass True, if the user's phone number should be sent to provider */
     public bool $send_phone_number_to_provider;
 
-    /** Optional. Pass True, if user's email address should be sent to provider */
+    /** Optional. Pass True, if the user's email address should be sent to provider */
     public bool $send_email_to_provider;
 
     /** Optional. Pass True, if the final price depends on the shipping method */

@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * Contains information about a Web App.
+ * Describes a Web App.
  */
 class webAppInfo extends types {
     /** Keep all of properties which has sub properties */
