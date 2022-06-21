@@ -50,6 +50,15 @@ class chat extends types {
      */
     public bool $has_private_forwards;
 
+    /** Optional. True, if users need to join the supergroup before they can send messages. Returned only in getChat. */
+    public bool $join_to_send_messages;
+
+    /**
+     * Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators.
+     * Returned only in getChat.
+     */
+    public bool $join_by_request;
+
     /** Optional. Description, for groups, supergroups and channel chats. Returned only in getChat. */
     public string $description;
 

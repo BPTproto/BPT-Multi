@@ -25,7 +25,7 @@ class inlineQueryResultVideo extends types {
     /** A valid URL for the embedded video player or video file */
     public string $video_url;
 
-    /** Mime type of the content of video url, “text/html” or “video/mp4” */
+    /** MIME type of the content of the video URL, “text/html” or “video/mp4” */
     public string $mime_type;
 
     /** URL of the thumbnail (JPEG only) for the video */

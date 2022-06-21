@@ -37,7 +37,7 @@ class inlineQueryResultDocument extends types {
     /** A valid URL for the file */
     public string $document_url;
 
-    /** Mime type of the content of the file, either “application/pdf” or “application/zip” */
+    /** MIME type of the content of the file, either “application/pdf” or “application/zip” */
     public string $mime_type;
 
     /** Optional. Short description of the result */

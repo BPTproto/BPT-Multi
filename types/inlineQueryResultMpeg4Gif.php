@@ -22,7 +22,7 @@ class inlineQueryResultMpeg4Gif extends types {
     /** Unique identifier for this result, 1-64 bytes */
     public string $id;
 
-    /** A valid URL for the MP4 file. File size must not exceed 1MB */
+    /** A valid URL for the MPEG4 file. File size must not exceed 1MB */
     public string $mpeg4_url;
 
     /** Optional. Video width */

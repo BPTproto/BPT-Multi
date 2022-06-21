@@ -22,7 +22,7 @@ class inlineQueryResultCachedMpeg4Gif extends types {
     /** Unique identifier for this result, 1-64 bytes */
     public string $id;
 
-    /** A valid file identifier for the MP4 file */
+    /** A valid file identifier for the MPEG4 file */
     public string $mpeg4_file_id;
 
     /** Optional. Title for the result */

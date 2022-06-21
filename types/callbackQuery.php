@@ -36,8 +36,8 @@ class callbackQuery extends types {
     public string $chat_instance;
 
     /**
-     * Optional. Data associated with the callback button. Be aware that a bad client can send arbitrary data in this
-     * field.
+     * Optional. Data associated with the callback button. Be aware that the message originated the query can contain
+     * no callback buttons with this data.
      */
     public string $data;
 
