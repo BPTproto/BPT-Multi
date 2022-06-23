@@ -17,6 +17,13 @@ class message extends types {
         'forward_from_chat' => 'BPT\types\chat',
         'reply_to_message' => 'BPT\types\message',
         'via_bot' => 'BPT\types\user',
+        'array' => [
+            'entities' => 'BPT\types\messageEntity',
+            'photo' => 'BPT\types\photoSize',
+            'caption_entities' => 'BPT\types\messageEntity',
+            'new_chat_members' => 'BPT\types\user',
+            'new_chat_photo' => 'BPT\types\photoSize',
+        ],
         'animation' => 'BPT\types\animation',
         'audio' => 'BPT\types\audio',
         'document' => 'BPT\types\document',
@@ -44,6 +51,9 @@ class message extends types {
         'web_app_data' => 'BPT\types\webAppData',
         'reply_markup' => 'BPT\types\inlineKeyboardMarkup',
     ];
+
+    /** Unique message identifier inside this chat */
+    public int $id;
 
     /** Unique message identifier inside this chat */
     public int $message_id;
@@ -129,15 +139,18 @@ class message extends types {
     public string $text;
 
     /** Optional. If user message was a commend , this parameter will be the commend */
-    public string $commend;
+    public string|null $commend;
 
     /** Optional. If user message was a commend , this parameter will be the commend username(if exist) */
-    public string $commend_username;
+    public string|null $commend_username;
 
     /** Optional. If user message was a commend , this parameter will be the commend payload(if exist) */
-    public string $commend_payload;
+    public string|null $commend_payload;
 
-    /** Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text */
+    /**
+     * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
+     * @var messageEntity[]
+     */
     public array $entities;
 
     /**
@@ -152,7 +165,10 @@ class message extends types {
     /** Optional. Message is a general file, information about the file */
     public document $document;
 
-    /** Optional. Message is a photo, available sizes of the photo */
+    /**
+     * Optional. Message is a photo, available sizes of the photo
+     * @var photoSize[]
+     */
     public array $photo;
 
     /** Optional. Message is a sticker, information about the sticker */
@@ -173,6 +189,7 @@ class message extends types {
     /**
      * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear
      * in the caption
+     * @var messageEntity[]
      */
     public array $caption_entities;
 
@@ -200,6 +217,7 @@ class message extends types {
     /**
      * Optional. New members that were added to the group or supergroup and information about them (the bot itself
      * may be one of these members)
+     * @var user[]
      */
     public array $new_chat_members;
 
@@ -209,7 +227,10 @@ class message extends types {
     /** Optional. A chat title was changed to this value */
     public string $new_chat_title;
 
-    /** Optional. A chat photo was change to this value */
+    /**
+     * Optional. A chat photo was change to this value
+     * @var photoSize[]
+     */
     public array $new_chat_photo;
 
     /** Optional. Service message: the chat photo was deleted */
@@ -297,7 +318,7 @@ class message extends types {
     public inlineKeyboardMarkup $reply_markup;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

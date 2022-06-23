@@ -41,11 +41,14 @@ class webhookInfo extends types {
     /** Optional. The maximum allowed number of simultaneous HTTPS connections to the webhook for update delivery */
     public int $max_connections;
 
-    /** Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member */
+    /**
+     * Optional. A list of update types the bot is subscribed to. Defaults to all update types except chat_member
+     * @var string[]
+     */
     public array $allowed_updates;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

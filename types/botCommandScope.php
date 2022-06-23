@@ -12,7 +12,7 @@ class botCommandScope extends types {
     /** Keep all of properties which has sub properties */
     private const subs = [];
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

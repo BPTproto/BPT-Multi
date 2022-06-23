@@ -14,6 +14,9 @@ class file extends types {
     private const subs = [];
 
     /** Identifier for this file, which can be used to download or reuse the file */
+    public string $id;
+
+    /** Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;
 
     /**
@@ -33,7 +36,7 @@ class file extends types {
     public string $file_path;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

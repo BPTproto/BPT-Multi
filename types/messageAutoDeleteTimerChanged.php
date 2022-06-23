@@ -15,7 +15,7 @@ class messageAutoDeleteTimerChanged extends types {
     public int $message_auto_delete_time;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

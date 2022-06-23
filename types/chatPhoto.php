@@ -36,7 +36,7 @@ class chatPhoto extends types {
     public string $big_file_unique_id;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }
