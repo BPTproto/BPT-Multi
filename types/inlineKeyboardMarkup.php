@@ -9,13 +9,16 @@ use stdClass;
  */
 class inlineKeyboardMarkup extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = [];
+    private const subs = ['array' => ['array' => ['inline_keyboard' => 'BPT\types\inlineKeyboardButton']]];
 
-    /** Array of button rows, each represented by an Array of InlineKeyboardButton objects */
+    /**
+     * Array of button rows, each represented by an Array of InlineKeyboardButton objects
+     * @var inlineKeyboardButton[][]
+     */
     public array $inline_keyboard;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

@@ -9,16 +9,22 @@ use stdClass;
  */
 class passportData extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['credentials' => 'BPT\types\encryptedCredentials'];
+    private const subs = [
+        'array' => ['data' => 'BPT\types\encryptedPassportElement'],
+        'credentials' => 'BPT\types\encryptedCredentials',
+    ];
 
-    /** Array with information about documents and other Telegram Passport elements that was shared with the bot */
+    /**
+     * Array with information about documents and other Telegram Passport elements that was shared with the bot
+     * @var encryptedPassportElement[]
+     */
     public array $data;
 
     /** Encrypted credentials required to decrypt the data */
     public encryptedCredentials $credentials;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

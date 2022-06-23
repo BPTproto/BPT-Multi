@@ -2,6 +2,8 @@
 
 namespace BPT;
 
+use BPT\constants\loggerTypes;
+
 class logger {
     private static int $log_size;
 
@@ -26,9 +28,9 @@ class logger {
         }
     }
 
-    public static function write($data, $type = '') {
+    public static function write(string $data, string $type = loggerTypes::NONE) {
         if (!is_null(self::$handler)) {
-            $text = date('Y/m/d H:i:s') . ( $type === '' ? " : $data\n\n" : " : ⤵\n$type : $data\n\n" );
+            $text = date('Y/m/d H:i:s') . ( $type === loggerTypes::NONE ? " : $data\n\n" : " : ⤵\n$type : $data\n\n" );
             fwrite(self::$handler, $text);
         }
     }

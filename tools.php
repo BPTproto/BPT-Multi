@@ -4,6 +4,7 @@ namespace BPT;
 
 use BPT\api\telegram;
 use BPT\constants\chatMemberStatus;
+use BPT\constants\loggerTypes;
 use BPT\constants\parseMode;
 use DateTime;
 use Exception;
@@ -294,7 +295,7 @@ class tools {
                     rmdir($path);
                 }
                 else {
-                    logger::write("BPT delete function used\ndelete function cannot delete folder because its have subFiles and sub parameter haven't true value",'error');
+                    logger::write("BPT delete function used\ndelete function cannot delete folder because its have subFiles and sub parameter haven't true value",loggerTypes::ERROR);
                     return false;
                 }
             }

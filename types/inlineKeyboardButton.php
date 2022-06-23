@@ -71,7 +71,7 @@ class inlineKeyboardButton extends types {
     public bool $pay;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

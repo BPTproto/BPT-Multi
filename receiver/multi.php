@@ -25,7 +25,7 @@ class multi extends webhook {
     }
 
     private static function setUpdate(string $update) {
-        BPT::$update = receiver::processUpdate($update);
+        receiver::processUpdate($update);
         logger::write('Update received , lets process it ;)');
     }
 

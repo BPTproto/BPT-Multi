@@ -3,17 +3,18 @@
 namespace BPT\receiver\multi;
 
 use BPT\BPT;
+use BPT\constants\loggerTypes;
 use BPT\lock;
 use BPT\logger;
 use BPT\receiver\webhook;
 use BPT\settings;
 
 class exec extends webhook {
-    public static function init(): string {
+    public static function init(): string|null {
         return self::getUpdate();
     }
 
-    private static function getUpdate (): string {
+    private static function getUpdate (): string|null {
         $up = glob('*.update');
         if (isset($up[0])) {
             $up = end($up);
@@ -24,7 +25,7 @@ class exec extends webhook {
             return $update;
         }
         else {
-            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown','error');
+            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
             BPT::exit();
         }
     }
@@ -52,7 +53,7 @@ class exec extends webhook {
         $file = basename($_SERVER['REQUEST_URI']);
         return [
             'url'=>str_replace($file, 'receiver.php', $base_url),
-            'file'=>$file
+            'file'=>basename($_SERVER['SCRIPT_NAME'])
         ];
     }
 }

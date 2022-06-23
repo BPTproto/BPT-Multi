@@ -12,6 +12,7 @@ use stdClass;
 class inlineQueryResultPhoto extends types {
     /** Keep all of properties which has sub properties */
     private const subs = [
+        'array' => ['caption_entities' => 'BPT\types\messageEntity'],
         'reply_markup' => 'BPT\types\inlineKeyboardMarkup',
         'input_message_content' => 'BPT\types\inputMessageContent',
     ];
@@ -46,7 +47,10 @@ class inlineQueryResultPhoto extends types {
     /** Optional. Mode for parsing entities in the photo caption. See formatting options for more details. */
     public string $parse_mode;
 
-    /** Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    /**
+     * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @var messageEntity[]
+     */
     public array $caption_entities;
 
     /** Optional. Inline keyboard attached to the message */
@@ -56,7 +60,7 @@ class inlineQueryResultPhoto extends types {
     public inputMessageContent $input_message_content;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

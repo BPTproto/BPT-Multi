@@ -45,7 +45,7 @@ class callbackQuery extends types {
     public string $game_short_name;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

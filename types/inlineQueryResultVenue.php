@@ -64,7 +64,7 @@ class inlineQueryResultVenue extends types {
     public int $thumb_height;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

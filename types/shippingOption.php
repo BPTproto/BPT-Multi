@@ -9,7 +9,7 @@ use stdClass;
  */
 class shippingOption extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = [];
+    private const subs = ['array' => ['prices' => 'BPT\types\labeledPrice']];
 
     /** Shipping option identifier */
     public string $id;
@@ -17,11 +17,14 @@ class shippingOption extends types {
     /** Option title */
     public string $title;
 
-    /** List of price portions */
+    /**
+     * List of price portions
+     * @var labeledPrice[]
+     */
     public array $prices;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

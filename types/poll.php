@@ -9,7 +9,9 @@ use stdClass;
  */
 class poll extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = [];
+    private const subs = [
+        'array' => ['options' => 'BPT\types\pollOption', 'explanation_entities' => 'BPT\types\messageEntity'],
+    ];
 
     /** Unique poll identifier */
     public string $id;
@@ -17,7 +19,10 @@ class poll extends types {
     /** Poll question, 1-300 characters */
     public string $question;
 
-    /** List of poll options */
+    /**
+     * List of poll options
+     * @var pollOption[]
+     */
     public array $options;
 
     /** Total number of users that voted in the poll */
@@ -47,7 +52,10 @@ class poll extends types {
      */
     public string $explanation;
 
-    /** Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation */
+    /**
+     * Optional. Special entities like usernames, URLs, bot commands, etc. that appear in the explanation
+     * @var messageEntity[]
+     */
     public array $explanation_entities;
 
     /** Optional. Amount of time in seconds the poll will be active after creation */
@@ -57,7 +65,7 @@ class poll extends types {
     public int $close_date;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

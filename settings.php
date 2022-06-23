@@ -2,6 +2,7 @@
 
 namespace BPT;
 
+use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
 use BPT\db\db;
 use BPT\receiver\getUpdates;
@@ -66,10 +67,10 @@ class settings {
                 self::$$setting = $value;
             }
             catch (TypeError){
-                logger::write("$setting setting has wrong type , its set to default value",'warning');
+                logger::write("$setting setting has wrong type , its set to default value",loggerTypes::WARNING);
             }
             catch (Error){
-                logger::write("$setting setting is not one of library settings",'warning');
+                logger::write("$setting setting is not one of library settings",loggerTypes::WARNING);
             }
         }
 
@@ -81,11 +82,11 @@ class settings {
                 self::$receiver !== receiver::GETUPDATES ? self::webhook() : self::getUpdates();
             }
             else {
-                logger::write('token format is not right, check it and try again','error');
+                logger::write('token format is not right, check it and try again',loggerTypes::ERROR);
             }
         }
         else {
-            logger::write('You must specify token parameter in settings','error');
+            logger::write('You must specify token parameter in settings',loggerTypes::ERROR);
         }
     }
 
@@ -127,7 +128,7 @@ class settings {
             getUpdates::init();
         }
         else {
-            logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler','error');
+            logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler',loggerTypes::ERROR);
         }
     }
 

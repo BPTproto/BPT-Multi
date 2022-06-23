@@ -10,9 +10,12 @@ use stdClass;
  */
 class replyKeyboardMarkup extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = [];
+    private const subs = ['array' => ['array' => ['keyboard' => 'BPT\types\keyboardButton']]];
 
-    /** Array of button rows, each represented by an Array of KeyboardButton objects */
+    /**
+     * Array of button rows, each represented by an Array of KeyboardButton objects
+     * @var keyboardButton[][]
+     */
     public array $keyboard;
 
     /**
@@ -41,7 +44,7 @@ class replyKeyboardMarkup extends types {
     public bool $selective;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

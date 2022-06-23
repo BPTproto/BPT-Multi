@@ -10,7 +10,10 @@ use stdClass;
  */
 class game extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['animation' => 'BPT\types\animation'];
+    private const subs = [
+        'array' => ['photo' => 'BPT\types\photoSize', 'text_entities' => 'BPT\types\messageEntity'],
+        'animation' => 'BPT\types\animation',
+    ];
 
     /** Title of the game */
     public string $title;
@@ -18,7 +21,10 @@ class game extends types {
     /** Description of the game */
     public string $description;
 
-    /** Photo that will be displayed in the game message in chats. */
+    /**
+     * Photo that will be displayed in the game message in chats.
+     * @var photoSize[]
+     */
     public array $photo;
 
     /**
@@ -28,14 +34,17 @@ class game extends types {
      */
     public string $text;
 
-    /** Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc. */
+    /**
+     * Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
+     * @var messageEntity[]
+     */
     public array $text_entities;
 
     /** Optional. Animation that will be displayed in the game message in chats. Upload via BotFather */
     public animation $animation;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

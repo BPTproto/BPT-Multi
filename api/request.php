@@ -2,6 +2,11 @@
 
 namespace BPT\api;
 
+use BPT\api\request\answer;
+use BPT\api\request\curl;
+use BPT\BPT;
+use BPT\constants\chatActions;
+use BPT\constants\loggerTypes;
 use BPT\logger;
 use CURLFile;
 
@@ -314,15 +319,112 @@ class request {
         'setStickerSetThumb'  => ['thumb'],
     ];
 
+    private const METHODS_EXTRA_DEFAULTS = [
+        'getUpdates'                      => [],
+        'setWebhook'                      => ['url'],
+        'deleteWebhook'                   => [],
+        'getWebhookInfo'                  => [],
+        'getMe'                           => [],
+        'logOut'                          => [],
+        'close'                           => [],
+        'sendMessage'                     => ['chat_id'],
+        'forwardMessage'                  => ['from_chat_id','message_id'],
+        'copyMessage'                     => ['from_chat_id','message_id'],
+        'sendPhoto'                       => ['chat_id'],
+        'sendAudio'                       => ['chat_id'],
+        'sendDocument'                    => ['chat_id'],
+        'sendVideo'                       => ['chat_id'],
+        'sendAnimation'                   => ['chat_id'],
+        'sendVoice'                       => ['chat_id'],
+        'sendVideoNote'                   => ['chat_id'],
+        'sendMediaGroup'                  => ['chat_id'],
+        'sendLocation'                    => ['chat_id'],
+        'editMessageLiveLocation'         => [],
+        'stopMessageLiveLocation'         => [],
+        'sendVenue'                       => [],
+        'sendContact'                     => ['chat_id'],
+        'sendPoll'                        => ['chat_id'],
+        'sendDice'                        => ['chat_id'],
+        'sendChatAction'                  => ['chat_id','action'],
+        'getUserProfilePhotos'            => ['user_id'],
+        'getFile'                         => ['file_id'],
+        'banChatMember'                   => ['chat_id','user_id'],
+        'kickChatMember'                  => ['chat_id','user_id'],
+        'unbanChatMember'                 => ['chat_id','user_id'],
+        'restrictChatMember'              => ['chat_id','user_id'],
+        'promoteChatMember'               => ['chat_id','user_id'],
+        'setChatAdministratorCustomTitle' => ['chat_id','user_id'],
+        'banChatSenderChat'               => ['chat_id'],
+        'unbanChatSenderChat'             => ['chat_id'],
+        'setChatPermissions'              => ['chat_id'],
+        'exportChatInviteLink'            => ['chat_id'],
+        'createChatInviteLink'            => ['chat_id'],
+        'editChatInviteLink'              => ['chat_id'],
+        'revokeChatInviteLink'            => ['chat_id'],
+        'approveChatJoinRequest'          => ['chat_id','user_id'],
+        'declineChatJoinRequest'          => ['chat_id','user_id'],
+        'setChatPhoto'                    => ['chat_id'],
+        'deleteChatPhoto'                 => ['chat_id'],
+        'setChatTitle'                    => ['chat_id'],
+        'setChatDescription'              => ['chat_id'],
+        'pinChatMessage'                  => ['chat_id'],
+        'unpinChatMessage'                => ['chat_id'],
+        'unpinAllChatMessages'            => ['chat_id'],
+        'leaveChat'                       => ['chat_id'],
+        'getChat'                         => ['chat_id'],
+        'getChatAdministrators'           => ['chat_id'],
+        'getChatMembersCount'             => ['chat_id'],
+        'getChatMember'                   => ['chat_id','user_id'],
+        'setChatStickerSet'               => ['chat_id'],
+        'deleteChatStickerSet'            => ['chat_id'],
+        'answerCallbackQuery'             => ['callback_query_id'],
+        'setMyCommands'                   => [],
+        'deleteMyCommands'                => [],
+        'getMyCommands'                   => [],
+        'setChatMenuButton'               => [],
+        'getChatMenuButton'               => [],
+        'setMyDefaultAdministratorRights' => [],
+        'getMyDefaultAdministratorRights' => [],
+        'editMessageText'                 => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+        'editMessageCaption'              => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+        'editMessageMedia'                => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+        'editMessageReplyMarkup'          => ['inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+        'stopPoll'                        => ['chat_id','message_id'],
+        'deleteMessage'                   => ['chat_id','message_id'],
+        'sendSticker'                     => ['chat_id'],
+        'getStickerSet'                   => [],
+        'uploadStickerFile'               => ['user_id'],
+        'createNewStickerSet'             => ['user_id'],
+        'addStickerToSet'                 => ['user_id'],
+        'setStickerPositionInSet'         => [],
+        'deleteStickerFromSet'            => [],
+        'setStickerSetThumb'              => ['user_id'],
+        'answerInlineQuery'               => ['inline_query_id'],
+        'sendInvoice'                     => ['chat_id'],
+        'answerWebAppQuery'               => [],
+        'answerShippingQuery'             => ['shipping_query_id'],
+        'answerPreCheckoutQuery'          => ['pre_checkout_query_id'],
+        'setPassportDataErrors'           => ['user_id'],
+        'sendGame'                        => ['chat_id'],
+        'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
+        'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']]
+    ];
+
 
     public static function __callStatic (string $name, array $arguments) {
         if ($action = self::methodAction($name)) {
             self::keysName($action,$arguments);
             self::readyFile($action,$arguments);
-            print_r($arguments);
+            self::setDefaults($action,$arguments);
+            if (isset($arguments['answer'])) {
+                return answer::init($action,$arguments);
+            }
+            else {
+                return curl::init($action,$arguments);
+            }
         }
         else {
-            logger::write("$name method is not supported",'error');
+            logger::write("$name method is not supported",loggerTypes::ERROR);
         }
     }
 
@@ -336,7 +438,7 @@ class request {
     }
 
     private static function methodAction(string $name): string|false {
-        return self::METHODS_ACTION[strtolower($name)] ?? false;
+        return self::METHODS_ACTION[str_replace('_', '', strtolower($name))] ?? false;
     }
 
     private static function readyFile(string $name, array &$arguments) {
@@ -358,5 +460,166 @@ class request {
 
     private static function methodFile(string $name): array|false {
         return self::METHODS_WITH_FILE[$name] ?? false;
+    }
+
+    private static function setDefaults(string $name, array &$arguments) {
+        $defaults = self::METHODS_EXTRA_DEFAULTS[$name];
+        foreach ($defaults as $key => $default) {
+            if (is_numeric($key)) {
+                if (!isset($arguments[$default])){
+                    $arguments[$default] = self::catchFields($default);
+                }
+            }
+            elseif (isset(BPT::$update->$key) || $key === 'other') {
+                foreach ($default as $def) {
+                    if (!isset($arguments[$def])){
+                        $arguments[$def] = self::catchFields($def);
+                    }
+                }
+                break;
+            }
+        }
+    }
+
+    public static function catchFields (string $field): int|string|bool {
+        switch ($field) {
+            case 'chat_id' :
+            case 'from_chat_id' :
+                return match (true) {
+                    isset(BPT::$update->message) => BPT::$update->message->chat->id,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->id,
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->from->id,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->from->id,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->id,
+                    default => false
+                };
+            case 'user_id' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->from->id,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->id,
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->from->id,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->from->id,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->id,
+                    default => false
+                };
+            case 'message_id' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->message_id,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->message_id,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->message_id,
+                    default => false
+                };
+            case 'file_id' :
+                if (isset(BPT::$update->message)) $type = 'message';
+                elseif (isset(BPT::$update->edited_message)) $type = 'edited_message';
+                else return false;
+
+                return match(true) {
+                    isset(BPT::$update->$type->animation) => BPT::$update->$type->animation->file_id,
+                    isset(BPT::$update->$type->audio) => BPT::$update->$type->audio->file_id,
+                    isset(BPT::$update->$type->document) => BPT::$update->$type->document->file_id,
+                    isset(BPT::$update->$type->photo) => end(BPT::$update->$type->photo)->file_id,
+                    isset(BPT::$update->$type->sticker) => BPT::$update->$type->sticker->file_id,
+                    isset(BPT::$update->$type->video) => BPT::$update->$type->video->file_id,
+                    isset(BPT::$update->$type->video_note) => BPT::$update->$type->video_note->file_id,
+                    isset(BPT::$update->$type->voice) => BPT::$update->$type->voice->file_id,
+                    default => false
+                };
+            case 'callback_query_id' :
+                return match (true) {
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->id,
+                    default => false
+                };
+            case 'shipping_query_id' :
+                return match(true) {
+                    isset(BPT::$update->shipping_query) => BPT::$update->shipping_query->id,
+                    default => false
+                };
+            case 'pre_checkout_query_id' :
+                return match(true) {
+                    isset(BPT::$update->pre_checkout_query) => BPT::$update->pre_checkout_query->id,
+                    default => false
+                };
+            case 'inline_query_id' :
+                return match(true) {
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->id,
+                    default => false
+                };
+            case 'type' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->chat->type,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->type,
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->chat_type,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->chat->type,
+                    default => false
+                };
+            case 'action' :
+                return chatActions::TYPING;
+            case 'name' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->from->first_name,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->first_name,
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->from->first_name,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->from->first_name,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->first_name,
+                    default => false
+                };
+            case 'last_name' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->from->last_name ?? '',
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->last_name ?? '',
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->from->last_name ?? '',
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->from->last_name ?? '',
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->last_name ?? '',
+                    default => false
+                };
+            case 'username' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->from->username ?? '',
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->username ?? '',
+                    isset(BPT::$update->inline_query) => BPT::$update->inline_query->from->username ?? '',
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->from->username ?? '',
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->username ?? '',
+                    default => false
+                };
+            case 'group_name' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->chat->first_name,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->first_name,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->chat->first_name,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->first_name,
+                    default => false
+                };
+            case 'group_username' :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->chat->username,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->username,
+                    isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->chat->username,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->username,
+                    default => false
+                };
+            case 'update_type' :
+                return match(true) {
+                    isset(BPT::$update->message) => 'message',
+                    isset(BPT::$update->edited_message) => 'edited_message',
+                    isset(BPT::$update->inline_query) => 'inline_query',
+                    isset(BPT::$update->callback_query) => 'callback_query',
+                    isset(BPT::$update->chat_join_request) => 'chat_join_request',
+                    isset(BPT::$update->my_chat_member) => 'my_chat_member',
+                    isset(BPT::$update->chat_member) => 'chat_member',
+                    isset(BPT::$update->channel_post) => 'channel_post',
+                    isset(BPT::$update->edited_channel_post) => 'edited_channel_post',
+                    isset(BPT::$update->chosen_inline_result) => 'chosen_inline_result',
+                    isset(BPT::$update->shipping_query) => 'shipping_query',
+                    isset(BPT::$update->pre_checkout_query) => 'pre_checkout_query',
+                    isset(BPT::$update->poll) => 'poll',
+                    isset(BPT::$update->poll_answer) => 'poll_answer',
+                    default => false
+                };
+            case 'url' :
+                return 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+            default:
+                return false;
+        }
     }
 }

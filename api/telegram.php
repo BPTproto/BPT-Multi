@@ -217,16 +217,16 @@ use CURLFile;
  */
 class telegram {
     public function __call (string $name, array $arguments) {
-        if (!isset($arguments[1]) && is_array($arguments[0])) {
+        if (!isset($arguments[1]) && isset($arguments[0]) && is_array($arguments[0])) {
             return request::$name(...$arguments[0]);
         }
         else {
-            return request::$name($arguments);
+            return request::$name(...$arguments);
         }
     }
 
     public static function __callStatic (string $name, array $arguments) {
-        if (!isset($arguments[1]) && is_array($arguments[0])) {
+        if (!isset($arguments[1]) && isset($arguments[0]) && is_array($arguments[0])) {
             return request::$name(...$arguments[0]);
         }
         else {

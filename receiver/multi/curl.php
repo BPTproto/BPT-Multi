@@ -3,18 +3,19 @@
 namespace BPT\receiver\multi;
 
 use BPT\BPT;
+use BPT\constants\loggerTypes;
 use BPT\lock;
 use BPT\logger;
 use BPT\receiver\webhook;
 use BPT\settings;
 
 class curl extends webhook {
-    public static function init (): string {
+    public static function init (): string|null {
         if (self::checkIP()) {
             return self::getUpdate();
         }
         else {
-            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown','error');
+            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
             BPT::exit();
         }
     }

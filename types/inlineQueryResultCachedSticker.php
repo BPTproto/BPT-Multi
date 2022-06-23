@@ -32,7 +32,7 @@ class inlineQueryResultCachedSticker extends types {
     public inputMessageContent $input_message_content;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

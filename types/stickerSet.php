@@ -9,7 +9,7 @@ use stdClass;
  */
 class stickerSet extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['thumb' => 'BPT\types\photoSize'];
+    private const subs = ['array' => ['stickers' => 'BPT\types\sticker'], 'thumb' => 'BPT\types\photoSize'];
 
     /** Sticker set name */
     public string $name;
@@ -26,14 +26,17 @@ class stickerSet extends types {
     /** True, if the sticker set contains masks */
     public bool $contains_masks;
 
-    /** List of all set stickers */
+    /**
+     * List of all set stickers
+     * @var sticker[]
+     */
     public array $stickers;
 
     /** Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format */
     public photoSize $thumb;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

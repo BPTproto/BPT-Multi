@@ -3,29 +3,42 @@
 namespace BPT\receiver;
 
 use BPT\BPT;
+use BPT\constants\loggerTypes;
 use BPT\logger;
 use BPT\settings;
 use BPT\tools;
 use BPT\types\update;
+use stdClass;
 
 class receiver {
+    private static array $handlers = [
+        'message' => null,
+        'callback_query' => null,
+        'inline_query' => null,
+        'edited_message' => null,
+        'something_else' => null
+    ];
+
     protected static function telegramVerify(string $ip = null) {
         if (settings::$telegram_verify) {
             if (!tools::isTelegram($ip ?? $_SERVER['REMOTE_ADDR'] ?? '')) {
-                logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown','error');
+                logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
                 BPT::exit();
             }
         }
     }
 
-    protected static function processUpdate(string $json = null): update {
-        $update = json_decode($json ?? file_get_contents("php://input"));
-        if (!$update) {
-            BPT::exit();
+    protected static function processUpdate(string|stdClass $update = null) {
+        if (!is_object($update)) {
+            $update = json_decode($update ?? file_get_contents("php://input"));
+            if (!$update) {
+                BPT::exit();
+            }
         }
         $update = new update($update);
         self::setMessageExtra($update);
-        return $update;
+        BPT::$update = $update;
+        self::processHandler();
     }
 
     protected static function setMessageExtra (update &$update) {
@@ -42,5 +55,43 @@ class receiver {
                 $update->$type->commend_payload = $result[3] ?? null;
             }
         }
+    }
+
+    private static function processHandler() {
+        if (settings::$handler) {
+            if (isset(BPT::$update->message)) {
+                if (self::handlerExist('message')) {
+                    BPT::$handler->message(BPT::$update->message);
+                }
+            }
+            elseif (isset(BPT::$update->callback_query)) {
+                if (self::handlerExist('callback_query')) {
+                    BPT::$handler->callback_query(BPT::$update->callback_query);
+                }
+            }
+            elseif (isset(BPT::$update->inline_query)) {
+                if (self::handlerExist('inline_query')) {
+                    BPT::$handler->inline_query(BPT::$update->inline_query);
+                }
+            }
+            elseif (isset(BPT::$update->edited_message)) {
+                if (self::handlerExist('edited_message')) {
+                    BPT::$handler->edited_message(BPT::$update->edited_message);
+                }
+            }
+            elseif (self::handlerExist('something_else')) {
+                BPT::$handler->something_else(BPT::$update);
+            }
+            else {
+                logger::write('Update received but handlers does not set',loggerTypes::WARNING);
+            }
+        }
+    }
+
+    private static function handlerExist(string $handler): bool {
+        if (empty(self::$handlers[$handler])) {
+            self::$handlers[$handler] = method_exists(BPT::$handler, $handler);
+        }
+        return self::$handlers[$handler];
     }
 }

@@ -21,14 +21,17 @@ class passportElementErrorFiles extends types {
      */
     public string $type;
 
-    /** List of base64-encoded file hashes */
+    /**
+     * List of base64-encoded file hashes
+     * @var string[]
+     */
     public array $file_hashes;
 
     /** Error message */
     public string $message;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

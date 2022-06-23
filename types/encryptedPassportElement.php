@@ -10,6 +10,7 @@ use stdClass;
 class encryptedPassportElement extends types {
     /** Keep all of properties which has sub properties */
     private const subs = [
+        'array' => ['files' => 'BPT\types\passportFile', 'translation' => 'BPT\types\passportFile'],
         'front_side' => 'BPT\types\passportFile',
         'reverse_side' => 'BPT\types\passportFile',
         'selfie' => 'BPT\types\passportFile',
@@ -39,6 +40,7 @@ class encryptedPassportElement extends types {
      * Optional. Array of encrypted files with documents provided by the user, available for “utility_bill”,
      * “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration”
      * types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
+     * @var passportFile[]
      */
     public array $files;
 
@@ -69,6 +71,7 @@ class encryptedPassportElement extends types {
      * “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and
      * “temporary_registration” types. Files can be decrypted and verified using the accompanying
      * EncryptedCredentials.
+     * @var passportFile[]
      */
     public array $translation;
 
@@ -76,7 +79,7 @@ class encryptedPassportElement extends types {
     public string $hash;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

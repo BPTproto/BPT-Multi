@@ -9,7 +9,7 @@ use stdClass;
  */
 class inputMediaAudio extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['thumb' => 'BPT\types\inputFile'];
+    private const subs = ['thumb' => 'BPT\types\inputFile', 'array' => ['caption_entities' => 'BPT\types\messageEntity']];
 
     /** Type of the result, must be audio */
     public string $type;
@@ -37,7 +37,10 @@ class inputMediaAudio extends types {
     /** Optional. Mode for parsing entities in the audio caption. See formatting options for more details. */
     public string $parse_mode;
 
-    /** Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode */
+    /**
+     * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
+     * @var messageEntity[]
+     */
     public array $caption_entities;
 
     /** Optional. Duration of the audio in seconds */
@@ -50,7 +53,7 @@ class inputMediaAudio extends types {
     public string $title;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

@@ -17,11 +17,14 @@ class pollAnswer extends types {
     /** The user, who changed the answer to the poll */
     public user $user;
 
-    /** 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote. */
+    /**
+     * 0-based identifiers of answer options, chosen by the user. May be empty if the user retracted their vote.
+     * @var int[]
+     */
     public array $option_ids;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }

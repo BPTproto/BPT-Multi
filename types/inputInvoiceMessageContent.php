@@ -9,7 +9,7 @@ use stdClass;
  */
 class inputInvoiceMessageContent extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = [];
+    private const subs = ['array' => ['prices' => 'BPT\types\labeledPrice']];
 
     /** Product name, 1-32 characters */
     public string $title;
@@ -32,6 +32,7 @@ class inputInvoiceMessageContent extends types {
     /**
      * Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost,
      * delivery tax, bonus, etc.)
+     * @var labeledPrice[]
      */
     public array $prices;
 
@@ -47,6 +48,7 @@ class inputInvoiceMessageContent extends types {
      * Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer,
      * not float/double). At most 4 suggested tip amounts can be specified. The suggested tip amounts must be
      * positive, passed in a strictly increased order and must not exceed max_tip_amount.
+     * @var int[]
      */
     public array $suggested_tip_amounts;
 
@@ -93,7 +95,7 @@ class inputInvoiceMessageContent extends types {
     public bool $is_flexible;
 
 
-    public function __construct(stdClass $update) {
-        parent::__construct($update, self::subs);
+    public function __construct(stdClass $object) {
+        parent::__construct($object, self::subs);
     }
 }
