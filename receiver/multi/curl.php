@@ -15,7 +15,7 @@ class curl extends webhook {
             return self::getUpdate();
         }
         else {
-            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
+            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
             BPT::exit();
         }
     }

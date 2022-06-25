@@ -5,6 +5,7 @@ namespace BPT\api\request;
 use BPT\BPT;
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
+use BPT\exception\bptException;
 use BPT\logger;
 use BPT\settings;
 
@@ -26,19 +27,18 @@ class answer {
     private static function checkAnswered() {
         if (self::$is_answered) {
             logger::write('You can use answer mode only once for each webhook update , You already did it!',loggerTypes::ERROR);
-            BPT::exit();
+            throw new bptException('ANSWER_MODE_USED');
         }
     }
 
     private static function checkWebhook() {
         if(settings::$receiver === receiver::GETUPDATES) {
             logger::write('Answer mode only work when receiver is webhook',loggerTypes::ERROR);
-            BPT::exit();
+            throw new bptException('ANSWER_MODE_GETUPDATES');
         }
-
-        if(settings::$multi) {
+        elseif(settings::$multi) {
             logger::write('You can not use answer mode when multi setting is on',loggerTypes::ERROR);
-            BPT::exit();
+            throw new bptException('ANSWER_MODE_MULTI');
         }
     }
 
@@ -55,9 +55,8 @@ class answer {
         foreach ($data as $key=>&$value){
             if (!isset($value)){
                 unset($data[$key]);
-                continue;
             }
-            if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+            elseif (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
                 $value = json_encode($value);
             }
         }

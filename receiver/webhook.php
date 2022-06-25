@@ -5,6 +5,7 @@ namespace BPT\receiver;
 use BPT\api\telegram;
 use BPT\BPT;
 use BPT\constants\loggerTypes;
+use BPT\exception\bptException;
 use BPT\lock;
 use BPT\logger;
 use BPT\settings;
@@ -59,7 +60,7 @@ class webhook extends receiver {
     protected static function checkURL() {
         if (!(isset($_SERVER['SERVER_NAME']) && isset($_SERVER['REQUEST_URI']))) {
             logger::write('For using webhook receiver , you should open this file in your webserver(by domain)',loggerTypes::ERROR);
-            BPT::exit();
+            throw new bptException('WEBHOOK_NEED_URL');
         }
     }
 

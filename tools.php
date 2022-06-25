@@ -295,7 +295,7 @@ class tools {
                     rmdir($path);
                 }
                 else {
-                    logger::write("BPT delete function used\ndelete function cannot delete folder because its have subFiles and sub parameter haven't true value",loggerTypes::ERROR);
+                    logger::write("BPT delete function used\ndelete function cannot delete folder because its have subFiles and sub parameter haven't true value",loggerTypes::WARNING);
                     return false;
                 }
             }

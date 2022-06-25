@@ -13,7 +13,6 @@ class curl {
     public static function init(string $method,array $data) {
         $info = self::getInfo($data);
         $data = $info['data'];
-        $token = $info['token'];
         $handler = $info['handler'];
         self::setTimeout($data,$handler,$method);
         self::setData($data);
@@ -23,7 +22,7 @@ class curl {
         if (curl_errno($handler)) {
             logger::write(curl_error($handler),loggerTypes::WARNING);
         }
-        if ($token != settings::$token) {
+        if ($info['token'] != settings::$token) {
             curl_close($handler);
         }
         return json_decode($result);
@@ -74,9 +73,5 @@ class curl {
                 $value = json_encode($value);
             }
         }
-    }
-
-    private static function parseResult($result) {
-
     }
 }

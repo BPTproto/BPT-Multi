@@ -22,7 +22,7 @@ class receiver {
     protected static function telegramVerify(string $ip = null) {
         if (settings::$telegram_verify) {
             if (!tools::isTelegram($ip ?? $_SERVER['REMOTE_ADDR'] ?? '')) {
-                logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
+                logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
                 BPT::exit();
             }
         }
@@ -50,9 +50,15 @@ class receiver {
             }
             if (str_starts_with($text, '/')) {
                 preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
-                $update->$type->commend = $result[1] ?? null;
-                $update->$type->commend_username = $result[2] ?? null;
-                $update->$type->commend_payload = $result[3] ?? null;
+                if (isset($result[1])) {
+                    $update->$type->commend = $result[1];
+                }
+                if (isset($result[2])) {
+                    $update->$type->commend_username = $result[2];
+                }
+                if (isset($result[3])) {
+                    $update->$type->commend_payload = $result[3];
+                }
             }
         }
     }

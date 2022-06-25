@@ -5,6 +5,7 @@ namespace BPT;
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
 use BPT\db\db;
+use BPT\exception\bptException;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
 use CURLFile;
@@ -83,10 +84,12 @@ class settings {
             }
             else {
                 logger::write('token format is not right, check it and try again',loggerTypes::ERROR);
+                throw new bptException('TOKEN_NOT_TRUE');
             }
         }
         else {
             logger::write('You must specify token parameter in settings',loggerTypes::ERROR);
+            throw new bptException('TOKEN_NOT_FOUND');
         }
     }
 
@@ -129,6 +132,7 @@ class settings {
         }
         else {
             logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler',loggerTypes::ERROR);
+            throw new bptException('GETUPDATE_NEED_HANDLER');
         }
     }
 

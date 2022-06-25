@@ -25,7 +25,7 @@ class exec extends webhook {
             return $update;
         }
         else {
-            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::ERROR);
+            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
             BPT::exit();
         }
     }
@@ -50,9 +50,8 @@ class exec extends webhook {
 
     private static function setURLS(): array {
         $base_url = (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
-        $file = basename($_SERVER['REQUEST_URI']);
         return [
-            'url'=>str_replace($file, 'receiver.php', $base_url),
+            'url'=>str_replace(basename($_SERVER['REQUEST_URI']), 'receiver.php', $base_url),
             'file'=>basename($_SERVER['SCRIPT_NAME'])
         ];
     }
