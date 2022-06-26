@@ -1,11 +1,11 @@
 <?php
   
  //define namespace
- namespace BPT\Database;
+ namespace BPT;
  
  //use classes
  use Medoo\Medoo;
- use BPT\Database\JsonDb;
+ use BPT\jsondb
  
  
   /**
