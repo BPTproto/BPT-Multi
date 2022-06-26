@@ -4,12 +4,12 @@
   namespace BPT\Database;
   
   //use class
-  use BPT\Database\Database;
+  use BPT\database;
   
   /**
    * 
    */
-  class Handller extends Database
+  class handller extends database
   {
       
       /**
