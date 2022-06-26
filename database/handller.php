@@ -1,7 +1,7 @@
 <?php
 
   //define namespace
-  namespace BPT\Database;
+  namespace BPT;
   
   //use class
   use BPT\database;
