@@ -69,7 +69,4 @@
         $JsonDb = new JsonDb();
         $JsonDb->init($this->dbname);
       }
-      
-      
-      
-  }
+   }
