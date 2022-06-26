@@ -5,7 +5,7 @@
  
  //use classes
  use Medoo\Medoo;
- use BPT\Database\jsondb;
+ use BPT\database\jsondb;
  
  
   /**
