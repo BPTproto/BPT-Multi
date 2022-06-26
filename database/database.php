@@ -11,7 +11,7 @@
   /**
    * @class Database
    */
-  class Database
+  class database
   {
         
    /**
