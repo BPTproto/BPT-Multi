@@ -1,10 +1,10 @@
 <?php
 
   //define namespace
-  namespace BPT;
+  namespace BPT\database;
   
   //use class
-  use BPT\database;
+  use BPT\database\database;
   
   /**
    * 
