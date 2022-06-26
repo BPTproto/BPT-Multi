@@ -1,7 +1,7 @@
 <?php
   
  //define namespace
- namespace BPT;
+ namespace BPT\database;
  
  //use classes
  use Medoo\Medoo;
