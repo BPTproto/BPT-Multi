@@ -1,17 +1,60 @@
 <?php
 
-  //define namespace
-  namespace BPT\database;
+ namespace BPT\database;
   
-  //use class
-  use BPT\database\database;
-  
+ use BPT\database\database;
+ 
   /**
    * 
    */
-  class handller extends database
+  class handller
   {
+   /**
+     * @const types database
+     */
+    const TYPES = array('Mysqli','Medoo','Json');
+ 
+   /**
+    * @const Medoo database types
+    */
+   const Medoo_Types = array('mysql','mariadb','pgsql','sybase','oracle','mssql', 'sqlite');
+
+    /**
+     * @var type database
+     */
+    public static $type;
       
+    /**
+     * @var host for database
+     * Default value localhost
+     */
+    public static $host;
+       
+    /**
+      * @var username database username 
+      */
+    public static $username;
+      
+    /**
+      * @var dbname database name
+      */
+    public static $dbname;
+       
+    /**
+      * @var charset database
+      */
+    public static $charset;
+        
+    /**
+      * @var password database password
+      */
+    public static $password;
+       
+    /**
+      * @var connection database
+      */
+    public static $connect;
+
       /**
        * 
        */
@@ -20,41 +63,45 @@
         if(in_array($settings['type'],self::TYPES)){
               if($settings['type'] === 'Mysqli'){
                   if(self::CheckParam($settings)){
-                 $db = new Mysqlidb([
-                'host' => $this->host,
-                'username' => $this->username,
-                'password' => $this->password,
-                'db' => $this->dbname,
-                'charset' => $this->charset
-                ]);
-                if($db){
-                  $this->connect = $db;
+                $db = new \Mysqlidb([
+                'host' => self::$host,
+                'username' => self::$username,
+                'password' => self::$password,
+                'db' => self::$dbname,
+                'charset' => self::$charset
+                ]); 
+               if($db){
+                  self::$connect = $db;
+                  print_r($db);
                } else {
+                   print self::$username;
                   throw new \exception('a problem to connecting');
                  }
                } else {
                   throw new \exception('required parameters not found');
                }
              }
-              if($settings['type'] === 'Json' and isset($settings['dbname'])){
-                $this->type = $settings['type'];
-                $this->dbname = $settings['dbname'];
-                parent::Json_init();
+              if($settings['type'] === 'Json'){
+                 if(isset($settings['dbname'])){
+                self::$type = $settings['type'];
+                self::$dbname = $settings['dbname'];
+                (new database())->json_init();
               } else {
                 throw new \exception('parameter dbanme not found');
              }
-          } else {
-              throw new \exception('parameter type not found');
+           }
+         } else {
+             throw new \exception('parameter type not found');
           }
       }
       
       private static function CheckParam(array $array){
          if(isset($array['username']) && isset($array['dbname']) && isset($array['password'])){
-            $this->host = $array['host'] ?? 'localhost';
-            $this->username = $array['username'];
-            $this->dbname = $array['dbname'];
-            $this->password = $array['password'];
-            $this->charset = $array['charset'] ?? 'utf8mb4';
+            self::$host = $array['host'] ?? 'localhost';
+            self::$username = $array['username'];
+            self::$dbname = $array['dbname'];
+            self::$password = $array['password'];
+            self::$charset = $array['charset'] ?? 'utf8';
              return true;
          } else {
              return false;
