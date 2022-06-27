@@ -13,7 +13,6 @@
        
       /**
        * @method Json_init
-
        */
       public function json_init()
       {
