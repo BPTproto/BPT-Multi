@@ -7,6 +7,11 @@ use stdClass;
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and
  * examples).
+ * @method self setKeyboard(array $value)
+ * @method self setResize_keyboard(bool $value)
+ * @method self setOne_time_keyboard(bool $value)
+ * @method self setInput_field_placeholder(string $value)
+ * @method self setSelective(bool $value)
  */
 class replyKeyboardMarkup extends types {
     /** Keep all of properties which has sub properties */
@@ -44,7 +49,9 @@ class replyKeyboardMarkup extends types {
     public bool $selective;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

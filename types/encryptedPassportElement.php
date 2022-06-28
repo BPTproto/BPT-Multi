@@ -79,7 +79,9 @@ class encryptedPassportElement extends types {
     public string $hash;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

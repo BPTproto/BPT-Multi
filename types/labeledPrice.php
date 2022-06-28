@@ -6,6 +6,8 @@ use stdClass;
 
 /**
  * This object represents a portion of the price for goods or services.
+ * @method self setLabel(string $value)
+ * @method self setAmount(int $value)
  */
 class labeledPrice extends types {
     /** Keep all of properties which has sub properties */
@@ -22,7 +24,9 @@ class labeledPrice extends types {
     public int $amount;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

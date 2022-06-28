@@ -39,7 +39,9 @@ class chatMemberUpdated extends types {
     public chatInviteLink $invite_link;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

@@ -6,6 +6,8 @@ use stdClass;
 
 /**
  * This object represents a bot command.
+ * @method self setCommand(string $value)
+ * @method self setDescription(string $value)
  */
 class botCommand extends types {
     /** Keep all of properties which has sub properties */
@@ -18,7 +20,9 @@ class botCommand extends types {
     public string $description;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

@@ -7,6 +7,7 @@ use stdClass;
 /**
  * This object represents type of a poll, which is allowed to be created and sent when the corresponding button
  * is pressed.
+ * @method self setType(string $value)
  */
 class keyboardButtonPollType extends types {
     /** Keep all of properties which has sub properties */
@@ -19,7 +20,9 @@ class keyboardButtonPollType extends types {
     public string $type;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

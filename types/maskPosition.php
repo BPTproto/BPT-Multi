@@ -6,6 +6,10 @@ use stdClass;
 
 /**
  * This object describes the position on faces where a mask should be placed by default.
+ * @method self setPoint(string $value)
+ * @method self setX_shift(float $value)
+ * @method self setY_shift(float $value)
+ * @method self setScale(float $value)
  */
 class maskPosition extends types {
     /** Keep all of properties which has sub properties */
@@ -33,7 +37,9 @@ class maskPosition extends types {
     public float $scale;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

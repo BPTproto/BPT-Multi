@@ -6,6 +6,17 @@ use stdClass;
 
 /**
  * Represents the rights of an administrator in a chat.
+ * @method self setIs_anonymous(bool $value)
+ * @method self setCan_manage_chat(bool $value)
+ * @method self setCan_delete_messages(bool $value)
+ * @method self setCan_manage_video_chats(bool $value)
+ * @method self setCan_restrict_members(bool $value)
+ * @method self setCan_promote_members(bool $value)
+ * @method self setCan_change_info(bool $value)
+ * @method self setCan_invite_users(bool $value)
+ * @method self setCan_post_messages(bool $value)
+ * @method self setCan_edit_messages(bool $value)
+ * @method self setCan_pin_messages(bool $value)
  */
 class chatAdministratorRights extends types {
     /** Keep all of properties which has sub properties */
@@ -53,7 +64,9 @@ class chatAdministratorRights extends types {
     public bool $can_pin_messages;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

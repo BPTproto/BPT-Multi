@@ -6,6 +6,9 @@ use stdClass;
 
 /**
  * This object represents one shipping option.
+ * @method self setId(string $value)
+ * @method self setTitle(string $value)
+ * @method self setPrices(array $value)
  */
 class shippingOption extends types {
     /** Keep all of properties which has sub properties */
@@ -24,7 +27,9 @@ class shippingOption extends types {
     public array $prices;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

@@ -28,14 +28,17 @@ class receiver {
         }
     }
 
-    protected static function processUpdate(string|stdClass $update = null) {
+    protected static function processUpdate(string|stdClass|update $update = null) {
         if (!is_object($update)) {
             $update = json_decode($update ?? file_get_contents("php://input"));
             if (!$update) {
                 BPT::exit();
             }
         }
-        $update = new update($update);
+        elseif (!is_a($update,'update')) {
+            $update = new update($update);
+        }
+
         self::setMessageExtra($update);
         BPT::$update = $update;
         self::processHandler();

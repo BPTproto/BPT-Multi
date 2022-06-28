@@ -9,6 +9,8 @@ use stdClass;
  * display the default letter-keyboard. By default, custom keyboards are displayed until a new keyboard is sent
  * by a bot. An exception is made for one-time keyboards that are hidden immediately after the user presses a
  * button (see ReplyKeyboardMarkup).
+ * @method self setRemove_keyboard(bool $value)
+ * @method self setSelective(bool $value)
  */
 class replyKeyboardRemove extends types {
     /** Keep all of properties which has sub properties */
@@ -30,7 +32,9 @@ class replyKeyboardRemove extends types {
     public bool $selective;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

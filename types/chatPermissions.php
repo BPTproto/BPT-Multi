@@ -6,6 +6,14 @@ use stdClass;
 
 /**
  * Describes actions that a non-administrator user is allowed to take in a chat.
+ * @method self setCan_send_messages(bool $value)
+ * @method self setCan_send_media_messages(bool $value)
+ * @method self setCan_send_polls(bool $value)
+ * @method self setCan_send_other_messages(bool $value)
+ * @method self setCan_add_web_page_previews(bool $value)
+ * @method self setCan_change_info(bool $value)
+ * @method self setCan_invite_users(bool $value)
+ * @method self setCan_pin_messages(bool $value)
  */
 class chatPermissions extends types {
     /** Keep all of properties which has sub properties */
@@ -48,7 +56,9 @@ class chatPermissions extends types {
     public bool $can_pin_messages;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

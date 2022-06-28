@@ -13,7 +13,6 @@ class lock {
 
     public static function save(string $name, string $data): bool|int {
         return file_put_contents("$name.lock", $data);
-
     }
 
     public static function read(string $name): bool|string {

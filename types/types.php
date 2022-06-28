@@ -40,4 +40,19 @@ class types {
             }
         }
     }
+
+
+    public function __call(string $name, array $arguments) {
+        $name = strtolower($name);
+        if (str_starts_with($name, 'set')) {
+            $name = substr($name,3);
+            if (isset($arguments[0])) {
+                $this->$name = $arguments[0];
+            }
+            elseif (isset($arguments['value'])) {
+                $this->$name = $arguments['value'];
+            }
+        }
+        return $this;
+    }
 }

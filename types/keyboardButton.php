@@ -8,6 +8,11 @@ use stdClass;
  * This object represents one button of the reply keyboard. For simple text buttons String can be used instead of
  * this object to specify text of the button. Optional fields web_app, request_contact, request_location, and
  * request_poll are mutually exclusive.
+ * @method self setText(string $value)
+ * @method self setRequest_contact(bool $value)
+ * @method self setRequest_location(bool $value)
+ * @method self setRequest_poll(keyboardButtonPollType $value)
+ * @method self setWeb_app(webAppInfo $value)
  */
 class keyboardButton extends types {
     /** Keep all of properties which has sub properties */
@@ -44,7 +49,9 @@ class keyboardButton extends types {
     public webAppInfo $web_app;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

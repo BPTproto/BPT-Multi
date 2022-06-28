@@ -6,6 +6,12 @@ use stdClass;
 
 /**
  * This object represents one special entity in a text message. For example, hashtags, usernames, URLs, etc.
+ * @method self setType(string $value)
+ * @method self setOffset(int $value)
+ * @method self setLength(int $value)
+ * @method self setUrl(string $value)
+ * @method self setUser(user $value)
+ * @method self setLanguage(string $value)
  */
 class messageEntity extends types {
     /** Keep all of properties which has sub properties */
@@ -37,7 +43,9 @@ class messageEntity extends types {
     public string $language;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

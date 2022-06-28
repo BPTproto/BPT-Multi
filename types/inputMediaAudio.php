@@ -6,6 +6,15 @@ use stdClass;
 
 /**
  * Represents an audio file to be treated as music to be sent.
+ * @method self setType(string $value)
+ * @method self setMedia(string $value)
+ * @method self setThumb(inputFile $value)
+ * @method self setCaption(string $value)
+ * @method self setParse_mode(string $value)
+ * @method self setCaption_entities(array $value)
+ * @method self setDuration(int $value)
+ * @method self setPerformer(string $value)
+ * @method self setTitle(string $value)
  */
 class inputMediaAudio extends types {
     /** Keep all of properties which has sub properties */
@@ -53,7 +62,9 @@ class inputMediaAudio extends types {
     public string $title;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

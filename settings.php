@@ -93,6 +93,21 @@ class settings {
         }
     }
 
+    public static function done() {
+        if (self::$logger) {
+            $estimated = round((microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000,2);
+            $status_message = match (true) {
+                $estimated < 100 => 'Excellent',
+                $estimated < 500 => 'Very good',
+                $estimated < 1000 => 'Good',
+                $estimated < 3000 => 'you could be better',
+                default => 'You need to do something , its take to much time'
+            };
+            $type = $estimated > 3000 ? loggerTypes::WARNING : loggerTypes::NONE;
+            logger::write("BPT Done in $estimated ms , $status_message", $type);
+        }
+    }
+
     private static function security() {
         if (self::$security) {
             ini_set('magic_quotes_gpc', 'off');

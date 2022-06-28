@@ -6,6 +6,15 @@ use stdClass;
 
 /**
  * This object represents one button of an inline keyboard. You must use exactly one of the optional fields.
+ * @method self setText(string $value)
+ * @method self setUrl(string $value)
+ * @method self setCallback_data(string $value)
+ * @method self setWeb_app(webAppInfo $value)
+ * @method self setLogin_url(loginUrl $value)
+ * @method self setSwitch_inline_query(string $value)
+ * @method self setSwitch_inline_query_current_chat(string $value)
+ * @method self setCallback_game(callbackGame $value)
+ * @method self setPay(bool $value)
  */
 class inlineKeyboardButton extends types {
     /** Keep all of properties which has sub properties */
@@ -71,7 +80,9 @@ class inlineKeyboardButton extends types {
     public bool $pay;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

@@ -6,6 +6,7 @@ use stdClass;
 
 /**
  * Describes a Web App.
+ * @method self setUrl(string $value)
  */
 class webAppInfo extends types {
     /** Keep all of properties which has sub properties */
@@ -15,7 +16,9 @@ class webAppInfo extends types {
     public string $url;
 
 
-    public function __construct(stdClass $object) {
-        parent::__construct($object, self::subs);
+    public function __construct(stdClass|null $object = null) {
+        if ($object != null) {
+            parent::__construct($object, self::subs);
+        }
     }
 }

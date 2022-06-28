@@ -48,7 +48,7 @@ class webhook extends receiver {
 
     protected static function setWebhook(string $url) {
         $res = telegram::setWebhook($url, settings::$certificate, max_connections:settings::$max_connection, allowed_updates : settings::$allowed_updates);
-        if ($res->ok) {
+        if (telegram::$status) {
             logger::write('Webhook was set successfully',loggerTypes::INFO);
         }
         else {

@@ -91,16 +91,18 @@ class tools {
      * verify parameter has default value => false
      *
      * e.g. => tools::isToken('123123123:abcabcabcabc');
+     *
      * @param string $token your token e.g. => '123123123:abcabcabcabc'
      * @param bool $verify check token with telegram or not
-     * @return bool|array return array when verify is active and token is true array of telegram getMe result
+     *
+     * @return types\responseError|types\user return array when verify is active and token is true array of telegram getMe result
      */
-    public static function isToken (string $token, bool $verify = false): bool|array {
+    public static function isToken (string $token, bool $verify = false): bool|types\user {
         if (preg_match('/^(\d{8,10}):[\w\-]{35}$/', $token)) {
             if ($verify){
                 $res = telegram::me($token);
-                if ($res['ok']) {
-                    return $res['result'];
+                if (telegram::$status) {
+                    return $res;
                 }
                 return false;
             }
@@ -138,8 +140,8 @@ class tools {
 
         foreach ($ids as $id) {
             $check = telegram::getChatMember($id,$user_id);
-            if (isset($check['result'])) {
-                $check = $check['result']['status'];
+            if (telegram::$status) {
+                $check = $check->status;
                 return !($check === chatMemberStatus::LEFT || $check === chatMemberStatus::KICKED);
             }
         }
