@@ -9,6 +9,7 @@ use BPT\exception\bptException;
 use BPT\lock;
 use BPT\logger;
 use BPT\settings;
+use BPT\tools;
 use CURLFile;
 
 class webhook extends receiver {
@@ -18,6 +19,7 @@ class webhook extends receiver {
         }
         else {
             if (lock::exist('BPT-HOOK')) {
+                self::checkSecret();
                 receiver::telegramVerify();
                 receiver::processUpdate();
                 logger::write('Update received , lets process it ;)');
@@ -27,8 +29,9 @@ class webhook extends receiver {
                 self::checkURL();
                 self::setCertificate();
                 $url = self::setURL();
-                self::setWebhook($url);
-                lock::set('BPT-HOOK');
+                $secret = tools::randomString(64);
+                self::setWebhook($url,$secret);
+                lock::save('BPT-HOOK',$secret);
                 BPT::exit('Done');
             }
         }
@@ -46,8 +49,8 @@ class webhook extends receiver {
         }
     }
 
-    protected static function setWebhook(string $url) {
-        $res = telegram::setWebhook($url, settings::$certificate, max_connections:settings::$max_connection, allowed_updates : settings::$allowed_updates);
+    protected static function setWebhook(string $url,string $secret = '') {
+        $res = telegram::setWebhook($url, settings::$certificate, max_connections:settings::$max_connection, allowed_updates : settings::$allowed_updates, secret_token: $secret);
         if (telegram::$status) {
             logger::write('Webhook was set successfully',loggerTypes::INFO);
         }
@@ -78,6 +81,14 @@ class webhook extends receiver {
                     settings::$certificate = null;
                 }
             }
+        }
+    }
+
+    private static function checkSecret() {
+        $secret = lock::read('BPT-HOOK');
+        if (!isset($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN']) || $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] != $secret) {
+            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
+            BPT::exit();
         }
     }
 }
