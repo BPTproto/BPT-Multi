@@ -26,11 +26,10 @@ trait encrypt {
      * @param null|string $key    e.g. => Optional, 39aaadf402f9b921b1d44e33ee3b022716a518e97d6a7b55de8231de501b4f34
      * @param null|string $iv     e.g. => Optional, a2e5904a4110169e
      *
-     * @return array|string|bool
+     * @return string|bool|array{hash:string, key:string, iv:string}
      * @throws bptException
      */
     public static function crypto (string $action, string $text, string $key = null, string $iv = null): bool|array|string {
-
         if (extension_loaded('openssl')) {
             if ($action === cryptoAction::ENCRYPT) {
                 $key = self::randomString(64);
@@ -43,14 +42,14 @@ trait encrypt {
                     logger::write("tools::crypto function used\nkey parameter is not set",loggerTypes::ERROR);
                     throw new bptException('ARGUMENT_NOT_FOUND_KEY');
                 }
-                if (empty($iv)) {
+                elseif (empty($iv)) {
                     logger::write("tools::crypto function used\niv parameter is not set",loggerTypes::ERROR);
                     throw new bptException('ARGUMENT_NOT_FOUND_IV');
                 }
                 return openssl_decrypt(base64_decode($text), 'AES-256-CBC', $key, 1, $iv);
             }
             else {
-                logger::write("tools::crypto function used\naction is not right, its must be `encode` or `decode`");
+                logger::write("tools::crypto function used\naction is not right, its must be `encode` or `decode`",loggerTypes::WARNING);
                 return false;
             }
         }

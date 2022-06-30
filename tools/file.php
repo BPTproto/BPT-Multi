@@ -39,7 +39,6 @@ trait file {
         else {
             $size = file_exists($path) ? filesize($path) : false;
         }
-
         if (isset($size) && is_numeric($size)) {
             return $format ? tools::byteFormat($size) : $size;
         }
@@ -83,62 +82,36 @@ trait file {
     /**
      * convert all files in selected path to zip and then save it in dest path
      *
-     * e.g. => tools::zip('xFolder','yFolder/xFile.zip',false,true);
+     * e.g. => tools::zip('xFolder','yFolder/xFile.zip');
      *
      * @param string $path        your file or folder to be zipped
      * @param string $destination destination path for create file
-     * @param bool   $self        set true for adding main folder to zip file
-     * @param bool   $sub_folder  set false for not adding sub_folders and save all files in main folder
      *
      * @return bool
      * @throws bptException when zip extension not found
      */
-    public static function zip (string $path, string $destination, bool $self = true, bool $sub_folder = true): bool {
+    public static function zip (string $path, string $destination): bool {
         if (extension_loaded('zip')) {
-            if (file_exists($destination)) unlink($destination);
-
-            $path = realpath($path);
+            $rootPath = realpath($path);
             $zip = new ZipArchive();
-            $zip->open($destination, ZipArchive::CREATE);
-
-            if (is_dir($path)){
-                if ($self){
-                    $dirs = explode('\\',$path);
-                    $dir_count = count($dirs);
-                    $main_dir = $dirs[$dir_count-1];
-
-                    $path = '';
-                    for ($i=0; $i < $dir_count - 1; $i++) {
-                        $path .= '\\' . $dirs[$i];
-                    }
-                    $path = substr($path, 1);
-                    $zip->addEmptyDir($main_dir);
-                }
-
-                $it = new RecursiveDirectoryIterator($path, FilesystemIterator::SKIP_DOTS);
-                $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::SELF_FIRST);
+            $zip->open($destination, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+            if (is_dir($path)) {
+                $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootPath), RecursiveIteratorIterator::LEAVES_ONLY);
+                $root_len = strlen($rootPath) + 1;
                 foreach ($files as $file) {
-                    if ($file->isFile()){
-                        if ($sub_folder){
-                            $zip->addFile($file, str_replace($path . '\\', '', $file));
-                        }
-                        else{
-                            $zip->addFile($file, basename($file));
-                        }
-                    }
-                    elseif ($file->isDir() && $sub_folder) {
-                        $zip->addEmptyDir(str_replace($path . '\\', '', $file . '\\'));
+                    if (!$file->isDir()) {
+                        $filePath = $file->getRealPath();
+                        $zip->addFile($filePath, substr($filePath, $root_len));
                     }
                 }
             }
-            else{
+            else {
                 $zip->addFile($path, basename($path));
             }
-
             return $zip->close();
         }
         else {
-            logger::write("tools::zip function used\nzip extension is not found , It may not be installed or enabled",loggerTypes::ERROR);
+            logger::write("tools::zip function used\nzip extension is not found , It may not be installed or enabled", loggerTypes::ERROR);
             throw new bptException('ZIP_EXTENSION_MISSING');
         }
     }

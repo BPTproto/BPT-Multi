@@ -2,7 +2,6 @@
 
 namespace BPT\api\request;
 
-use BPT\BPT;
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
 use BPT\exception\bptException;
@@ -15,7 +14,7 @@ class answer {
     public static function init(string $method,array $data) {
         self::checkAnswered();
         self::checkWebhook();
-        self::deleteAdditionalData($data);
+        self::sieveData($data);
         self::$is_answered = true;
         $data['method'] = $method;
         $payload = json_encode($data);
@@ -42,21 +41,16 @@ class answer {
         }
     }
 
-    private static function deleteAdditionalData(array &$data) {
-        if (isset($data['token'])) {
-            unset($data['token']);
-        }
-        if (isset($data['forgot'])) {
-            unset($data['forgot']);
-        }
-        if (isset($data['return_array'])) {
-            unset($data['return_array']);
-        }
+    private static function sieveData(array &$data) {
+        unset($data['token']);
+        unset($data['forgot']);
+        unset($data['return_array']);
+
         foreach ($data as $key=>&$value){
             if (!isset($value)){
                 unset($data[$key]);
             }
-            elseif (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+            elseif (is_array($value) || is_object($value)){
                 $value = json_encode($value);
             }
         }

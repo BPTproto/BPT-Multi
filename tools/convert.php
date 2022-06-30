@@ -93,13 +93,12 @@ trait convert {
      * @throws Exception
      */
     public static function timeDiff (int|string $target_time, int|string|null $base_time = null): array {
-        if (empty($base_time)) {
+        if (!isset($base_time)) {
             $base_time = '@'.time();
         }
         $base_time = new DateTime($base_time);
         $target_time = new DateTime(is_numeric($target_time) ? '@' . $target_time : $target_time . ' +00:00');
 
-        $status = $base_time < $target_time ? 'later' : 'ago';
         $diff = $base_time->diff($target_time);
 
         $string = ['year' => 'y', 'month' => 'm', 'day' => 'd', 'hour' => 'h', 'minute' => 'i', 'second' => 's'];
@@ -109,7 +108,7 @@ trait convert {
             }
             else unset($string[$k]);
         }
-        $string['status'] = $status;
+        $string['status'] = $base_time < $target_time ? 'later' : 'ago';
 
         return count($string) > 1 ? $string : ['status' => 'now'];
     }
