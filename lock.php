@@ -12,7 +12,7 @@ class lock {
     }
 
     public static function save(string $name, string $data): bool|int {
-        return file_put_contents("$name.lock", $data);
+        return file_put_contents("$name.lock", $data) && chmod("$name.lock",0640);
     }
 
     public static function read(string $name): bool|string {
