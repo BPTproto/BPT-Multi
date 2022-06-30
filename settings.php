@@ -17,8 +17,6 @@ use TypeError;
 class settings {
     public static string $token = '';
 
-    //public static bool $auto_update = true;
-
     public static bool $logger = true;
 
     public static int $log_size = 10;
@@ -31,13 +29,7 @@ class settings {
 
     public static bool $secure_folder = false;
 
-    //public static bool $array_update = false;
-
-    public static bool $split_update = true;
-
     public static bool $multi = false;
-
-    //public static bool $debug = false;
 
     public static bool $telegram_verify = true;
 
@@ -80,7 +72,9 @@ class settings {
                 self::security();
                 self::secureFolder();
                 self::db();
-                self::$receiver !== receiver::GETUPDATES ? self::webhook() : self::getUpdates();
+                if (!empty(self::$receiver)) {
+                    self::$receiver !== receiver::GETUPDATES ? self::webhook() : self::getUpdates();
+                }
             }
             else {
                 logger::write('token format is not right, check it and try again',loggerTypes::ERROR);
@@ -152,7 +146,6 @@ class settings {
     }
 
     private static function webhook() {
-        //self::$multi ? multi::init() : self::getUpdates();
         webhook::init();
     }
 }
