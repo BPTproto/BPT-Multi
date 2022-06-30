@@ -54,8 +54,8 @@ trait generator {
      *
      * e.g. => tools::easyKey(inline: [[['button 1 in row 1','this is callback button'],['button 2 in row 1','https://this-is-url-button.com']],[['demo button in row 2']]]);
      *
-     * @param string[][] $keyboard array of array(as rows) of array(buttons) of string
-     * @param array[][]  $inline   array of array(as rows) of array(buttons)
+     * @param string[][] $keyboard array(as rows) of array(buttons) of string
+     * @param array[][]  $inline   array(as rows) of array(buttons) of array(button data)
      *
      * @return inlineKeyboardMarkup|replyKeyboardMarkup replyKeyboardMarkup for keyboard and inlineKeyboardMarkup for inline
      * @throws bptException
@@ -65,9 +65,10 @@ trait generator {
             $keyboard_object = new replyKeyboardMarkup();
             $keyboard_object->setResize_keyboard($keyboard['resize'] ?? true);
             if (isset($keyboard['one_time'])) {
-                $keyboard_object->setOne_time_keyboard($keyboard['one_time']) ;
+                $keyboard_object->setOne_time_keyboard($keyboard['one_time']);
             }
             foreach ($keyboard as $row) {
+                if (!is_array($row)) continue;
                 $buttons = [];
                 foreach ($row as $base_button) {
                     $button_info = explode('||', $base_button);
