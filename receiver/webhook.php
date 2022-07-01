@@ -19,20 +19,13 @@ class webhook extends receiver {
         }
         else {
             if (lock::exist('BPT-HOOK')) {
-                self::checkSecret();
                 receiver::telegramVerify();
+                self::checkSecret();
                 receiver::processUpdate();
                 logger::write('Update received , lets process it ;)');
             }
             else {
-                self::deleteOldLocks();
-                self::checkURL();
-                self::setCertificate();
-                $url = self::setURL();
-                $secret = tools::randomString(64);
-                self::setWebhook($url,$secret);
-                lock::save('BPT-HOOK',$secret);
-                BPT::exit('Done');
+                self::processSetWebhook();
             }
         }
     }
@@ -84,11 +77,22 @@ class webhook extends receiver {
         }
     }
 
+    private static function processSetWebhook() {
+        self::deleteOldLocks();
+        self::checkURL();
+        self::setCertificate();
+        $url = self::setURL();
+        $secret = tools::randomString(64);
+        self::setWebhook($url,$secret);
+        lock::save('BPT-HOOK',$secret);
+        BPT::exit('Done');
+    }
+
     private static function checkSecret() {
         $secret = lock::read('BPT-HOOK');
         if (!isset($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN']) || $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] != $secret) {
-            logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
-            BPT::exit();
+            logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
+            self::processSetWebhook();
         }
     }
 }
