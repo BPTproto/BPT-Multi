@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use CURLFile;
 use stdClass;
 
 /**
@@ -11,7 +12,7 @@ use stdClass;
  * @method self setCaption(string $value)
  * @method self setParse_mode(string $value)
  * @method self setCaption_entities(array $value)
- * @method self setThumb(inputFile $value)
+ * @method self setThumb(CURLFile|string $value)
  * @method self setWidth(int $value)
  * @method self setHeight(int $value)
  * @method self setDuration(int $value)
@@ -22,7 +23,7 @@ use stdClass;
  */
 class inputMedia extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['array' => ['caption_entities' => 'BPT\types\messageEntity'], 'thumb' => 'BPT\types\inputFile'];
+    private const subs = ['array' => ['caption_entities' => 'BPT\types\messageEntity']];
 
     /** Type of the result could be `photo`, `video`, `animation`, `audio`, `document` */
     public string $type;
@@ -45,13 +46,13 @@ class inputMedia extends types {
     public array $caption_entities;
 
     /**
-     * Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
+     * all types except `photo`. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
      * server-side. The thumbnail should be in JPEG format and less than 200 kB in size. A thumbnail's width and
      * height should not exceed 320. Ignored if the file is not uploaded using multipart/form-data. Thumbnails can't
      * be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the
      * thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    public inputFile $thumb;
+    public CURLFile|string $thumb;
 
     /** `video` and `animation` only. width */
     public int $width;
