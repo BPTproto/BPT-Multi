@@ -35,7 +35,8 @@ class receiver {
                 BPT::exit();
             }
         }
-        elseif (!is_a($update,'update')) {
+
+        if (!is_a($update,'update')) {
             $update = new update($update);
         }
 
