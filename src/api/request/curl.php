@@ -32,14 +32,14 @@ class curl {
         if (isset($data['token']) && $data['token'] !== settings::$token) {
             $token = $data['token'];
             unset($data['token']);
-            $curl_handler = curl_init(settings::$base_url."$token/");
+            $curl_handler = curl_init(settings::$base_url."/bot$token/");
             curl_setopt($curl_handler, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl_handler, CURLOPT_SSL_VERIFYPEER, false);
         }
         else{
             $token = settings::$token;
             if (!isset(self::$curl_handler)){
-                self::$curl_handler = curl_init(settings::$base_url."$token/");
+                self::$curl_handler = curl_init(settings::$base_url."/bot$token/");
                 curl_setopt(self::$curl_handler, CURLOPT_RETURNTRANSFER, true);
                 curl_setopt(self::$curl_handler, CURLOPT_SSL_VERIFYPEER, false);
                 curl_setopt(self::$curl_handler, CURLOPT_TCP_KEEPALIVE, 1);
@@ -54,7 +54,7 @@ class curl {
         ];
     }
 
-    private static function setTimeout(array &$data , CurlHandle $curl_handler,string $method) {
+    private static function setTimeout(array &$data , CurlHandle $curl_handler,string $method): void {
         if (isset($data['forgot'])) {
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, settings::$forgot_time);
             unset($data['forgot']);
@@ -67,7 +67,7 @@ class curl {
         }
     }
 
-    private static function setData(array &$data) {
+    private static function setData(array &$data): void {
         foreach ($data as &$value){
             if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
                 $value = json_encode($value);
