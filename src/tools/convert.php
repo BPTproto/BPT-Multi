@@ -112,4 +112,46 @@ trait convert {
 
         return count($string) > 1 ? $string : ['status' => 'now'];
     }
+
+    /**
+     * same as mysqli::real_escape_string but does not need a db connection and allow array escape
+     *
+     * e.g. => tools::realEscapeString(input: $text1);
+     *
+     * e.g. => tools::realEscapeString([$text1,$text2,$text3]);
+     *
+     * @param string|string[] $input
+     *
+     * @return string[]|string
+     */
+    public static function realEscapeString(string|array $input): string|array {
+        if(is_array($input)) {
+            return array_map(__METHOD__, $input);
+        }
+
+        if(!empty($input) && is_string($input)) {
+            return str_replace(array('\\', "\0", "\n", "\r", "'", '"', "\x1a"), array('\\\\', '\\0', '\\n', '\\r', "\\'", '\\"', '\\Z'), $input);
+        }
+
+        return $input;
+    }
+
+    /**
+     * replace `search` with `replace` in `subject` but only one of it(the first result)
+     *
+     * e.g. => tools::strReplaceFirst('hello','bye','hello :)');
+     *
+     * @param string|string[] $search
+     * @param string|string[] $replace
+     * @param string|string[] $subject
+     *
+     * @return string[]|string
+     */
+    public static function strReplaceFirst(string|array $search, string|array $replace, string|array $subject): string|array {
+        $pos = strpos($subject, $search);
+        if ($pos !== false) {
+            return substr_replace($subject, $replace, $pos, strlen($search));
+        }
+        return $subject;
+    }
 }

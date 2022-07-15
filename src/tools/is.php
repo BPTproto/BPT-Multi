@@ -180,4 +180,17 @@ trait is {
         }
         return $result;
     }
+
+    /**
+     * check is it short encoded or not
+     *
+     * e.g. => tools::shortEncode(123456789);
+     *
+     * @param string $text
+     *
+     * @return bool
+     */
+    public static function isShorted(string $text): bool{
+        return preg_match('/^[a-zA-Z0-9]+$/',$text);
+    }
 }

@@ -58,4 +58,46 @@ trait encrypt {
             throw new bptException('OPENSSL_EXTENSION_MISSING');
         }
     }
+
+    /**
+     * encode int to a string
+     *
+     * e.g. => tools::shortEncode(123456789);
+     *
+     * @param int $num
+     *
+     * @return string
+     */
+    public static function shortEncode(int $num): string {
+        $codes = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $array = [];
+        while ($num > 0){
+            $array[] = $num % 62;
+            $num = floor($num / 62);
+        }
+        if (count($array) < 1) $array = [0];
+        foreach ($array as &$value) {
+            $value = $codes[$value];
+        }
+        return strrev(implode('',$array));
+    }
+
+    /**
+     * decode string to int
+     *
+     * e.g. => tools::shortDecode('8m0Kx');
+     *
+     * @param string $text
+     *
+     * @return int
+     */
+    public static function shortDecode(string $text): int{
+        $codes = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $num = 0;
+        $text = str_split(strrev($text));
+        foreach ($text as $key=>$value) {
+            $num += strpos($codes,$value) * pow(62,$key);
+        }
+        return $num;
+    }
 }
