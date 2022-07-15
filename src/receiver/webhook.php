@@ -43,7 +43,7 @@ class webhook extends receiver {
     }
 
     protected static function setWebhook(string $url,string $secret = '') {
-        $res = telegram::setWebhook($url, settings::$certificate, max_connections:settings::$max_connection, allowed_updates : settings::$allowed_updates, secret_token: $secret);
+        $res = telegram::setWebhook($url, settings::$certificate, max_connections: settings::$max_connection, allowed_updates: settings::$allowed_updates, drop_pending_updates: settings::$skip_old_updates, secret_token: $secret);
         if (telegram::$status) {
             logger::write('Webhook was set successfully',loggerTypes::INFO);
         }
@@ -82,7 +82,7 @@ class webhook extends receiver {
         self::checkURL();
         self::setCertificate();
         $url = self::setURL();
-        $secret = tools::randomString(64);
+        $secret = settings::$secret ?? tools::randomString(64);
         self::setWebhook($url,$secret);
         lock::save('BPT-HOOK',$secret);
         BPT::exit('Done');
@@ -90,9 +90,13 @@ class webhook extends receiver {
 
     private static function checkSecret() {
         $secret = lock::read('BPT-HOOK');
-        if (!isset($_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN']) || $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] != $secret) {
+        if ($secret !== self::getSecret()) {
             logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
             self::processSetWebhook();
         }
+    }
+
+    public static function getSecret() {
+        return $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] ?? false;
     }
 }

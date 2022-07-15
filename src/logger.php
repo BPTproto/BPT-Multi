@@ -7,12 +7,14 @@ use BPT\constants\loggerTypes;
 class logger {
     private static int $log_size;
 
+    private static array $waited_logs = [];
+
     private static $handler;
 
 
-    public static function init (int $log_size = 10) {
+    public static function init (int $log_size = 10): void {
         self::$log_size = $log_size;
-        if (file_exists('BPT.log') && !(filesize('BPT.log') > self::$log_size * 1024 * 1024)) {
+        if (file_exists(settings::$name.'BPT.log') && !(filesize(settings::$name.'BPT.log') > self::$log_size * 1024 * 1024)) {
             $mode = 'a';
             $write = false;
         }
@@ -20,18 +22,26 @@ class logger {
             $mode = 'w';
             $write = true;
         }
-
-        self::$handler = fopen('BPT.log', $mode);
+        self::$handler = fopen(settings::$name.'BPT.log', $mode);
 
         if ($write) {
             fwrite(self::$handler,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT Library LOG STARTED ...\nwarning : this file automatically deleted when its size reached log_size setting, do not delete it manually\n\n");
         }
+
+        if (self::$waited_logs != []) {
+            foreach (self::$waited_logs as $log) {
+                fwrite(self::$handler, $log);
+            }
+        }
     }
 
-    public static function write(string $data, string $type = loggerTypes::NONE) {
+    public static function write(string $data, string $type = loggerTypes::NONE): void {
+        $text = date('Y/m/d H:i:s') . ( $type === loggerTypes::NONE ? " : $data\n\n" : " : ⤵\n$type : $data\n\n" );
         if (!is_null(self::$handler)) {
-            $text = date('Y/m/d H:i:s') . ( $type === loggerTypes::NONE ? " : $data\n\n" : " : ⤵\n$type : $data\n\n" );
             fwrite(self::$handler, $text);
+        }
+        else {
+            self::$waited_logs[] = $text;
         }
     }
 }

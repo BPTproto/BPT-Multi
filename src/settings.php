@@ -17,6 +17,8 @@ use TypeError;
 class settings {
     public static string $token = '';
 
+    public static string $name = '';
+
     public static bool $logger = true;
 
     public static int $log_size = 10;
@@ -33,11 +35,15 @@ class settings {
 
     public static bool $telegram_verify = true;
 
+    public static bool $skip_old_updates = true;
+
+    public static string $secret = '';
+
     public static int $max_connection = 40;
 
-    public static string $base_url = 'https://api.telegram.org/bot';
+    public static string $base_url = 'https://api.telegram.org';
 
-    public static string $down_url = 'https://api.telegram.org/file/bot';
+    public static string $down_url = 'https://api.telegram.org/file';
 
     public static int $forgot_time = 100;
 
@@ -48,15 +54,20 @@ class settings {
     public static array|mysqli|null $db = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
 
 
-    public static function init (array|stdClass $settings) {
+    public static function init (array|stdClass $settings): void {
         $settings = (array) $settings;
-
-        if (!(isset($settings['logger']) && $settings['logger'] == false)) {
-            logger::init(isset($settings['log_size']) && is_numeric($settings['log_size']) ? $settings['log_size'] : self::$log_size);
-        }
 
         foreach ($settings as $setting => $value) {
             try{
+                if ($setting === 'name') {
+                    if (!is_dir('bots_files')) {
+                        mkdir('bots_files');
+                    }
+                    if (!is_dir('bots_files/'.$value)) {
+                        mkdir('bots_files/'.$value);
+                    }
+                    $value = 'bots_files/'.$value.'/';
+                }
                 self::$$setting = $value;
             }
             catch (TypeError){
@@ -65,6 +76,10 @@ class settings {
             catch (Error){
                 logger::write("$setting setting is not one of library settings",loggerTypes::WARNING);
             }
+        }
+
+        if (!(isset($settings['logger']) && $settings['logger'] == false)) {
+            logger::init(isset($settings['log_size']) && is_numeric($settings['log_size']) ? $settings['log_size'] : self::$log_size);
         }
 
         if (self::$token !== '') {
@@ -87,14 +102,14 @@ class settings {
         }
     }
 
-    public static function done() {
+    public static function done(): void {
         if (self::$logger) {
             $estimated = round((microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000,2);
             $status_message = match (true) {
                 $estimated < 100 => 'Excellent',
                 $estimated < 500 => 'Very good',
                 $estimated < 1000 => 'Good',
-                $estimated < 3000 => 'you could be better',
+                $estimated < 3000 => 'You could do better',
                 default => 'You need to do something , its take to much time'
             };
             $type = $estimated > 3000 ? loggerTypes::WARNING : loggerTypes::NONE;
@@ -102,7 +117,7 @@ class settings {
         }
     }
 
-    private static function security() {
+    private static function security(): void {
         if (self::$security) {
             ini_set('magic_quotes_gpc', 'off');
             ini_set('sql.safe_mode', 'on');
@@ -117,7 +132,7 @@ class settings {
         }
     }
 
-    private static function secureFolder() {
+    private static function secureFolder(): void {
         if (self::$secure_folder) {
             $address = explode('/', $_SERVER['REQUEST_URI']);
             unset($address[count($address) - 1]);
@@ -129,13 +144,13 @@ class settings {
         }
     }
 
-    private static function db() {
+    private static function db(): void {
         if (!empty(self::$db)) {
             db::init(self::$db);
         }
     }
 
-    private static function getUpdates() {
+    private static function getUpdates(): void {
         if (self::$handler) {
             getUpdates::init();
         }
@@ -145,7 +160,7 @@ class settings {
         }
     }
 
-    private static function webhook() {
+    private static function webhook(): void {
         webhook::init();
     }
 }

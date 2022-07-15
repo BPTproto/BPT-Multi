@@ -4,26 +4,26 @@ namespace BPT;
 
 class lock {
     public static function exist(string $name): bool {
-        return file_exists("$name.lock");
+        return file_exists(settings::$name."$name.lock");
     }
 
     public static function set(string $name): bool {
-        return touch("$name.lock");
+        return touch(settings::$name."$name.lock");
     }
 
     public static function save(string $name, string $data): bool|int {
-        return file_put_contents("$name.lock", $data) && chmod("$name.lock",0640);
+        return file_put_contents(settings::$name."$name.lock", $data) && chmod(settings::$name."$name.lock",0640);
     }
 
     public static function read(string $name): bool|string {
-        return file_get_contents("$name.lock");
+        return file_get_contents(settings::$name."$name.lock");
     }
 
     public static function mtime(string $name): bool|int {
-        return filemtime("$name.lock");
+        return filemtime(settings::$name."$name.lock");
     }
 
     public static function delete(string $name): bool {
-        return unlink("$name.lock");
+        return unlink(settings::$name."$name.lock");
     }
 }
