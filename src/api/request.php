@@ -36,7 +36,7 @@ use BPT\types\{botCommand,
 use CURLFile;
 use BPT\api\request\{answer, curl};
 use BPT\BPT;
-use BPT\constants\{chatActions, loggerTypes};
+use BPT\constants\{chatActions, loggerTypes, updateTypes};
 use BPT\exception\bptException;
 use BPT\logger;
 use stdClass;
@@ -917,20 +917,20 @@ class request {
                 };
             case 'update_type' :
                 return match(true) {
-                    isset(BPT::$update->message) => 'message',
-                    isset(BPT::$update->edited_message) => 'edited_message',
-                    isset(BPT::$update->inline_query) => 'inline_query',
-                    isset(BPT::$update->callback_query) => 'callback_query',
-                    isset(BPT::$update->chat_join_request) => 'chat_join_request',
-                    isset(BPT::$update->my_chat_member) => 'my_chat_member',
-                    isset(BPT::$update->chat_member) => 'chat_member',
-                    isset(BPT::$update->channel_post) => 'channel_post',
-                    isset(BPT::$update->edited_channel_post) => 'edited_channel_post',
-                    isset(BPT::$update->chosen_inline_result) => 'chosen_inline_result',
-                    isset(BPT::$update->shipping_query) => 'shipping_query',
-                    isset(BPT::$update->pre_checkout_query) => 'pre_checkout_query',
-                    isset(BPT::$update->poll) => 'poll',
-                    isset(BPT::$update->poll_answer) => 'poll_answer',
+                    isset(BPT::$update->message) => updateTypes::MESSAGE,
+                    isset(BPT::$update->edited_message) => updateTypes::EDITED_MESSAGE,
+                    isset(BPT::$update->inline_query) => updateTypes::INLINE_QUERY,
+                    isset(BPT::$update->callback_query) => updateTypes::CALLBACK_QUERY,
+                    isset(BPT::$update->chat_join_request) => updateTypes::CHAT_JOIN_REQUEST,
+                    isset(BPT::$update->my_chat_member) => updateTypes::MY_CHAT_MEMBER,
+                    isset(BPT::$update->chat_member) => updateTypes::CHAT_MEMBER,
+                    isset(BPT::$update->channel_post) => updateTypes::CHANNEL_POST,
+                    isset(BPT::$update->edited_channel_post) => updateTypes::EDITED_CHANNEL_POST,
+                    isset(BPT::$update->chosen_inline_result) => updateTypes::CHOSEN_INLINE_RESULT,
+                    isset(BPT::$update->shipping_query) => updateTypes::SHIPPING_QUERY,
+                    isset(BPT::$update->pre_checkout_query) => updateTypes::PRE_CHECKOUT_QUERY,
+                    isset(BPT::$update->poll) => updateTypes::POLL,
+                    isset(BPT::$update->poll_answer) => updateTypes::POLL_ANSWER,
                     default => false
                 };
             case 'url' :
