@@ -42,6 +42,12 @@ class messageEntity extends types {
     /** Optional. For “pre” only, the programming language of the entity text */
     public string $language;
 
+    /**
+     * Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get
+     * full information about the sticker
+     */
+    public string $custom_emoji_id;
+
 
     public function __construct(stdClass|null $object = null) {
         if ($object != null) {

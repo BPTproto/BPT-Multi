@@ -17,13 +17,16 @@ class stickerSet extends types {
     /** Sticker set title */
     public string $title;
 
+    /** Type of stickers in the set, currently one of “regular”, “mask”, “custom_emoji” */
+    public string $sticker_type;
+
     /** True, if the sticker set contains animated stickers */
     public bool $is_animated;
 
     /** True, if the sticker set contains video stickers */
     public bool $is_video;
 
-    /** True, if the sticker set contains masks */
+    /** Deprecated use sticker_type instead, True, if the sticker set contains masks */
     public bool $contains_masks;
 
     /**
