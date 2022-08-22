@@ -8,9 +8,7 @@ use BPT\constants\loggerTypes;
 use BPT\lock;
 use BPT\logger;
 use BPT\settings;
-use BPT\types\responseError;
 use BPT\types\update;
-use stdClass;
 
 class getUpdates extends receiver {
     public static function init () {

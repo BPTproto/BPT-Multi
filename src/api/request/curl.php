@@ -6,6 +6,7 @@ use BPT\constants\loggerTypes;
 use BPT\logger;
 use BPT\settings;
 use CurlHandle;
+use JetBrains\PhpStorm\ArrayShape;
 
 class curl {
     private static CurlHandle $curl_handler;

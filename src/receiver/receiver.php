@@ -19,7 +19,7 @@ class receiver {
         'something_else' => null
     ];
 
-    protected static function telegramVerify(string $ip = null) {
+    protected static function telegramVerify(string $ip = null): void {
         if (settings::$telegram_verify) {
             if (!tools::isTelegram($ip ?? $_SERVER['REMOTE_ADDR'] ?? '')) {
                 logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
@@ -28,7 +28,7 @@ class receiver {
         }
     }
 
-    protected static function processUpdate(string|stdClass|update $update = null) {
+    protected static function processUpdate(string|stdClass|update $update = null): void {
         if (!is_object($update)) {
             $update = json_decode($update ?? file_get_contents("php://input"));
             if (!$update) {
@@ -45,7 +45,7 @@ class receiver {
         self::processHandler();
     }
 
-    protected static function setMessageExtra (update &$update) {
+    protected static function setMessageExtra (update &$update): void {
         if ((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))) {
             $type = isset($update->message) ? 'message' : 'edited_message';
             $text = &$update->$type->text;
@@ -67,7 +67,7 @@ class receiver {
         }
     }
 
-    private static function processHandler() {
+    private static function processHandler(): void {
         if (settings::$handler) {
             if (isset(BPT::$update->message)) {
                 if (self::handlerExist('message')) {

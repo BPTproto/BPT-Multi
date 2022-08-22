@@ -184,7 +184,7 @@ trait is {
     /**
      * check is it short encoded or not
      *
-     * e.g. => tools::shortEncode(123456789);
+     * e.g. => tools::isShorted(123456789);
      *
      * @param string $text
      *

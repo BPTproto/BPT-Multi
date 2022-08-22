@@ -8,6 +8,7 @@ use BPT\lock;
 use BPT\logger;
 use BPT\receiver\webhook;
 use BPT\settings;
+use JetBrains\PhpStorm\ArrayShape;
 
 class exec extends webhook {
     public static function init(): string|null {

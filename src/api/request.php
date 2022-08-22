@@ -645,7 +645,7 @@ class request {
         'setGameScore'                    => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']],
         'getGameHighScores'               => ['user_id','inline_query'=>['inline_message_id'],'other'=>['chat_id','message_id']]
     ];
-    
+
     private const METHODS_RETURN = [
         'getUpdates' => ['BPT\types\update'],
         'getWebhookInfo' => 'BPT\types\webhookInfo',
@@ -713,7 +713,7 @@ class request {
         }
     }
 
-    private static function keysName (string $name, array &$arguments) {
+    private static function keysName (string $name, array &$arguments): void {
         foreach ($arguments as $key => $argument) {
             if (is_numeric($key) && isset(self::METHODS_KEYS[$name][$key])) {
                 $arguments[self::METHODS_KEYS[$name][$key]] = $argument;
@@ -726,7 +726,7 @@ class request {
         return self::METHODS_ACTION[str_replace('_', '', strtolower($name))] ?? false;
     }
 
-    private static function readyFile(string $name, array &$arguments) {
+    private static function readyFile(string $name, array &$arguments): void {
         if ($name === 'sendMediaGroup') {
             foreach ($arguments['media'] as $key => $media) {
                 if (file_exists($media['media'])) {
@@ -766,7 +766,7 @@ class request {
         }
     }
 
-    private static function setDefaults(string $name, array &$arguments) {
+    private static function setDefaults(string $name, array &$arguments): void {
         $defaults = self::METHODS_EXTRA_DEFAULTS[$name];
         foreach ($defaults as $key => $default) {
             if (is_numeric($key)) {

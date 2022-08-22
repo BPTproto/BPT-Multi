@@ -2,7 +2,6 @@
 
 namespace BPT\receiver;
 
-use BPT\BPT;
 use BPT\lock;
 use BPT\logger;
 use BPT\receiver\multi\exec;
