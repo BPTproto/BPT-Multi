@@ -2,10 +2,13 @@
 
 namespace BPT\tools;
 
+use BPT\api\telegram;
+use BPT\constants\fields;
 use BPT\constants\loggerTypes;
 use BPT\constants\pollType;
 use BPT\exception\bptException;
 use BPT\logger;
+use BPT\tools;
 use BPT\types\inlineKeyboardButton;
 use BPT\types\inlineKeyboardMarkup;
 use BPT\types\keyboardButton;
@@ -122,5 +125,23 @@ trait generator {
             logger::write("tools::eKey function used\nkeyboard or inline parameter must be set",loggerTypes::ERROR);
             throw new bptException('ARGUMENT_NOT_FOUND_KEYBOARD_INLINE');
         }
+    }
+
+    /**
+     * create invite link for user which use shortEncode method and can be handled by BPT database
+     *
+     * e.g. => tools::inviteLink(123456789,'Username_bot');
+     *
+     * e.g. => tools::inviteLink(123456789);
+     *
+     * @param int|null $user_id user id , default : catchFields(fields::USER_ID)
+     * @param string|null  $bot_username bot username , default : telegram::getMe()->username
+     *
+     * @return string
+     */
+    public static function inviteLink (int $user_id = null, string $bot_username = null): string {
+        if (empty($user_id)) $user_id = telegram::catchFields(fields::USER_ID);
+        if (empty($bot_username)) $bot_username = telegram::getMe()->username;
+        return 'https://t.me/' . str_replace('@', '', $bot_username) . '?start=ref_' . tools::shortEncode($user_id);
     }
 }

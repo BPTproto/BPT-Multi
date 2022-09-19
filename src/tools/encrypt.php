@@ -11,7 +11,7 @@ trait encrypt {
     /**
      * encrypt or decrypt a text with really high security
      *
-     * action parameter must be encrypt or decrypt
+     * action parameter must be `encrypt` or `decrypt` ( use cryptoAction constant class for easy use )
      *
      * string parameter is your hash(received when use encrypt) or the text you want to encrypt
      *

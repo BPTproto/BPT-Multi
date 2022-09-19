@@ -21,8 +21,8 @@ class webhook extends receiver {
             if (lock::exist('BPT-HOOK')) {
                 receiver::telegramVerify();
                 self::checkSecret();
-                receiver::processUpdate();
                 logger::write('Update received , lets process it ;)');
+                receiver::processUpdate();
             }
             else {
                 self::processSetWebhook();
