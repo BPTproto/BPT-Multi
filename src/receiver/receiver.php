@@ -4,6 +4,7 @@ namespace BPT\receiver;
 
 use BPT\BPT;
 use BPT\constants\loggerTypes;
+use BPT\database\db;
 use BPT\logger;
 use BPT\settings;
 use BPT\tools;
@@ -21,8 +22,20 @@ class receiver {
 
     protected static function telegramVerify(string $ip = null): void {
         if (settings::$telegram_verify) {
-            if (!tools::isTelegram($ip ?? $_SERVER['REMOTE_ADDR'] ?? '')) {
-                logger::write('not authorized access denied. IP : '. $ip ?? $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
+            $ip = $ip ?? $_SERVER['REMOTE_ADDR'];
+            if (settings::$cloadflare_verify) {
+                if (isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
+                    $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+                }
+            }
+            elseif (settings::$arvancloud_verify) {
+                if (isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
+                    $ip = $_SERVER['HTTP_AR_REAL_IP'];
+                }
+            }
+
+            if (!tools::isTelegram($ip ?? '')) {
+                logger::write('not authorized access denied. IP : '. $ip ?? 'unknown',loggerTypes::WARNING);
                 BPT::exit();
             }
         }
@@ -42,6 +55,7 @@ class receiver {
 
         self::setMessageExtra($update);
         BPT::$update = $update;
+        db::process();
         self::processHandler();
     }
 
@@ -74,9 +88,19 @@ class receiver {
                     BPT::$handler->message(BPT::$update->message);
                 }
             }
-            elseif (isset(BPT::$update->callback_query)) {
-                if (self::handlerExist('callback_query')) {
-                    BPT::$handler->callback_query(BPT::$update->callback_query);
+            elseif (isset(BPT::$update->edited_message)) {
+                if (self::handlerExist('edited_message')) {
+                    BPT::$handler->edited_message(BPT::$update->edited_message);
+                }
+            }
+            elseif (isset(BPT::$update->channel_post)) {
+                if (self::handlerExist('channel_post')) {
+                    BPT::$handler->channel_post(BPT::$update->channel_post);
+                }
+            }
+            elseif (isset(BPT::$update->edited_channel_post)) {
+                if (self::handlerExist('edited_channel_post')) {
+                    BPT::$handler->edited_channel_post(BPT::$update->edited_channel_post);
                 }
             }
             elseif (isset(BPT::$update->inline_query)) {
@@ -84,9 +108,19 @@ class receiver {
                     BPT::$handler->inline_query(BPT::$update->inline_query);
                 }
             }
-            elseif (isset(BPT::$update->edited_message)) {
-                if (self::handlerExist('edited_message')) {
-                    BPT::$handler->edited_message(BPT::$update->edited_message);
+            elseif (isset(BPT::$update->callback_query)) {
+                if (self::handlerExist('callback_query')) {
+                    BPT::$handler->callback_query(BPT::$update->callback_query);
+                }
+            }
+            elseif (isset(BPT::$update->my_chat_member)) {
+                if (self::handlerExist('my_chat_member')) {
+                    BPT::$handler->my_chat_member(BPT::$update->my_chat_member);
+                }
+            }
+            elseif (isset(BPT::$update->chat_member)) {
+                if (self::handlerExist('chat_member')) {
+                    BPT::$handler->chat_member(BPT::$update->chat_member);
                 }
             }
             elseif (self::handlerExist('something_else')) {

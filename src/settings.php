@@ -2,15 +2,16 @@
 
 namespace BPT;
 
+use BPT\constants\dbTypes;
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
-use BPT\db\db;
+use BPT\database\db;
+use BPT\database\json;
 use BPT\exception\bptException;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
 use CURLFile;
 use Error;
-use mysqli;
 use stdClass;
 use TypeError;
 
@@ -35,6 +36,10 @@ class settings {
 
     public static bool $telegram_verify = true;
 
+    public static bool $cloadflare_verify = false;
+
+    public static bool $arvancloud_verify = false;
+
     public static bool $skip_old_updates = true;
 
     public static string $secret = '';
@@ -51,7 +56,7 @@ class settings {
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 
-    public static array|mysqli|null $db = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
+    public static array|null $db = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
 
 
     public static function init (array|stdClass $settings): void {
@@ -145,9 +150,7 @@ class settings {
     }
 
     private static function db(): void {
-        if (!empty(self::$db)) {
-            db::init(self::$db);
-        }
+        db::init();
     }
 
     private static function getUpdates(): void {
