@@ -4,6 +4,9 @@ namespace BPT;
 
 use BPT\constants\loggerTypes;
 
+/**
+ * logger class , manage and write logs
+ */
 class logger {
     private static int $log_size;
 
@@ -11,7 +14,9 @@ class logger {
 
     private static $handler;
 
-
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init (int $log_size = 10): void {
         self::$log_size = $log_size;
         if (file_exists(settings::$name.'BPT.log') && !(filesize(settings::$name.'BPT.log') > self::$log_size * 1024 * 1024)) {
@@ -35,6 +40,16 @@ class logger {
         }
     }
 
+    /**
+     * Use this for write in logger file
+     *
+     * It's better to not use it and lets library use it by it self
+     *
+     * @param string $data
+     * @param string $type
+     *
+     * @return void
+     */
     public static function write(string $data, string $type = loggerTypes::NONE): void {
         $text = date('Y/m/d H:i:s') . ( $type === loggerTypes::NONE ? " : $data\n\n" : " : ⤵\n$type : $data\n\n" );
         if (!is_null(self::$handler)) {

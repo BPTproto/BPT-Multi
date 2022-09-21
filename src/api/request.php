@@ -42,6 +42,8 @@ use BPT\logger;
 use stdClass;
 
 /**
+ * Manage and handle telegram request
+ *
  * @method static update[]|responseError getUpdates (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
  * @method static update[]|responseError getUp (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
  * @method static update[]|responseError updates (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
@@ -798,6 +800,13 @@ class request {
         }
     }
 
+    /**
+     * easy method for getting fields from update
+     *
+     * @param string $field
+     *
+     * @return int|string|bool
+     */
     public static function catchFields (string $field): int|string|bool {
         switch ($field) {
             case 'chat_id' :

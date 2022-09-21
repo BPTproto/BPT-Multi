@@ -10,7 +10,13 @@ use BPT\receiver\webhook;
 use BPT\settings;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * exec class , for multiprocessing with exec method
+ */
 class exec extends webhook {
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init(): string|null {
         return self::getUpdate();
     }
@@ -28,15 +34,22 @@ class exec extends webhook {
         else {
             logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
             BPT::exit();
+            return null;
         }
     }
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function support(): bool {
         return function_exists('exec')
             && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions'))))
             && strtolower(ini_get('safe_mode')) != 1;
     }
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function install() {
         $urls = self::setURLS();
         $url = $urls['url'];

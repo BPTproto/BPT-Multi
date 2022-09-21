@@ -11,12 +11,20 @@ use BPT\tools;
 use BPT\types\update;
 use stdClass;
 
+/**
+ * receiver class , will be used in webhook and getUpdates classes
+ */
 class receiver {
     private static array $handlers = [
         'message' => null,
-        'callback_query' => null,
-        'inline_query' => null,
         'edited_message' => null,
+        'channel_post' => null,
+        'edited_channel_post' => null,
+        'inline_query' => null,
+        'callback_query' => null,
+        'my_chat_member' => null,
+        'chat_member' => null,
+        'chat_join_request' => null,
         'something_else' => null
     ];
 

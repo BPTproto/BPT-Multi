@@ -8,9 +8,15 @@ use BPT\settings;
 use CurlHandle;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * curl class , part of request class for handling request based on curl
+ */
 class curl {
     private static CurlHandle $curl_handler;
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init(string $method,array $data) {
         $info = self::getInfo($data);
         $data = $info['data'];

@@ -12,7 +12,13 @@ use BPT\settings;
 use BPT\tools;
 use CURLFile;
 
+/**
+ * webhook class , for manage and handling webhook setter and getter
+ */
 class webhook extends receiver {
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init () {
         if (settings::$multi) {
             multi::init();
@@ -96,7 +102,7 @@ class webhook extends receiver {
         }
     }
 
-    public static function getSecret() {
+    protected static function getSecret() {
         return $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] ?? false;
     }
 }

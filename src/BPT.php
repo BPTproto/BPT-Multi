@@ -38,6 +38,10 @@ use CURLFile;
 use stdClass;
 
 /**
+ * BPT CLASS
+ * Simple library for handling telegram bot and write it very easily
+ * BOT API version : 6.0
+ *
  * @method update[]|responseError getUpdates (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
  * @method update[]|responseError getUp (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.
  * @method update[]|responseError updates (int|null|array $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). An Array of Update objects is returned.

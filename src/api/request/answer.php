@@ -8,9 +8,15 @@ use BPT\exception\bptException;
 use BPT\logger;
 use BPT\settings;
 
+/**
+ * answer class , part of request class for handling request based on answering to webhook directly
+ */
 class answer {
     private static bool $is_answered = false;
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init(string $method,array $data): bool {
         self::checkAnswered();
         self::checkWebhook();

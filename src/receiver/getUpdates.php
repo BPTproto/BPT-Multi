@@ -10,6 +10,9 @@ use BPT\logger;
 use BPT\settings;
 use BPT\types\update;
 
+/**
+ * getUpdates class , For receiving updates by polling methods
+ */
 class getUpdates extends receiver {
     public static function init () {
         $last_update_id = self::loadData();

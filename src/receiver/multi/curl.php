@@ -10,6 +10,9 @@ use BPT\receiver\webhook;
 use BPT\settings;
 use JetBrains\PhpStorm\ArrayShape;
 
+/**
+ * curl class , for multiprocessing with curl tricks
+ */
 class curl extends webhook {
     public static function init (): string|null {
         if (self::checkIP()) {
@@ -18,6 +21,7 @@ class curl extends webhook {
         else {
             logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
             BPT::exit();
+            return null;
         }
     }
 
@@ -31,6 +35,9 @@ class curl extends webhook {
         return $input['update'];
     }
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function install() {
         $urls = self::setURLS();
         $file = $urls['file'];

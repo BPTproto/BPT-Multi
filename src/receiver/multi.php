@@ -7,7 +7,13 @@ use BPT\logger;
 use BPT\receiver\multi\exec;
 use BPT\receiver\multi\curl;
 
+/**
+ * multi class , for multiprocessing webhook updates
+ */
 class multi extends webhook {
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init() {
         if (lock::exist('BPT-MULTI-EXEC')) {
             self::setUpdate(exec::init());

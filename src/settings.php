@@ -13,6 +13,9 @@ use Error;
 use stdClass;
 use TypeError;
 
+/**
+ * BPT settings class , manage and handle settings and other staff
+ */
 class settings {
     public static string $token = '';
 
@@ -46,6 +49,7 @@ class settings {
 
     public static string $base_url = 'https://api.telegram.org';
 
+    /** @todo , found a usage for this */
     public static string $down_url = 'https://api.telegram.org/file';
 
     public static int $forgot_time = 100;
@@ -56,7 +60,9 @@ class settings {
 
     public static array|null $db = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
 
-
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function init (array|stdClass $settings): void {
         $settings = (array) $settings;
 
@@ -105,6 +111,9 @@ class settings {
         }
     }
 
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
     public static function done(): void {
         if (self::$logger) {
             $estimated = round((microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000,2);
