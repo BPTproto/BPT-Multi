@@ -28,10 +28,8 @@ class receiver {
                     $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
                 }
             }
-            elseif (settings::$arvancloud_verify) {
-                if (isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
-                    $ip = $_SERVER['HTTP_AR_REAL_IP'];
-                }
+            elseif (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
+                $ip = $_SERVER['HTTP_AR_REAL_IP'];
             }
 
             if (!tools::isTelegram($ip ?? '')) {
@@ -57,6 +55,7 @@ class receiver {
         BPT::$update = $update;
         db::process();
         self::processHandler();
+        db::save();
     }
 
     protected static function setMessageExtra (update &$update): void {
@@ -121,6 +120,11 @@ class receiver {
             elseif (isset(BPT::$update->chat_member)) {
                 if (self::handlerExist('chat_member')) {
                     BPT::$handler->chat_member(BPT::$update->chat_member);
+                }
+            }
+            elseif (isset(BPT::$update->chat_join_request)) {
+                if (self::handlerExist('chat_join_request')) {
+                    BPT::$handler->chat_join_request(BPT::$update->chat_join_request);
                 }
             }
             elseif (self::handlerExist('something_else')) {

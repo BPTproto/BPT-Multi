@@ -2,6 +2,9 @@
 
 namespace BPT\constants;
 
+/**
+ * fields class for catchField method in request class(telegram class too)
+ */
 class fields {
     public const CHAT_ID = 'chat_id';
     public const FROM_CHAT_ID = 'from_chat_id';

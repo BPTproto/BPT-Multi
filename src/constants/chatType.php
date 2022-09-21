@@ -17,4 +17,7 @@ class chatType {
 
     /** Chat type is channel */
     public const CHANNEL = 'channel';
+
+    /** Chat type is personal with inline query sender */
+    public const SENDER = 'sender';
 }

@@ -3,7 +3,7 @@
 namespace BPT\constants;
 
 /**
- * types of message entity
+ * class for telegram limits
  */
 class telegramLimits {
     /** Download file limit in Byte. (20 MB). For the moment, bots can download files of up to 20MB in size. */

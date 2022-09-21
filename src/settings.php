@@ -2,11 +2,9 @@
 
 namespace BPT;
 
-use BPT\constants\dbTypes;
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
 use BPT\database\db;
-use BPT\database\json;
 use BPT\exception\bptException;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
@@ -91,9 +89,9 @@ class settings {
             if (tools::isToken(self::$token)) {
                 self::security();
                 self::secureFolder();
-                self::db();
+                db::init();
                 if (!empty(self::$receiver)) {
-                    self::$receiver !== receiver::GETUPDATES ? self::webhook() : self::getUpdates();
+                    self::$receiver !== receiver::GETUPDATES ? webhook::init() : self::getUpdates();
                 }
             }
             else {
@@ -149,10 +147,6 @@ class settings {
         }
     }
 
-    private static function db(): void {
-        db::init();
-    }
-
     private static function getUpdates(): void {
         if (self::$handler) {
             getUpdates::init();
@@ -161,9 +155,5 @@ class settings {
             logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler',loggerTypes::ERROR);
             throw new bptException('GETUPDATE_NEED_HANDLER');
         }
-    }
-
-    private static function webhook(): void {
-        webhook::init();
     }
 }
