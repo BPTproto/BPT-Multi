@@ -1,5 +1,5 @@
 {
-  "name": "bptproto/bpt-multi",
+  "name": "bpt/bpt-multi",
   "description": "A simple library for manage and handle telegram bots(multi file version)",
   "keywords": [
     "bpt",
