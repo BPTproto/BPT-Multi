@@ -58,7 +58,7 @@ class settings {
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 
-    public static array|null $db = ['type' => 'json', 'file_name' => 'BPT-DB.json'];
+    public static array|null $db = ['type' => 'json'];
 
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
