@@ -26,10 +26,10 @@ class db {
                 case dbTypes::JSON:
                     json::init();
                     break;
-                //                case dbTypes::MYSQL:
-                //                    break;
-                //                case dbTypes::MEDOO:
-                //                    break;
+//                case dbTypes::MYSQL:
+//                    break;
+//                case dbTypes::MEDOO:
+//                    break;
                 default:
                     logger::write('DB type is wrong', loggerTypes::ERROR);
                     throw new bptException('DB_TYPE_WRONG');

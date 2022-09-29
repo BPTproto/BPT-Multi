@@ -48,9 +48,7 @@ class answer {
     }
 
     private static function sieveData(array &$data): void {
-        unset($data['token']);
-        unset($data['forgot']);
-        unset($data['return_array']);
+        unset($data['token'],$data['forgot'],$data['return_array']);
 
         foreach ($data as $key=>&$value){
             if (!isset($value)){

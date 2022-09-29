@@ -36,7 +36,7 @@ use BPT\types\{botCommand,
 use CURLFile;
 use BPT\api\request\{answer, curl};
 use BPT\BPT;
-use BPT\constants\{chatActions, loggerTypes, updateTypes};
+use BPT\constants\{chatActions, fields, loggerTypes, updateTypes};
 use BPT\exception\bptException;
 use BPT\logger;
 use stdClass;
@@ -809,8 +809,8 @@ class request {
      */
     public static function catchFields (string $field): int|string|bool {
         switch ($field) {
-            case 'chat_id' :
-            case 'from_chat_id' :
+            case fields::CHAT_ID :
+            case fields::FROM_CHAT_ID :
                 return match (true) {
                     isset(BPT::$update->message) => BPT::$update->message->chat->id,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->id,
@@ -819,7 +819,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->id,
                     default => false
                 };
-            case 'user_id' :
+            case fields::USER_ID :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->from->id,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->id,
@@ -828,14 +828,14 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->id,
                     default => false
                 };
-            case 'message_id' :
+            case fields::MESSAGE_ID :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->message_id,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->message_id,
                     isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->message_id,
                     default => false
                 };
-            case 'file_id' :
+            case fields::FILE_ID :
                 if (isset(BPT::$update->message)) $type = 'message';
                 elseif (isset(BPT::$update->edited_message)) $type = 'edited_message';
                 else return false;
@@ -851,27 +851,27 @@ class request {
                     isset(BPT::$update->$type->voice) => BPT::$update->$type->voice->file_id,
                     default => false
                 };
-            case 'callback_query_id' :
+            case fields::CALLBACK_QUERY_ID :
                 return match (true) {
                     isset(BPT::$update->callback_query) => BPT::$update->callback_query->id,
                     default => false
                 };
-            case 'shipping_query_id' :
+            case fields::SHIPPING_QUERY_ID :
                 return match(true) {
                     isset(BPT::$update->shipping_query) => BPT::$update->shipping_query->id,
                     default => false
                 };
-            case 'pre_checkout_query_id' :
+            case fields::PRE_CHECKOUT_QUERY_ID :
                 return match(true) {
                     isset(BPT::$update->pre_checkout_query) => BPT::$update->pre_checkout_query->id,
                     default => false
                 };
-            case 'inline_query_id' :
+            case fields::INLINE_QUERY_ID :
                 return match(true) {
                     isset(BPT::$update->inline_query) => BPT::$update->inline_query->id,
                     default => false
                 };
-            case 'type' :
+            case fields::TYPE :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->chat->type,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->type,
@@ -879,9 +879,9 @@ class request {
                     isset(BPT::$update->callback_query) => BPT::$update->callback_query->message->chat->type,
                     default => false
                 };
-            case 'action' :
+            case fields::ACTION :
                 return chatActions::TYPING;
-            case 'name' :
+            case fields::NAME :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->from->first_name,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->first_name,
@@ -890,7 +890,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->first_name,
                     default => false
                 };
-            case 'last_name' :
+            case fields::LAST_NAME :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->from->last_name ?? '',
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->last_name ?? '',
@@ -899,7 +899,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->last_name ?? '',
                     default => false
                 };
-            case 'username' :
+            case fields::USERNAME :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->from->username ?? '',
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->from->username ?? '',
@@ -908,7 +908,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->from->username ?? '',
                     default => false
                 };
-            case 'group_name' :
+            case fields::GROUP_NAME :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->chat->first_name,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->first_name,
@@ -916,7 +916,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->first_name,
                     default => false
                 };
-            case 'group_username' :
+            case fields::GROUP_USERNAME :
                 return match(true) {
                     isset(BPT::$update->message) => BPT::$update->message->chat->username,
                     isset(BPT::$update->edited_message) => BPT::$update->edited_message->chat->username,
@@ -924,7 +924,7 @@ class request {
                     isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->chat->username,
                     default => false
                 };
-            case 'update_type' :
+            case fields::UPDATE_TYPE :
                 return match(true) {
                     isset(BPT::$update->message) => updateTypes::MESSAGE,
                     isset(BPT::$update->edited_message) => updateTypes::EDITED_MESSAGE,
@@ -942,7 +942,7 @@ class request {
                     isset(BPT::$update->poll_answer) => updateTypes::POLL_ANSWER,
                     default => false
                 };
-            case 'url' :
+            case fields::URL :
                 return 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
             default:
                 return false;
