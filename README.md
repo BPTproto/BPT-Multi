@@ -1,4 +1,4 @@
-<img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=V" alt="Version 1.0.0"><img src="https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php" alt="PHP +8"><img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey" alt="License MIT">
+<img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=V" alt="Version 1.0.0"> <img src="https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php" alt="PHP +8"> <img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey" alt="License MIT">
 
 ## Table of Contents
 - [Introduction](#introduction)
