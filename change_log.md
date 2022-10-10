@@ -1,0 +1,3 @@
+- 1.0.1
+  - fix set webhook(for BPT itself) bug that cause infinite loop
+  - fix easyKey method bug that make only last row visible

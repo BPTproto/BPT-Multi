@@ -70,6 +70,7 @@ trait generator {
             if (isset($keyboard['one_time'])) {
                 $keyboard_object->setOne_time_keyboard($keyboard['one_time']);
             }
+            $rows = [];
             foreach ($keyboard as $row) {
                 if (!is_array($row)) continue;
                 $buttons = [];
@@ -95,12 +96,14 @@ trait generator {
                     }
                     $buttons[] = $button;
                 }
-                $keyboard_object->setKeyboard([$buttons]);
+                $rows[] = $buttons;
             }
+            $keyboard_object->setKeyboard($rows);
             return $keyboard_object;
         }
         elseif (!empty($inline)) {
             $keyboard_object = new inlineKeyboardMarkup();
+            $rows = [];
             foreach ($inline as $row) {
                 $buttons = [];
                 foreach ($row as $button_info) {
@@ -116,9 +119,11 @@ trait generator {
                     else {
                         $button->setText($button_info[0])->setUrl('https://t.me/BPT_CH');
                     }
+                    $buttons[] = $button;
                 }
-                $keyboard_object->setInline_keyboard([$buttons]);
+                $rows[] = $buttons;
             }
+            $keyboard_object->setInline_keyboard($rows);
             return $keyboard_object;
         }
         else {

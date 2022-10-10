@@ -88,7 +88,7 @@ class webhook extends receiver {
         self::checkURL();
         self::setCertificate();
         $url = self::setURL();
-        $secret = settings::$secret ?? tools::randomString(64);
+        $secret = !empty(settings::$secret) ? settings::$secret : tools::randomString(64);
         self::setWebhook($url,$secret);
         lock::save('BPT-HOOK',$secret);
         BPT::exit('Done');

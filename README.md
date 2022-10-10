@@ -1,4 +1,7 @@
-<img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge&logo=V" alt="Version 1.0.0"> <img src="https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php" alt="PHP +8"> <img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey" alt="License MIT">
+<img src="https://img.shields.io/badge/Version-1.0.1-blue?style=for-the-badge&logo=V" alt="Version 1.0.0">
+<img src="https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php" alt="PHP +8">
+<img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey" alt="License MIT">
+<img src="https://img.shields.io/scrutinizer/quality/g/BPTproto/BPT-Multi?style=for-the-badge" alt="Code Quality 8.27">
 
 ## Table of Contents
 - [Introduction](#introduction)
@@ -79,4 +82,4 @@ See [Here](https://github.com/BPTproto/BPT-Multi/blob/main/feature.md)
 - [You can download the latest version of BPT-Multi here](https://dl.bptlib.ir/BPT-Multi.php).
 - [You can download the latest version of BPT-Multi base here](https://dl.bptlib.ir/base-multi.php).
 - [You can see all of BPT-Multi version here](https://dl.bptlib.ir/BPT-Multi).
-- ~~[Change logs](https://github.com/BPTproto/BPT-Multi/blob/main/change_log.md)~~. it is first version.
+- [Change logs](https://github.com/BPTproto/BPT-Multi/blob/main/change_log.md).
