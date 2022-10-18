@@ -21,4 +21,5 @@ class messageEntityTypes {
     public const PRE = 'pre';
     public const TEXT_LINK = 'text_link';
     public const TEXT_MENTION = 'text_mention';
+    public const CUSTOM_EMOJI = 'custom_emoji';
 }

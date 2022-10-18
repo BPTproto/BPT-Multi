@@ -115,4 +115,30 @@ trait file {
             throw new bptException('ZIP_EXTENSION_MISSING');
         }
     }
+
+    /**
+     * download url and save it to path
+     *
+     * e.g. => tools::downloadFile('http://example.com/exmaple.mp4','movie.mp4');
+     *
+     * @param string $url your url to be downloaded
+     * @param string $path destination path for saving url
+     * @param int $chunk_size size of each chunk of data (in KB)
+     *
+     * @return bool true on success and false in failure
+     */
+    public static function downloadFile (string $url, string $path,int $chunk_size = 512): bool {
+        $file = fopen($url, 'rb');
+        if (!$file) return false;
+        $path = fopen($path, 'wb');
+        if (!$path) return false;
+
+        $length = $chunk_size * 1024;
+        while (!feof($file)){
+            fwrite($path, fread($file, $length), $length);
+        }
+        fclose($path);
+        fclose($file);
+        return true;
+    }
 }

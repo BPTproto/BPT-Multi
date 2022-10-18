@@ -28,6 +28,7 @@ use BPT\types\{botCommand,
     responseError,
     sentWebAppMessage,
     shippingOption,
+    sticker,
     stickerSet,
     update,
     user,
@@ -206,10 +207,13 @@ use stdClass;
  * @method static message|responseError sendSticker (CURLFile|string|array $sticker, int|string|null $chat_id = null, bool|null $disable_notification = null, bool|null $protect_content = null, int|null $reply_to_message_id = null, bool|null $allow_sending_without_reply = null, inlineKeyboardMarkup|replyKeyboardMarkup|replyKeyboardRemove|forceReply|null|stdClass|array $reply_markup = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send stable .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
  * @method static message|responseError sticker (CURLFile|string|array $sticker, int|string|null $chat_id = null, bool|null $disable_notification = null, bool|null $protect_content = null, int|null $reply_to_message_id = null, bool|null $allow_sending_without_reply = null, inlineKeyboardMarkup|replyKeyboardMarkup|replyKeyboardRemove|forceReply|null|stdClass|array $reply_markup = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send stable .WEBP, animated .TGS, or video .WEBM stickers. On success, the sent Message is returned.
  * @method static stickerSet|responseError getStickerSet (string|array $name, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get a sticker set. On success, a StickerSet object is returned.
+ * @method static stickerSet|responseError getSticker (string|array $name, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get a sticker set. On success, a StickerSet object is returned.
+ * @method static sticker[]|responseError getCustomEmojiStickers (string[]|array $custom_emoji_ids, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
+ * @method static sticker[]|responseError getCustomEmoji (string[]|array $custom_emoji_ids, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get information about custom emoji stickers by their identifiers. Returns an Array of Sticker objects.
  * @method static file|responseError uploadStickerFile (CURLFile|array $png_sticker, int|null $user_id = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
  * @method static file|responseError uploadSticker (CURLFile|array $png_sticker, int|null $user_id = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to upload a .PNG file with a sticker for later use in createNewStickerSet and addStickerToSet methods (can be used multiple times). Returns the uploaded File on success.
- * @method static bool|responseError createNewStickerSet (string|array $name, string $title, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, bool|null $contains_masks = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
- * @method static bool|responseError createSticker (string|array $name, string $title, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, bool|null $contains_masks = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
+ * @method static bool|responseError createNewStickerSet (string|array $name, string $title, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, string|null $sticker_type = null, bool|null $contains_masks = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
+ * @method static bool|responseError createSticker (string|array $name, string $title, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, string|null $sticker_type = null, bool|null $contains_masks = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to create a new sticker set owned by a user. The bot will be able to edit the sticker set thus created. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Returns True on success.
  * @method static bool|responseError addStickerToSet (string|array $name, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Stable sticker sets can have up to 120 stickers. Returns True on success.
  * @method static bool|responseError addSticker (string|array $name, string $emojis, int|null $user_id = null, CURLFile|string|null $png_sticker = null, CURLFile|null $tgs_sticker = null, CURLFile|null $webm_sticker = null, maskPosition|null|stdClass|array $mask_position = null, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to add a new sticker to a set created by the bot. You must use exactly one of the fields png_sticker, tgs_sticker, or webm_sticker. Animated stickers can be added to animated sticker sets and only to them. Animated sticker sets can have up to 50 stickers. Stable sticker sets can have up to 120 stickers. Returns True on success.
  * @method static bool|responseError setStickerPositionInSet (string|array $sticker, int $position, string|null $token = null, bool|null $return_array = null, bool|null $forgot = null, bool|null $answer = null) Use this method to move a sticker in a set created by the bot to a specific position. Returns True on success.
@@ -522,8 +526,9 @@ class request {
         'deleteMessage'                   => ['chat_id','message_id','token','return_array','forgot','answer'],
         'sendSticker'                     => ['sticker','chat_id','disable_notification','protect_content','reply_to_message_id','allow_sending_without_reply','reply_markup','token','return_array','forgot','answer'],
         'getStickerSet'                   => ['name','token','return_array','forgot','answer'],
+        "getCustomEmojiStickers"          => ["custom_emoji_ids", "token", "return_array", "forgot", "answer"],
         'uploadStickerFile'               => ['png_sticker','user_id','token','return_array','forgot','answer'],
-        'createNewStickerSet'             => ['name','title','emojis','user_id','png_sticker','tgs_sticker','webm_sticker','contains_masks','mask_position','token','return_array','forgot','answer'],
+        'createNewStickerSet'             => ['name','title','emojis','user_id','png_sticker','tgs_sticker','webm_sticker','sticker_type','contains_masks','mask_position','token','return_array','forgot','answer'],
         'addStickerToSet'                 => ['name','emojis','user_id','png_sticker','tgs_sticker','webm_sticker','mask_position','token','return_array','forgot','answer'],
         'setStickerPositionInSet'         => ['sticker','position','token','return_array','forgot','answer'],
         'deleteStickerFromSet'            => ['sticker','token','return_array','forgot','answer'],
@@ -688,6 +693,7 @@ class request {
         'stopPoll' => 'BPT\types\poll',
         'sendSticker' => 'BPT\types\message',
         'getStickerSet' => 'BPT\types\stickerSet',
+        "getCustomEmojiStickers" => ['BPT\types\sticker'],
         'uploadStickerFile' => 'BPT\types\file',
         'answerWebAppQuery' => 'BPT\types\sentWebAppMessage',
         'sendInvoice' => 'BPT\types\message',
@@ -695,7 +701,6 @@ class request {
         'setGameScore' => 'BPT\types\message',
         'getGameHighScores' => ['BPT\types\gameHighScore']
     ];
-
 
     public static function __callStatic (string $name, array $arguments) {
         if ($action = self::methodAction($name)) {
@@ -706,7 +711,11 @@ class request {
                 return answer::init($action,$arguments);
             }
             else {
-                return self::processResponse($action,curl::init($action,$arguments));
+                $result = curl::init($action,$arguments);
+                if (is_object($result)) {
+                    return self::processResponse($action,$result);
+                }
+                return false;
             }
         }
         else {

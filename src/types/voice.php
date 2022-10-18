@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\api\telegram;
 use stdClass;
 
 /**
@@ -38,5 +39,24 @@ class voice extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    /**
+     * download this file and save it in destination
+     *
+     * if destination doesn't set , it will save in `file_name` file
+     *
+     * It has 20MB download limit(same as telegram)
+     *
+     * e.g. => $voice->download();
+     *
+     * e.g. => $voice->download('test.ogg');
+     *
+     * @param string|null $destination destination for save the file
+     *
+     * @return bool|string string will be returned when destination doesn't set
+     */
+    public function download(string|null $destination = null): bool|string {
+        return telegram::downloadFile($destination ?? 'unknown.ogg',$this->file_id);
     }
 }

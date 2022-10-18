@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\api\telegram;
 use stdClass;
 
 /**
@@ -40,5 +41,25 @@ class chatPhoto extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    /**
+     * download this file and save it in destination
+     *
+     * if destination doesn't set , it will return the downloaded file(as string)
+     *
+     * It has 20MB download limit(same as telegram)
+     *
+     * e.g. => $photo->download();
+     *
+     * e.g. => $photo->download('test.mp4');
+     *
+     * @param string|null $destination destination for save the file
+     * @param bool $big select big or small photo to download
+     *
+     * @return bool|string string will be returned when destination doesn't set
+     */
+    public function download(string|null $destination = null,bool $big = true): bool|string {
+        return telegram::downloadFile($destination ?? $this->file_name ?? 'unknown.mp4',$big ? $this->big_file_id : $this->small_file_id);
     }
 }

@@ -1,7 +1,9 @@
-<img src="https://img.shields.io/badge/Version-1.0.1-blue?style=for-the-badge&logo=V" alt="Version 1.0.0">
-<img src="https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php" alt="PHP +8">
-<img src="https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey" alt="License MIT">
-<img src="https://img.shields.io/scrutinizer/quality/g/BPTproto/BPT-Multi?style=for-the-badge" alt="Code Quality 8.27">
+[![API Version](https://img.shields.io/badge/Bot%20API-6.2%20(August%202022)-32a2da?style=for-the-badge&logo=V)](https://core.telegram.org/bots/api#june-20-2022)
+[![Version](https://img.shields.io/badge/Version-1.1.0-blue?style=for-the-badge&logo=V)](https://packagist.org/packages/bpt/bpt-multi)
+[![PHP](https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php)](https://php.net/)
+[![License](https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey)](https://github.com/php-telegram-bot/core/LICENSE)
+[![Code Quality](https://img.shields.io/scrutinizer/quality/g/BPTproto/BPT-Multi?style=for-the-badge&logo=Quantcast)](https://scrutinizer-ci.com/g/BPTproto/BPT-Multi/)
+[![Telegram channel](https://img.shields.io/badge/telegram-@bpt__ch-64659d?style=for-the-badge&logo=telegram)](https://t.me/bpt_ch)
 
 ## Table of Contents
 - [Introduction](#introduction)

@@ -6,7 +6,6 @@ use BPT\constants\loggerTypes;
 use BPT\logger;
 use BPT\settings;
 use CurlHandle;
-use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * curl class , part of request class for handling request based on curl
@@ -70,7 +69,7 @@ class curl {
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 5000);
         }
         else{
-            curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 300);
+            curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, settings::$base_timeout);
         }
     }
 

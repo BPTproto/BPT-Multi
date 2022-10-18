@@ -49,10 +49,11 @@ class settings {
 
     public static string $base_url = 'https://api.telegram.org';
 
-    /** @todo , found a usage for this */
     public static string $down_url = 'https://api.telegram.org/file';
 
     public static int $forgot_time = 100;
+
+    public static int $base_timeout = 300;
 
     public static string $receiver = receiver::WEBHOOK;
 
