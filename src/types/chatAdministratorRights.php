@@ -63,6 +63,9 @@ class chatAdministratorRights extends types {
     /** Optional. True, if the user is allowed to pin messages; groups and supergroups only */
     public bool $can_pin_messages;
 
+    /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only */
+    public bool $can_manage_topics;
+
 
     public function __construct(stdClass|null $object = null) {
         if ($object != null) {

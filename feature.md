@@ -8,24 +8,25 @@
 
 ### 4- A lot of syntax for calling Telegram methods
 Methods are case-insensitive but IDE guides only applied to original methods<br>
-Example :
+Examples :
 
 * `telegram::sendMessage('hello');`
-* `telegram::sendMessage(['text' => 'hello']);`
-* `telegram::sendMessage(text: 'hello']); //php 8 new syntax supported too`
 * `request::sendMessage('hello');`
+* `BPT::sendMessage('hello');`
 * `$this->sendMessage('hello'); //in handler class`
 * `$BPT->sendMessage('hello'); //$BPT is an object of BPT class`
+* `telegram::sendMessage(['text' => 'hello']); All of above examples support this format too`
+* `telegram::sendMessage(text: 'hello'); All of above examples support this format too`
 
 ### 5- A lot alices name for Telegram methods
 Alices are case-insensitive but IDE guides only applied to original methods<br>
-Example :
+Examples :
 
 * `sendMessage` => `send`
 * `sendDocument` => `senddoc` `document` `doc`
 
 ### 6- Autofill methods arguments based on update
-Example :
+Examples :
 * `sendMessage` => `chat_id`
 * `copyMessage` => `from_chat_id` `message_id`
 
@@ -55,7 +56,7 @@ See this for more info [tools class](#tools-class)
 #### `json class`
 json class is there for manage and use json database<br>
 There is a lot of properties and methods for making your job easier<br>
-Example :
+Examples :
 
 - `user` property which has user data in private chat
 - `supergroup` property which has supergroup data
@@ -65,7 +66,8 @@ Example :
 #### `tools class`
 tools class is there for adding extra methods<br>
 These methods will help you to do some easy~difficult things with only one call<br>
-Example :
+Examples :
+
 - `modeEscape` method for escaping text with wanted parse mode
 - `delete` method for deleting file or folder (even folder with subFiles)
 - `randomString` method for generating random string
@@ -77,12 +79,14 @@ for now its only has one function
 
 `object` function for creating objects easily
 
-example :
+Examples :
+
 `object(key: 'value');`
 
 #### constants classes
 a lot of classes for simplify some texts and params and names
-Example :
+Examples :
+
 - `chatActions` for chat actions like typing or ...
 - `chatType` for chat type like privates or ...
 - `fields` for catchField method like chat_id or ...

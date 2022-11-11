@@ -55,6 +55,9 @@ class chatPermissions extends types {
     /** Optional. True, if the user is allowed to pin messages. Ignored in public supergroups */
     public bool $can_pin_messages;
 
+    /** Optional. True, if the user is allowed to create forum topics. If omitted defaults to the value of can_pin_messages */
+    public bool $can_manage_topics;
+
 
     public function __construct(stdClass|null $object = null) {
         if ($object != null) {

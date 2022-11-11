@@ -1,55 +1,56 @@
 {
-  "name": "bpt/bpt-multi",
-  "description": "A simple library for manage and handle telegram bots(multi file version)",
-  "keywords": [
-    "bpt",
-    "bptproto",
-    "bptlib",
-    "bpt library",
-    "telegram",
-    "telegram api",
-    "bot",
-    "bots",
-    "robot",
-    "api"
-  ],
-  "homepage": "https://bptlib.ir",
-  "time": "2022-10-18",
-  "license": "MIT",
-  "authors": [
-    {
-      "name": "Miaad Sadeghloo",
-      "email": "miaadps@gmail.com",
-      "role": "Developer",
-      "homepage": "https://miaadp.ir"
-    },
-    {
-      "name": "Alireza",
-      "email": "alighafurgh82@gmail.com"
-    }
-  ],
-  "support": {
-    "email": "support@bptlib.ir",
-    "issues": "https://github.com/BPTproto/BPT-Multi/issues",
-    "source": "https://github.com/BPTproto/BPT-Multi"
-  },
-  "require": {
-    "php": ">=8.0",
-    "ext-mbstring": "*"
-  },
-  "suggest": {
-    "ext-zip": "Needed for using zip method in tools class",
-    "ext-openssl": "Needed for using crypto method in tools class"
-  },
-  "autoload": {
-    "psr-4": {
-      "BPT\\": "src/"
-    },
-    "files": [
-      "src/functions.php"
-    ]
-  },
-  "config": {
-    "classmap-authoritative": true
-  }
+	"name": "bpt/bpt-multi",
+	"description": "A simple library for manage and handle telegram bots(multi file version)",
+	"keywords": [
+		"bpt",
+		"bptproto",
+		"bptlib",
+		"bpt library",
+		"telegram",
+		"telegram api",
+		"bot",
+		"bots",
+		"robot",
+		"api"
+	],
+	"homepage": "https://bptlib.ir",
+	"time": "2022-11-11",
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Miaad Sadeghloo",
+			"email": "miaadps@gmail.com",
+			"role": "Developer",
+			"homepage": "https://miaadp.ir"
+		},
+		{
+			"name": "Alireza",
+			"email": "alighafurgh82@gmail.com"
+		}
+	],
+	"support": {
+		"email": "support@bptlib.ir",
+		"issues": "https://github.com/BPTproto/BPT-Multi/issues",
+		"source": "https://github.com/BPTproto/BPT-Multi"
+	},
+	"require": {
+		"php": ">=8.0",
+		"ext-mbstring": "*",
+		"ext-curl": "*"
+	},
+	"suggest": {
+		"ext-zip": "Needed for using zip method in tools class",
+		"ext-openssl": "Needed for using crypto method in tools class"
+	},
+	"autoload": {
+		"psr-4": {
+			"BPT\\": "src/"
+		},
+		"files": [
+			"src/functions.php"
+		]
+	},
+	"config": {
+		"classmap-authoritative": true
+	}
 }

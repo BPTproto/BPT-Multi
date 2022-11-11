@@ -63,6 +63,12 @@ class chatMember extends types {
 
     /** `administrator` and `restricted` only. Optional. True, if the user is allowed to pin messages; groups and supergroups only */
     public bool $can_pin_messages;
+    /**
+     * `administrator` : Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
+     *
+     * `restricted` : True, if the user is allowed to create forum topics
+     */
+    public bool $can_manage_topics;
 
     /** `restricted` only. True, if the user is a member of the chat at the moment of the request */
     public bool $is_member;

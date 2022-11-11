@@ -9,12 +9,7 @@ use BPT\tools;
  */
 class telegram extends request {
     public function __call (string $name, array $arguments) {
-        if (!isset($arguments[1]) && isset($arguments[0]) && is_array($arguments[0])) {
-            return request::$name(...$arguments[0]);
-        }
-        else {
-            return request::$name(...$arguments);
-        }
+        return request::$name(...$arguments);
     }
 
     /**
@@ -31,11 +26,11 @@ class telegram extends request {
      *
      * @return bool
      */
-    public static function downloadFile(string|null $destination = null, string|null $file_id = null): bool {
-        $file = telegram::getFile();
+    public static function downloadFile (string|null $destination = null, string|null $file_id = null): bool {
+        $file = telegram::getFile($file_id);
         if (isset($file->file_path)) {
-            $file_path = settings::$down_url.'bot'.settings::$token.'/'.$file->file_path;
-            return tools::downloadFile($file_path,$destination);
+            $file_path = settings::$down_url . 'bot' . settings::$token . '/' . $file->file_path;
+            return tools::downloadFile($file_path, $destination);
         }
         else {
             return false;

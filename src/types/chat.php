@@ -38,8 +38,17 @@ class chat extends types {
     /** Optional. Last name of the other party in a private chat */
     public string $last_name;
 
+    /** Optional. True, if the supergroup chat is a forum (has topics enabled) */
+    public bool $is_forum;
+
     /** Optional. Chat photo. Returned only in getChat. */
     public chatPhoto $photo;
+
+    /** Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat. */
+    public array $active_usernames;
+
+    /** Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat. */
+    public string $emoji_status_custom_emoji_id;
 
     /** Optional. Bio of the other party in a private chat. Returned only in getChat. */
     public string $bio;

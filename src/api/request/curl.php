@@ -65,7 +65,7 @@ class curl {
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, settings::$forgot_time);
             unset($data['forgot']);
         }
-        elseif ($method === 'getUpdates'){
+        elseif ($method === 'getUpdates' || $method === 'setWebhook'){
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 5000);
         }
         else{
