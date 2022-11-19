@@ -19,15 +19,18 @@ class types {
                 $this->$key = new ($subs[$key]) ($value);
             }
             else {
-                if (is_array($value)) {
+                if (is_array($value) && isset($subs['array'])) {
                     foreach ($value as $sub_key=>$sub_value) {
-                        if (is_array($sub_value)) {
+                        if (is_array($sub_value) && isset($subs['array']['array'])) {
                             foreach ($sub_value as $sub2_value) {
                                 $this->$key[$sub_key][] = new ($subs['array']['array'][$key]) ($sub2_value);
                             }
                         }
-                        else{
+                        elseif(isset($subs['array'][$key])){
                             $this->$key[] = new ($subs['array'][$key]) ($sub_value);
+                        }
+                        else {
+                            $this->$key[] = $sub_value;
                         }
                     }
                 }

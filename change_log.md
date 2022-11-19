@@ -12,4 +12,5 @@
 - 1.2.0
   - Move to api version 6.3
   - Fixed telegram method call with one array data
-  
+- 1.2.1
+  - Fixed bug for methods contains chat class as they return value
