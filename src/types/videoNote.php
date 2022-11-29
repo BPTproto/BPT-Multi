@@ -28,10 +28,10 @@ class videoNote extends types {
     public int $duration;
 
     /** Optional. Video thumbnail */
-    public photoSize $thumb;
+    public null|photoSize $thumb = null;
 
     /** Optional. File size in bytes */
-    public int $file_size;
+    public null|int $file_size = null;
 
 
     public function __construct(stdClass|null $object = null) {

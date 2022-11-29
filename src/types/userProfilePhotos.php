@@ -18,7 +18,7 @@ class userProfilePhotos extends types {
      * Requested profile pictures (in up to 4 sizes each)
      * @var photoSize[][]
      */
-    public array $photos;
+    public array $photos = [];
 
 
     public function __construct(stdClass|null $object = null) {

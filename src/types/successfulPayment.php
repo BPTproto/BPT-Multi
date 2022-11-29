@@ -25,10 +25,10 @@ class successfulPayment extends types {
     public string $invoice_payload;
 
     /** Optional. Identifier of the shipping option chosen by the user */
-    public string $shipping_option_id;
+    public null|string $shipping_option_id = null;
 
     /** Optional. Order information provided by the user */
-    public orderInfo $order_info;
+    public null|orderInfo $order_info = null;
 
     /** Telegram payment identifier */
     public string $telegram_payment_charge_id;

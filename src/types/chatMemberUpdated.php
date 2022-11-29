@@ -36,7 +36,7 @@ class chatMemberUpdated extends types {
      * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events
      * only.
      */
-    public chatInviteLink $invite_link;
+    public null|chatInviteLink $invite_link = null;
 
 
     public function __construct(stdClass|null $object = null) {

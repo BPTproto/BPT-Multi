@@ -25,10 +25,10 @@ class chatJoinRequest extends types {
     public int $date;
 
     /** Optional. Bio of the user. */
-    public string $bio;
+    public null|string $bio = null;
 
     /** Optional. Chat invite link that was used by the user to send the join request */
-    public chatInviteLink $invite_link;
+    public null|chatInviteLink $invite_link = null;
 
 
     public function __construct(stdClass|null $object = null) {

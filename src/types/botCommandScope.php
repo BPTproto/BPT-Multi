@@ -22,10 +22,10 @@ class botCommandScope extends types {
     /**
      * `chat` and `chat_administrators` and `chat_member` only. Unique identifier for the target chat or username of the target supergroup (in the format supergroupusername)
      */
-    public int $chat_id;
+    public null|int $chat_id = null;
 
     /** `chat_member` only. Unique identifier of the target user */
-    public int $user_id;
+    public null|int $user_id = null;
 
 
     public function __construct(stdClass|null $object = null) {

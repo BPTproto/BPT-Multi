@@ -38,31 +38,31 @@ class sticker extends types {
     public int $height;
 
     /** True, if the sticker is animated */
-    public bool $is_animated;
+    public null|bool $is_animated = null;
 
     /** True, if the sticker is a video sticker */
-    public bool $is_video;
+    public null|bool $is_video = null;
 
     /** Optional. Sticker thumbnail in the .WEBP or .JPG format */
-    public photoSize $thumb;
+    public null|photoSize $thumb = null;
 
     /** Optional. Emoji associated with the sticker */
-    public string $emoji;
+    public null|string $emoji = null;
 
     /** Optional. Name of the sticker set to which the sticker belongs */
-    public string $set_name;
+    public null|string $set_name = null;
 
     /** Optional. Premium animation for the sticker, if the sticker is premium */
-    public file $premium_animation;
+    public null|file $premium_animation = null;
 
     /** Optional. For mask stickers, the position where the mask should be placed */
-    public maskPosition $mask_position;
+    public null|maskPosition $mask_position = null;
 
     /** Optional. For custom emoji stickers, unique identifier of the custom emoji */
-    public string $custom_emoji_id;
+    public null|string $custom_emoji_id = null;
 
     /** Optional. File size in bytes */
-    public int $file_size;
+    public null|int $file_size = null;
 
 
     public function __construct(stdClass|null $object = null) {

@@ -28,7 +28,7 @@ class photoSize extends types {
     public int $height;
 
     /** Optional. File size in bytes */
-    public int $file_size;
+    public null|int $file_size = null;
 
 
     public function __construct(stdClass|null $object = null) {

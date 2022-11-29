@@ -46,61 +46,61 @@ class update extends types {
     public int $update_id;
 
     /** Optional. New incoming message of any kind - text, photo, sticker, etc. */
-    public message $message;
+    public null|message $message = null;
 
     /** Optional. New version of a message that is known to the bot and was edited */
-    public message $edited_message;
+    public null|message $edited_message = null;
 
     /** Optional. New incoming channel post of any kind - text, photo, sticker, etc. */
-    public message $channel_post;
+    public null|message $channel_post = null;
 
     /** Optional. New version of a channel post that is known to the bot and was edited */
-    public message $edited_channel_post;
+    public null|message $edited_channel_post = null;
 
     /** Optional. New incoming inline query */
-    public inlineQuery $inline_query;
+    public null|inlineQuery $inline_query = null;
 
     /**
      * Optional. The result of an inline query that was chosen by a user and sent to their chat partner. Please see
      * our documentation on the feedback collecting for details on how to enable these updates for your bot.
      */
-    public chosenInlineResult $chosen_inline_result;
+    public null|chosenInlineResult $chosen_inline_result = null;
 
     /** Optional. New incoming callback query */
-    public callbackQuery $callback_query;
+    public null|callbackQuery $callback_query = null;
 
     /** Optional. New incoming shipping query. Only for invoices with flexible price */
-    public shippingQuery $shipping_query;
+    public null|shippingQuery $shipping_query = null;
 
     /** Optional. New incoming pre-checkout query. Contains full information about checkout */
-    public preCheckoutQuery $pre_checkout_query;
+    public null|preCheckoutQuery $pre_checkout_query = null;
 
     /** Optional. New poll state. Bots receive only updates about stopped polls and polls, which are sent by the bot */
-    public poll $poll;
+    public null|poll $poll = null;
 
     /**
      * Optional. A user changed their answer in a non-anonymous poll. Bots receive new votes only in polls that were
      * sent by the bot itself.
      */
-    public pollAnswer $poll_answer;
+    public null|pollAnswer $poll_answer = null;
 
     /**
      * Optional. The bot's chat member status was updated in a chat. For private chats, this update is received only
      * when the bot is blocked or unblocked by the user.
      */
-    public chatMemberUpdated $my_chat_member;
+    public null|chatMemberUpdated $my_chat_member = null;
 
     /**
      * Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must
      * explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
      */
-    public chatMemberUpdated $chat_member;
+    public null|chatMemberUpdated $chat_member = null;
 
     /**
      * Optional. A request to join the chat has been sent. The bot must have the can_invite_users administrator right
      * in the chat to receive these updates.
      */
-    public chatJoinRequest $chat_join_request;
+    public null|chatJoinRequest $chat_join_request = null;
 
 
     public function __construct(stdClass|null $object = null) {

@@ -30,10 +30,10 @@ class inlineQuery extends types {
      * should be always known for requests sent from official clients and most third-party clients, unless the
      * request was sent from a secret chat
      */
-    public string $chat_type;
+    public null|string $chat_type = null;
 
     /** Optional. Sender location, only for bots that request user location */
-    public location $location;
+    public null|location $location = null;
 
 
     public function __construct(stdClass|null $object = null) {

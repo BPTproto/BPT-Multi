@@ -21,19 +21,19 @@ class venue extends types {
     public string $address;
 
     /** Optional. Foursquare identifier of the venue */
-    public string $foursquare_id;
+    public null|string $foursquare_id = null;
 
     /**
      * Optional. Foursquare type of the venue. (For example, “arts_entertainment/default”,
      * “arts_entertainment/aquarium” or “food/icecream”.)
      */
-    public string $foursquare_type;
+    public null|string $foursquare_type = null;
 
     /** Optional. Google Places identifier of the venue */
-    public string $google_place_id;
+    public null|string $google_place_id = null;
 
     /** Optional. Google Places type of the venue. (See supported types.) */
-    public string $google_place_type;
+    public null|string $google_place_type = null;
 
 
     public function __construct(stdClass|null $object = null) {

@@ -32,16 +32,16 @@ class game extends types {
      * edited to include current high scores for the game when the bot calls setGameScore, or manually edited using
      * editMessageText. 0-4096 characters.
      */
-    public string $text;
+    public null|string $text = null;
 
     /**
      * Optional. Special entities that appear in text, such as usernames, URLs, bot commands, etc.
      * @var messageEntity[]
      */
-    public array $text_entities;
+    public null|array $text_entities = null;
 
     /** Optional. Animation that will be displayed in the game message in chats. Upload via BotFather */
-    public animation $animation;
+    public null|animation $animation = null;
 
 
     public function __construct(stdClass|null $object = null) {

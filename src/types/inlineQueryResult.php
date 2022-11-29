@@ -99,25 +99,25 @@ class inlineQueryResult extends types {
     public string $id;
 
     /** all types except `contact` and `sticker` and `game` and `cashedAudio`. Title */
-    public string $title;
+    public null|string $title = null;
 
     /** all types except `contact`. Content of the message to be sent */
-    public inputMessageContent $input_message_content;
+    public null|inputMessageContent $input_message_content = null;
 
     /** Optional. Inline keyboard attached to the message */
-    public inlineKeyboardMarkup $reply_markup;
+    public null|inlineKeyboardMarkup $reply_markup = null;
 
     /** `article` only. Optional. URL of the result */
-    public string $url;
+    public null|string $url = null;
 
     /** `article` only. Optional. Pass True, if you don't want the URL to be shown in the message */
-    public bool $hide_url;
+    public null|bool $hide_url = null;
 
     /**
      * `article` and `photo` and `video` and `document` and `cachedPhoto` and `cachedDocument` and `cachedVideo` only.
      * Short description of the result
      */
-    public string $description;
+    public null|string $description = null;
 
     /**
      * `article` and `photo` and `gif` and `mpeg4Gif` and `video` and `document` and `location` and `venue` and `contact` only.
@@ -127,36 +127,36 @@ class inlineQueryResult extends types {
      *
      * `video` and `document` could be jpeg only
      */
-    public string $thumb_url;
+    public null|string $thumb_url = null;
 
     /** `article` and `document` and `location` and `venue` and `contact` only. Optional. Thumbnail width */
-    public int $thumb_width;
+    public null|int $thumb_width = null;
 
     /** `article` and `document` and `location` and `venue` and `contact` only. Optional. Thumbnail height */
-    public int $thumb_height;
+    public null|int $thumb_height = null;
 
     /** `photo` only. A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB */
-    public string $photo_url;
+    public null|string $photo_url = null;
 
     /** `photo` only. Optional. Width of the photo */
-    public int $photo_width;
+    public null|int $photo_width = null;
 
     /** `photo` only. Optional. Height of the photo */
-    public int $photo_height;
+    public null|int $photo_height = null;
 
     /**
      * `photo` and `gif` and `mpeg4Gif` and `video` and `audio` and `voice` and `document` and `cachedPhoto` and
      * `cachedGif` and `cachedMpeg4Gif` and `cachedDocument` and `cachedVideo` and `cachedVoice` and `cachedAudio` only.
      * Optional. Caption, 0-1024 characters after entities parsing
      */
-    public string $caption;
+    public null|string $caption = null;
 
     /**
      * `photo` and `gif` and `mpeg4Gif` and `video` and `audio` and `voice` and `document` and `cachedPhoto` and
      * `cachedGif` and `cachedMpeg4Gif` and `cachedDocument` and `cachedVideo` and `cachedVoice` and `cachedAudio` only.
      * Optional. Mode for parsing entities in the caption. See formatting options for more details.
      */
-    public string $parse_mode;
+    public null|string $parse_mode = null;
 
     /**
      * `photo` and `gif` and `mpeg4Gif` and `video` and `audio` and `voice` and `document` and `cachedPhoto` and
@@ -164,37 +164,37 @@ class inlineQueryResult extends types {
      * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
      * @var messageEntity[]
      */
-    public array $caption_entities;
+    public null|array $caption_entities = null;
 
     /** `gif` only. A valid URL for the GIF file. File size must not exceed 1MB */
-    public string $gif_url;
+    public null|string $gif_url = null;
 
     /** `gif` only. Optional. Width of the GIF */
-    public int $gif_width;
+    public null|int $gif_width = null;
 
     /** `gif` only. Optional. Height of the GIF */
-    public int $gif_height;
+    public null|int $gif_height = null;
 
     /** `gif` only. Optional. Duration of the GIF in seconds */
-    public int $gif_duration;
+    public null|int $gif_duration = null;
 
     /** `gif` and `mpeg4Gif` only. could be `application/pdf` or `application/zip` or `video/mp4`. default : `image/jpeg` */
-    public string $thumb_mime_type;
+    public null|string $thumb_mime_type = null;
 
     /** `mpeg4Gif` only. A valid URL for the MPEG4 file. File size must not exceed 1MB */
-    public string $mpeg4_url;
+    public null|string $mpeg4_url = null;
 
     /** `mpeg4Gif` only. Optional. Video width */
-    public int $mpeg4_width;
+    public null|int $mpeg4_width = null;
 
     /** `mpeg4Gif` only. Optional. Video height */
-    public int $mpeg4_height;
+    public null|int $mpeg4_height = null;
 
     /** `mpeg4Gif` only. Optional. Video duration in seconds */
-    public int $mpeg4_duration;
+    public null|int $mpeg4_duration = null;
 
     /** `video` only. A valid URL for the embedded video player or video file */
-    public string $video_url;
+    public null|string $video_url = null;
 
     /**
      * `video` or `document` only. MIME type of the content
@@ -203,115 +203,115 @@ class inlineQueryResult extends types {
      *
      * `document` could be `application/pdf` or `application/zip`
      */
-    public string $mime_type;
+    public null|string $mime_type = null;
 
     /** `video` only. Optional. Video width */
-    public int $video_width;
+    public null|int $video_width = null;
 
     /** `video` only. Optional. Video height */
-    public int $video_height;
+    public null|int $video_height = null;
 
     /** `video` only. Optional. Video duration in seconds */
-    public int $video_duration;
+    public null|int $video_duration = null;
 
     /** `audio` only. A valid URL for the audio file */
-    public string $audio_url;
+    public null|string $audio_url = null;
 
     /** `audio` only. Optional. Performer */
-    public string $performer;
+    public null|string $performer = null;
 
     /** `audio` only. Optional. Audio duration in seconds */
-    public int $audio_duration;
+    public null|int $audio_duration = null;
 
     /** `voice` only. A valid URL for the voice recording */
-    public string $voice_url;
+    public null|string $voice_url = null;
 
     /** `voice` only. Optional. Recording duration in seconds */
-    public int $voice_duration;
+    public null|int $voice_duration = null;
 
     /** `document` only. A valid URL for the file */
-    public string $document_url;
+    public null|string $document_url = null;
 
     /** `location` and `venue` only. latitude in degrees */
-    public float $latitude;
+    public null|float $latitude = null;
 
     /** `location` and `venue` only. longitude in degrees */
-    public float $longitude;
+    public null|float $longitude = null;
 
     /** `location` only. Optional. The radius of uncertainty for the location, measured in meters; 0-1500 */
-    public float $horizontal_accuracy;
+    public null|float $horizontal_accuracy = null;
 
     /** `location` only. Optional. Period in seconds for which the location can be updated, should be between 60 and 86400. */
-    public int $live_period;
+    public null|int $live_period = null;
 
     /**
      * `location` only. Optional. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360
      * if specified.
      */
-    public int $heading;
+    public null|int $heading = null;
 
     /**
      * `location` only. Optional. For live locations, a maximum distance for proximity alerts about approaching another chat member,
      * in meters. Must be between 1 and 100000 if specified.
      */
-    public int $proximity_alert_radius;
+    public null|int $proximity_alert_radius = null;
 
     /** `venue` only. Address of the venue */
-    public string $address;
+    public null|string $address = null;
 
     /** `venue` only. Optional. Foursquare identifier of the venue if known */
-    public string $foursquare_id;
+    public null|string $foursquare_id = null;
 
     /**
      * `venue` only. Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
      * “arts_entertainment/aquarium” or “food/icecream”.)
      */
-    public string $foursquare_type;
+    public null|string $foursquare_type = null;
 
     /** `venue` only. Optional. Google Places identifier of the venue */
-    public string $google_place_id;
+    public null|string $google_place_id = null;
 
     /** `venue` only. Optional. Google Places type of the venue. (See supported types.) */
-    public string $google_place_type;
+    public null|string $google_place_type = null;
 
     /** `contact` only. Contact's phone number */
-    public string $phone_number;
+    public null|string $phone_number = null;
 
     /** `contact` only. Contact's first name */
-    public string $first_name;
+    public null|string $first_name = null;
 
     /** `contact` only. Optional. Contact's last name */
-    public string $last_name;
+    public null|string $last_name = null;
 
     /** `contact` only. Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes */
-    public string $vcard;
+    public null|string $vcard = null;
 
     /** `game` only. Short name of the game */
-    public string $game_short_name;
+    public null|string $game_short_name = null;
 
     /** `cachedPhoto` only. A valid file identifier of the photo */
-    public string $photo_file_id;
+    public null|string $photo_file_id = null;
 
     /** `cachedGif` only. A valid file identifier for the GIF file */
-    public string $gif_file_id;
+    public null|string $gif_file_id = null;
 
     /** `cachedMpeg4Gif` only. A valid file identifier for the MPEG4 file */
-    public string $mpeg4_file_id;
+    public null|string $mpeg4_file_id = null;
 
     /** `cachedSticker` only. A valid file identifier of the sticker */
-    public string $sticker_file_id;
+    public null|string $sticker_file_id = null;
 
     /** `cachedDocument` only. A valid file identifier for the file */
-    public string $document_file_id;
+    public null|string $document_file_id = null;
 
     /** `cachedVideo` only. A valid file identifier for the video file */
-    public string $video_file_id;
+    public null|string $video_file_id = null;
 
     /** `cachedVoice` only. A valid file identifier for the voice message */
-    public string $voice_file_id;
+    public null|string $voice_file_id = null;
 
     /** `cachedAudio` only. A valid file identifier for the audio file */
-    public string $audio_file_id;
+    public null|string $audio_file_id = null;
 
 
     public function __construct(stdClass|null $object = null) {

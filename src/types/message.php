@@ -62,13 +62,13 @@ class message extends types {
     public int $message_id;
 
     /** Optional. Unique identifier of a message thread to which the message belongs; for supergroups only */
-    public int $message_thread_id;
+    public null|int $message_thread_id = null;
 
     /**
      * Optional. Sender of the message; empty for messages sent to channels. For backward compatibility, the field
      * contains a fake sender user in non-channel chats, if the message was sent on behalf of a chat.
      */
-    public user $from;
+    public null|user $from = null;
 
     /**
      * Optional. Sender of the message, sent on behalf of a chat. For example, the channel itself for channel posts,
@@ -76,7 +76,7 @@ class message extends types {
      * automatically forwarded to the discussion group. For backward compatibility, the field from contains a fake
      * sender user in non-channel chats, if the message was sent on behalf of a chat.
      */
-    public chat $sender_chat;
+    public null|chat $sender_chat = null;
 
     /** Date the message was sent in Unix time */
     public int $date;
@@ -85,185 +85,185 @@ class message extends types {
     public chat $chat;
 
     /** Optional. For forwarded messages, sender of the original message */
-    public user $forward_from;
+    public null|user $forward_from = null;
 
     /**
      * Optional. For messages forwarded from channels or from anonymous administrators, information about the
      * original sender chat
      */
-    public chat $forward_from_chat;
+    public null|chat $forward_from_chat = null;
 
     /** Optional. For messages forwarded from channels, identifier of the original message in the channel */
-    public int $forward_from_message_id;
+    public null|int $forward_from_message_id = null;
 
     /**
      * Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator,
      * signature of the message sender if present
      */
-    public string $forward_signature;
+    public null|string $forward_signature = null;
 
     /**
      * Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
      * forwarded messages
      */
-    public string $forward_sender_name;
+    public null|string $forward_sender_name = null;
 
     /** Optional. For forwarded messages, date the original message was sent in Unix time */
-    public int $forward_date;
+    public null|int $forward_date = null;
 
     /** Optional. True, if the message is sent to a forum topic */
-    public bool $is_topic_message;
+    public null|bool $is_topic_message = null;
 
     /**
      * Optional. True, if the message is a channel post that was automatically forwarded to the connected discussion
      * group
      */
-    public bool $is_automatic_forward;
+    public null|bool $is_automatic_forward = null;
 
     /**
      * Optional. For replies, the original message. Note that the Message object in this field will not contain
      * further reply_to_message fields even if it itself is a reply.
      */
-    public message $reply_to_message;
+    public null|message $reply_to_message = null;
 
     /** Optional. Bot through which the message was sent */
-    public user $via_bot;
+    public null|user $via_bot = null;
 
     /** Optional. Date the message was last edited in Unix time */
-    public int $edit_date;
+    public null|int $edit_date = null;
 
     /** Optional. True, if the message can't be forwarded */
-    public bool $has_protected_content;
+    public null|bool $has_protected_content = null;
 
     /** Optional. The unique identifier of a media message group this message belongs to */
-    public string $media_group_id;
+    public null|string $media_group_id = null;
 
     /**
      * Optional. Signature of the post author for messages in channels, or the custom title of an anonymous group
      * administrator
      */
-    public string $author_signature;
+    public null|string $author_signature = null;
 
     /** Optional. For text messages, the actual UTF-8 text of the message */
-    public string $text;
+    public null|string $text = null;
 
     /** Optional. If user message was a commend , this parameter will be the commend */
-    public string|null $commend;
+    public string|null $commend = null;
 
     /** Optional. If user message was a commend , this parameter will be the commend username(if exist) */
-    public string|null $commend_username;
+    public string|null $commend_username = null;
 
     /** Optional. If user message was a commend , this parameter will be the commend payload(if exist) */
-    public string|null $commend_payload;
+    public string|null $commend_payload = null;
 
     /**
      * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text
      * @var messageEntity[]
      */
-    public array $entities;
+    public null|array $entities = null;
 
     /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this
      * field is set, the document field will also be set
      */
-    public animation $animation;
+    public null|animation $animation = null;
 
     /** Optional. Message is an audio file, information about the file */
-    public audio $audio;
+    public null|audio $audio = null;
 
     /** Optional. Message is a general file, information about the file */
-    public document $document;
+    public null|document $document = null;
 
     /**
      * Optional. Message is a photo, available sizes of the photo
      * @var photoSize[]
      */
-    public array $photo;
+    public null|array $photo = null;
 
     /** Optional. Message is a sticker, information about the sticker */
-    public sticker $sticker;
+    public null|sticker $sticker = null;
 
     /** Optional. Message is a video, information about the video */
-    public video $video;
+    public null|video $video = null;
 
     /** Optional. Message is a video note, information about the video message */
-    public videoNote $video_note;
+    public null|videoNote $video_note = null;
 
     /** Optional. Message is a voice message, information about the file */
-    public voice $voice;
+    public null|voice $voice = null;
 
     /** Optional. Caption for the animation, audio, document, photo, video or voice */
-    public string $caption;
+    public null|string $caption = null;
 
     /**
      * Optional. For messages with a caption, special entities like usernames, URLs, bot commands, etc. that appear
      * in the caption
      * @var messageEntity[]
      */
-    public array $caption_entities;
+    public null|array $caption_entities = null;
 
     /** Optional. Message is a shared contact, information about the contact */
-    public contact $contact;
+    public null|contact $contact = null;
 
     /** Optional. Message is a dice with random value */
-    public dice $dice;
+    public null|dice $dice = null;
 
     /** Optional. Message is a game, information about the game. More about games » */
-    public game $game;
+    public null|game $game = null;
 
     /** Optional. Message is a native poll, information about the poll */
-    public poll $poll;
+    public null|poll $poll = null;
 
     /**
      * Optional. Message is a venue, information about the venue. For backward compatibility, when this field is set,
      * the location field will also be set
      */
-    public venue $venue;
+    public null|venue $venue = null;
 
     /** Optional. Message is a shared location, information about the location */
-    public location $location;
+    public null|location $location = null;
 
     /**
      * Optional. New members that were added to the group or supergroup and information about them (the bot itself
      * may be one of these members)
      * @var user[]
      */
-    public array $new_chat_members;
+    public null|array $new_chat_members = null;
 
     /** Optional. A member was removed from the group, information about them (this member may be the bot itself) */
-    public user $left_chat_member;
+    public null|user $left_chat_member = null;
 
     /** Optional. A chat title was changed to this value */
-    public string $new_chat_title;
+    public null|string $new_chat_title = null;
 
     /**
      * Optional. A chat photo was change to this value
      * @var photoSize[]
      */
-    public array $new_chat_photo;
+    public null|array $new_chat_photo = null;
 
     /** Optional. Service message: the chat photo was deleted */
-    public bool $delete_chat_photo;
+    public null|bool $delete_chat_photo = null;
 
     /** Optional. Service message: the group has been created */
-    public bool $group_chat_created;
+    public null|bool $group_chat_created = null;
 
     /**
      * Optional. Service message: the supergroup has been created. This field can't be received in a message coming
      * through updates, because bot can't be a member of a supergroup when it is created. It can only be found in
      * reply_to_message if someone replies to a very first message in a directly created supergroup.
      */
-    public bool $supergroup_chat_created;
+    public null|bool $supergroup_chat_created = null;
 
     /**
      * Optional. Service message: the channel has been created. This field can't be received in a message coming
      * through updates, because bot can't be a member of a channel when it is created. It can only be found in
      * reply_to_message if someone replies to a very first message in a channel.
      */
-    public bool $channel_chat_created;
+    public null|bool $channel_chat_created = null;
 
     /** Optional. Service message: auto-delete timer settings changed in the chat */
-    public messageAutoDeleteTimerChanged $message_auto_delete_timer_changed;
+    public null|messageAutoDeleteTimerChanged $message_auto_delete_timer_changed = null;
 
     /**
      * Optional. The group has been migrated to a supergroup with the specified identifier. This number may have more
@@ -271,7 +271,7 @@ class message extends types {
      * But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for
      * storing this identifier.
      */
-    public int $migrate_to_chat_id;
+    public null|int $migrate_to_chat_id = null;
 
     /**
      * Optional. The supergroup has been migrated from a group with the specified identifier. This number may have
@@ -279,61 +279,61 @@ class message extends types {
      * interpreting it. But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float
      * type are safe for storing this identifier.
      */
-    public int $migrate_from_chat_id;
+    public null|int $migrate_from_chat_id = null;
 
     /**
      * Optional. Specified message was pinned. Note that the Message object in this field will not contain further
      * reply_to_message fields even if it is itself a reply.
      */
-    public message $pinned_message;
+    public null|message $pinned_message = null;
 
     /** Optional. Message is an invoice for a payment, information about the invoice. More about payments » */
-    public invoice $invoice;
+    public null|invoice $invoice = null;
 
     /**
      * Optional. Message is a service message about a successful payment, information about the payment. More about
      * payments »
      */
-    public successfulPayment $successful_payment;
+    public null|successfulPayment $successful_payment = null;
 
     /** Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
-    public string $connected_website;
+    public null|string $connected_website = null;
 
     /** Optional. Telegram Passport data */
-    public passportData $passport_data;
+    public null|passportData $passport_data = null;
 
     /**
      * Optional. Service message. A user in the chat triggered another user's proximity alert while sharing Live
      * Location.
      */
-    public proximityAlertTriggered $proximity_alert_triggered;
+    public null|proximityAlertTriggered $proximity_alert_triggered = null;
 
     /** Optional. Service message: forum topic created */
-    public forumTopicCreated $forum_topic_created;
+    public null|forumTopicCreated $forum_topic_created = null;
 
     /** Optional. Service message: forum topic closed */
-    public forumTopicClosed $forum_topic_closed;
+    public null|forumTopicClosed $forum_topic_closed = null;
 
     /** Optional. Service message: forum topic reopened */
-    public forumTopicReopened $forum_topic_reopened;
+    public null|forumTopicReopened $forum_topic_reopened = null;
 
     /** Optional. Service message: video chat scheduled */
-    public videoChatScheduled $video_chat_scheduled;
+    public null|videoChatScheduled $video_chat_scheduled = null;
 
     /** Optional. Service message: video chat started */
-    public videoChatStarted $video_chat_started;
+    public null|videoChatStarted $video_chat_started = null;
 
     /** Optional. Service message: video chat ended */
-    public videoChatEnded $video_chat_ended;
+    public null|videoChatEnded $video_chat_ended = null;
 
     /** Optional. Service message: new participants invited to a video chat */
-    public videoChatParticipantsInvited $video_chat_participants_invited;
+    public null|videoChatParticipantsInvited $video_chat_participants_invited = null;
 
     /** Optional. Service message: data sent by a Web App */
-    public webAppData $web_app_data;
+    public null|webAppData $web_app_data = null;
 
     /** Optional. Inline keyboard attached to the message. login_url buttons are represented as ordinary url buttons. */
-    public inlineKeyboardMarkup $reply_markup;
+    public null|inlineKeyboardMarkup $reply_markup = null;
 
 
     public function __construct(stdClass|null $object = null) {

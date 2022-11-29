@@ -12,16 +12,16 @@ class orderInfo extends types {
     private const subs = ['shipping_address' => 'BPT\types\shippingAddress'];
 
     /** Optional. User name */
-    public string $name;
+    public null|string $name = null;
 
     /** Optional. User's phone number */
-    public string $phone_number;
+    public null|string $phone_number = null;
 
     /** Optional. User email */
-    public string $email;
+    public null|string $email = null;
 
     /** Optional. User shipping address */
-    public shippingAddress $shipping_address;
+    public null|shippingAddress $shipping_address = null;
 
 
     public function __construct(stdClass|null $object = null) {

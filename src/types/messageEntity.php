@@ -34,19 +34,19 @@ class messageEntity extends types {
     public int $length;
 
     /** Optional. For “text_link” only, URL that will be opened after user taps on the text */
-    public string $url;
+    public null|string $url = null;
 
     /** Optional. For “text_mention” only, the mentioned user */
-    public user $user;
+    public null|user $user = null;
 
     /** Optional. For “pre” only, the programming language of the entity text */
-    public string $language;
+    public null|string $language = null;
 
     /**
      * Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get
      * full information about the sticker
      */
-    public string $custom_emoji_id;
+    public null|string $custom_emoji_id = null;
 
 
     public function __construct(stdClass|null $object = null) {

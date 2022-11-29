@@ -30,19 +30,19 @@ class chatInviteLink extends types {
     public bool $is_revoked;
 
     /** Optional. Invite link name */
-    public string $name;
+    public null|string $name = null;
 
     /** Optional. Point in time (Unix timestamp) when the link will expire or has been expired */
-    public int $expire_date;
+    public null|int $expire_date = null;
 
     /**
      * Optional. The maximum number of users that can be members of the chat simultaneously after joining the chat
      * via this invite link; 1-99999
      */
-    public int $member_limit;
+    public null|int $member_limit = null;
 
     /** Optional. Number of pending join requests created using this link */
-    public int $pending_join_request_count;
+    public null|int $pending_join_request_count = null;
 
 
     public function __construct(stdClass|null $object = null) {

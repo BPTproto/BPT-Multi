@@ -30,10 +30,10 @@ class file extends types {
      * difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit
      * integer or double-precision float type are safe for storing this value.
      */
-    public int $file_size;
+    public null|int $file_size = null;
 
     /** Optional. File path. Use https://api.telegram.org/file/bot<token>/<file_path> to get the file. */
-    public string $file_path;
+    public null|string $file_path = null;
 
 
     public function __construct(stdClass|null $object = null) {

@@ -17,13 +17,13 @@ class responseParameters extends types {
      * But it has at most 52 significant bits, so a signed 64-bit integer or double-precision float type are safe for
      * storing this identifier.
      */
-    public int $migrate_to_chat_id;
+    public null|int $migrate_to_chat_id = null;
 
     /**
      * Optional. In case of exceeding flood control, the number of seconds left to wait before the request can be
      * repeated
      */
-    public int $retry_after;
+    public null|int $retry_after = null;
 
 
     public function __construct(stdClass|null $object = null) {

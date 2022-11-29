@@ -25,14 +25,14 @@ class voice extends types {
     public int $duration;
 
     /** Optional. MIME type of the file as defined by sender */
-    public string $mime_type;
+    public null|string $mime_type = null;
 
     /**
      * Optional. File size in bytes. It can be bigger than 2^31 and some programming languages may have
      * difficulty/silent defects in interpreting it. But it has at most 52 significant bits, so a signed 64-bit
      * integer or double-precision float type are safe for storing this value.
      */
-    public int $file_size;
+    public null|int $file_size = null;
 
 
     public function __construct(stdClass|null $object = null) {

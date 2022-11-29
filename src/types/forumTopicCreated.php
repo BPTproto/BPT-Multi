@@ -18,7 +18,7 @@ class forumTopicCreated extends types {
     public int $icon_color;
 
     /** Optional. Unique identifier of the custom emoji shown as the topic icon */
-    public string $icon_custom_emoji_id;
+    public null|string $icon_custom_emoji_id = null;
 
 
     public function __construct(stdClass|null $object = null) {

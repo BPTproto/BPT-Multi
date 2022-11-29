@@ -21,13 +21,13 @@ class stickerSet extends types {
     public string $sticker_type;
 
     /** True, if the sticker set contains animated stickers */
-    public bool $is_animated;
+    public null|bool $is_animated = null;
 
     /** True, if the sticker set contains video stickers */
-    public bool $is_video;
+    public null|bool $is_video = null;
 
     /** Deprecated use sticker_type instead, True, if the sticker set contains masks */
-    public bool $contains_masks;
+    public null|bool $contains_masks = null;
 
     /**
      * List of all set stickers
@@ -36,7 +36,7 @@ class stickerSet extends types {
     public array $stickers;
 
     /** Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format */
-    public photoSize $thumb;
+    public null|photoSize $thumb = null;
 
 
     public function __construct(stdClass|null $object = null) {

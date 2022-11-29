@@ -15,7 +15,7 @@ class sentWebAppMessage extends types {
      * Optional. Identifier of the sent inline message. Available only if there is an inline keyboard attached to the
      * message.
      */
-    public string $inline_message_id;
+    public null|string $inline_message_id = null;
 
 
     public function __construct(stdClass|null $object = null) {

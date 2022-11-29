@@ -19,34 +19,34 @@ class user extends types {
     public int $id;
 
     /** True, if this user is a bot */
-    public bool $is_bot;
+    public null|bool $is_bot = null;
 
     /** User's or bot's first name */
-    public string $first_name;
+    public null|string $first_name = null;
 
     /** Optional. User's or bot's last name */
-    public string $last_name;
+    public null|string $last_name = null;
 
     /** Optional. User's or bot's username */
-    public string $username;
+    public null|string $username = null;
 
     /** Optional. IETF language tag of the user's language */
-    public string $language_code;
+    public null|string $language_code = null;
 
     /** Optional. True, if this user is a Telegram Premium user */
-    public bool $is_premium;
+    public null|bool $is_premium = null;
 
     /** Optional. True, if this user added the bot to the attachment menu */
-    public bool $added_to_attachment_menu;
+    public null|bool $added_to_attachment_menu = null;
 
     /** Optional. True, if the bot can be invited to groups. Returned only in getMe. */
-    public bool $can_join_groups;
+    public null|bool $can_join_groups = null;
 
     /** Optional. True, if privacy mode is disabled for the bot. Returned only in getMe. */
-    public bool $can_read_all_group_messages;
+    public null|bool $can_read_all_group_messages = null;
 
     /** Optional. True, if the bot supports inline queries. Returned only in getMe. */
-    public bool $supports_inline_queries;
+    public null|bool $supports_inline_queries = null;
 
 
     public function __construct(stdClass|null $object = null) {
