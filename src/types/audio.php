@@ -2,7 +2,7 @@
 
 namespace BPT\types;
 
-use BPT\api\telegram;
+use BPT\telegram\telegram;
 use stdClass;
 
 /**

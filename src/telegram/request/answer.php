@@ -1,6 +1,6 @@
 <?php
 
-namespace BPT\api\request;
+namespace BPT\telegram\request;
 
 use BPT\constants\loggerTypes;
 use BPT\constants\receiver;

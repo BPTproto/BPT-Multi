@@ -2,7 +2,7 @@
 
 namespace BPT\receiver;
 
-use BPT\api\telegram;
+use BPT\telegram\telegram;
 use BPT\BPT;
 use BPT\constants\loggerTypes;
 use BPT\lock;

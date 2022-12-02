@@ -2,8 +2,8 @@
 
 namespace BPT\tools;
 
-use BPT\api\request;
-use BPT\api\telegram;
+use BPT\telegram\request;
+use BPT\telegram\telegram;
 use BPT\constants\chatMemberStatus;
 use BPT\tools;
 use BPT\types\user;

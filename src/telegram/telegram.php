@@ -1,6 +1,6 @@
 <?php
 
-namespace BPT\api;
+namespace BPT\telegram;
 use BPT\settings;
 use BPT\tools;
 

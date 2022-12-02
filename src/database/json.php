@@ -2,7 +2,7 @@
 
 namespace BPT\database;
 
-use BPT\api\telegram;
+use BPT\telegram\telegram;
 use BPT\BPT;
 use BPT\constants\chatMemberStatus;
 use BPT\constants\chatType;

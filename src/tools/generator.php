@@ -2,7 +2,7 @@
 
 namespace BPT\tools;
 
-use BPT\api\telegram;
+use BPT\telegram\telegram;
 use BPT\constants\fields;
 use BPT\constants\loggerTypes;
 use BPT\constants\pollType;

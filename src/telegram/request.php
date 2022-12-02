@@ -1,6 +1,6 @@
 <?php
 
-namespace BPT\api;
+namespace BPT\telegram;
 
 use BPT\types\{botCommand,
     botCommandScope,
@@ -36,7 +36,7 @@ use BPT\types\{botCommand,
     userProfilePhotos,
     webhookInfo};
 use CURLFile;
-use BPT\api\request\{answer, curl};
+use BPT\telegram\request\{answer, curl};
 use BPT\BPT;
 use BPT\constants\{chatActions, fields, loggerTypes, updateTypes};
 use BPT\exception\bptException;

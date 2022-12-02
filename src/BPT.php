@@ -35,7 +35,7 @@ use BPT\types\{botCommand,
     user,
     userProfilePhotos,
     webhookInfo};
-use BPT\api\telegram;
+use BPT\telegram\telegram;
 use CURLFile;
 use stdClass;
 
