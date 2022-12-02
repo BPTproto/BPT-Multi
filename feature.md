@@ -43,8 +43,8 @@ support a lot of update types for listening
 support exec and curl way for doing that
 
 ### 11- A good way for handling database
-for now only `json` type supported<br>
-mysqli and medoo will be added soon
+for now only `json` and `mysql` type supported<br>
+medoo will be added soon
 
 ### 12- A lot of extra methods and functions for making your job easier
 See this for more info [tools class](#tools-class)
@@ -95,6 +95,5 @@ Examples :
 
 
 ### Planning to add
-- [ ] mysqli db type
-- [ ] medoo db type
-- [ ] ezPay || easyPay (crypto and persian)
+- [x] mysql db type
+- [ ] ezPay || easyPay (crypto and rial)

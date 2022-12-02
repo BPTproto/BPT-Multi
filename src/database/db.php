@@ -26,10 +26,9 @@ class db {
                 case dbTypes::JSON:
                     json::init();
                     break;
-//                case dbTypes::MYSQL:
-//                    break;
-//                case dbTypes::MEDOO:
-//                    break;
+                case dbTypes::MYSQL:
+                    mysql::init();
+                    break;
                 default:
                     logger::write('DB type is wrong', loggerTypes::ERROR);
                     throw new bptException('DB_TYPE_WRONG');
@@ -47,10 +46,9 @@ class db {
                 case dbTypes::JSON:
                     json::process();
                     break;
-//                case dbTypes::MYSQL:
-//                    break;
-//                case dbTypes::MEDOO:
-//                    break;
+                case dbTypes::MYSQL:
+                    mysql::process();
+                    break;
             }
         }
     }
@@ -59,16 +57,8 @@ class db {
      * @internal Only for BPT self usage , Don't use it in your source!
      */
     public static function save(): void {
-        if (self::$active) {
-            switch (settings::$db['type']) {
-                case dbTypes::JSON:
-                    json::save();
-                    break;
-//                case dbTypes::MYSQL:
-//                    break;
-//                case dbTypes::MEDOO:
-//                    break;
-            }
+        if (self::$active && settings::$db['type'] === dbTypes::JSON) {
+            json::save();
         }
     }
 }

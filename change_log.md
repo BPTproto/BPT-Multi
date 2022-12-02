@@ -14,3 +14,8 @@
   - Fixed telegram method call with one array data
 - 1.2.1
   - Fixed bug for methods contains chat class as they return value
+- 1.3.0
+  - Added mysql database type
+  - Fixed uninitialized error instead of showing null
+  - change api namespace to telegram
+  - remove return_array parameter from telegram methods

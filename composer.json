@@ -9,12 +9,14 @@
 		"telegram",
 		"telegram api",
 		"bot",
+		"telegram bot api",
+		"telegram bot",
 		"bots",
 		"robot",
 		"api"
 	],
 	"homepage": "https://bptlib.ir",
-	"time": "2022-11-19",
+	"time": "2022-12-2",
 	"license": "MIT",
 	"authors": [
 		{
@@ -40,7 +42,8 @@
 	},
 	"suggest": {
 		"ext-zip": "Needed for using zip method in tools class",
-		"ext-openssl": "Needed for using crypto method in tools class"
+		"ext-openssl": "Needed for using crypto method in tools class",
+		"ext-mysqli": "Needed for using mysql database"
 	},
 	"autoload": {
 		"psr-4": {
