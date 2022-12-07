@@ -502,15 +502,15 @@ class json {
      */
     public static function deleteUser (int $user_id = null): bool {
         if (empty($user_id)) $user_id = telegram::catchFields(fields::USER_ID);
-        if (file_exists(self::$folder . '/privates/' . $user_id . '.json')) {
-            unset(self::$ids['privates'][array_search($user_id, self::$ids['privates'])]);
-            sort(self::$ids['privates']);
-            if ($user_id === self::$user_id) {
-                self::$user = self::$old_user = null;
-            }
-            return tools::delete(self::$folder . '/privates/' . $user_id . '.json');
+        if (!file_exists(self::$folder . '/privates/' . $user_id . '.json')) {
+            return false;
         }
-        return false;
+        unset(self::$ids['privates'][array_search($user_id, self::$ids['privates'])]);
+        sort(self::$ids['privates']);
+        if ($user_id === self::$user_id) {
+            self::$user = self::$old_user = null;
+        }
+        return tools::delete(self::$folder . '/privates/' . $user_id . '.json');
     }
 
     /**
@@ -523,16 +523,16 @@ class json {
      */
     public static function deleteGroup (int $group_id = null): bool {
         if (empty($group_id)) $group_id = telegram::catchFields(fields::CHAT_ID);
-        if (file_exists(self::$folder . '/groups/' . $group_id . '.json')) {
-            unset(self::$ids['groups'][array_search($group_id, self::$ids['groups'])]);
-            sort(self::$ids['groups']);
-            tools::delete(self::$folder . '/groups/' . $group_id);
-            if ($group_id === self::$group_id) {
-                self::$group = self::$old_group = null;
-            }
-            return tools::delete(self::$folder . '/groups/' . $group_id . '.json');
+        if (!file_exists(self::$folder . '/groups/' . $group_id . '.json')) {
+            return false;
         }
-        return false;
+        unset(self::$ids['groups'][array_search($group_id, self::$ids['groups'])]);
+        sort(self::$ids['groups']);
+        tools::delete(self::$folder . '/groups/' . $group_id);
+        if ($group_id === self::$group_id) {
+            self::$group = self::$old_group = null;
+        }
+        return tools::delete(self::$folder . '/groups/' . $group_id . '.json');
     }
 
     /**
@@ -545,16 +545,16 @@ class json {
      */
     public static function deleteSuperGroup (int $group_id = null): bool {
         if (empty($group_id)) $group_id = telegram::catchFields(fields::CHAT_ID);
-        if (file_exists(self::$folder . '/supergroups/' . $group_id . '.json')) {
-            unset(self::$ids['supergroups'][array_search($group_id, self::$ids['supergroups'])]);
-            sort(self::$ids['supergroups']);
-            tools::delete(self::$folder . '/supergroups/' . $group_id);
-            if ($group_id === self::$supergroup_id) {
-                self::$supergroup = self::$old_supergroup = null;
-            }
-            return tools::delete(self::$folder . '/supergroups/' . $group_id . '.json');
+        if (!file_exists(self::$folder . '/supergroups/' . $group_id . '.json')) {
+            return false;
         }
-        return false;
+        unset(self::$ids['supergroups'][array_search($group_id, self::$ids['supergroups'])]);
+        sort(self::$ids['supergroups']);
+        tools::delete(self::$folder . '/supergroups/' . $group_id);
+        if ($group_id === self::$supergroup_id) {
+            self::$supergroup = self::$old_supergroup = null;
+        }
+        return tools::delete(self::$folder . '/supergroups/' . $group_id . '.json');
     }
 
     /**
@@ -567,15 +567,15 @@ class json {
      */
     public static function deleteChannel (int $channel_id = null): bool {
         if (empty($channel_id)) $channel_id = telegram::catchFields(fields::CHAT_ID);
-        if (file_exists(self::$folder . '/channels/' . $channel_id . '.json')) {
-            unset(self::$ids['channels'][array_search($channel_id, self::$ids['channels'])]);
-            sort(self::$ids['channels']);
-            if ($channel_id === self::$channel_id) {
-                self::$channel = self::$old_channel = null;
-            }
-            return tools::delete(self::$folder . '/channels/' . $channel_id . '.json');
+        if (!file_exists(self::$folder . '/channels/' . $channel_id . '.json')) {
+            return false;
         }
-        return false;
+        unset(self::$ids['channels'][array_search($channel_id, self::$ids['channels'])]);
+        sort(self::$ids['channels']);
+        if ($channel_id === self::$channel_id) {
+            self::$channel = self::$old_channel = null;
+        }
+        return tools::delete(self::$folder . '/channels/' . $channel_id . '.json');
     }
 
     /**

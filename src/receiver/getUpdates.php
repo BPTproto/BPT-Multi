@@ -9,25 +9,25 @@ use BPT\lock;
 use BPT\logger;
 use BPT\settings;
 use BPT\types\update;
+use JetBrains\PhpStorm\NoReturn;
 
 /**
  * getUpdates class , For receiving updates by polling methods
  */
 class getUpdates extends receiver {
+    #[NoReturn]
     public static function init () {
         $last_update_id = self::loadData();
         while(true) {
             if (!lock::exist('getUpdate')) {
                 $updates = telegram::getUpdates($last_update_id,allowed_updates: settings::$allowed_updates);
-                if (telegram::$status) {
-                    self::handleUpdates($updates);
-                    lock::save('getUpdate',BPT::$update->update_id+1);
-                    $last_update_id = BPT::$update->update_id+1;
-                }
-                else {
+                if (!telegram::$status) {
                     logger::write("There is some problem happened , telegram response : \n".json_encode($updates),loggerTypes::ERROR);
                     BPT::exit(print_r($updates,true));
                 }
+                self::handleUpdates($updates);
+                lock::save('getUpdate',BPT::$update->update_id+1);
+                $last_update_id = BPT::$update->update_id+1;
             }
         }
     }

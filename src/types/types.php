@@ -12,7 +12,6 @@ class types {
         return json_encode($this);
     }
 
-
     public function __construct(stdClass $object, array $subs = []) {
         foreach ($object as $key=>$value) {
             if (isset($subs[$key])) {
@@ -43,7 +42,6 @@ class types {
             }
         }
     }
-
 
     public function __call(string $name, array $arguments) {
         $name = strtolower($name);

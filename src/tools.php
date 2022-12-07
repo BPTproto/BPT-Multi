@@ -145,10 +145,10 @@ class tools{
             return true;
         }
         $res = telegram::me($token);
-        if (telegram::$status) {
-            return $res;
+        if (!telegram::$status) {
+            return false;
         }
-        return false;
+        return $res;
     }
 
     /**

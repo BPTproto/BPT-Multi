@@ -46,16 +46,16 @@ class passportElementError extends types {
      * `translation_file` and `translation_files` could be `passport` and `driver_license` and `identity_card` and
      * `internal_passport` and `utility_bill` and `bank_statement` and `rental_agreement` and `passport_registration` and `temporary_registration`
      */
-    public null|string $type = null;
+    public string $type;
 
     /** `data` only. Name of the data field which has the error */
-    public null|string $field_name = null;
+    public string $field_name;
 
     /** `data` only. Base64-encoded data hash */
-    public null|string $data_hash = null;
+    public string $data_hash;
 
     /** Error message */
-    public null|string $message = null;
+    public string $message;
 
     /**
      * `front_side` and `reverse_side` and `selfie` and `file` and `translation_file` only. Base64-encoded file hash
@@ -64,16 +64,16 @@ class passportElementError extends types {
      *
      * `reverse_side` : reverse side of doc
      */
-    public null|string $file_hash = null;
+    public string $file_hash;
 
     /**
      * `files` and `translation_files` only. List of base64-encoded file hashes
      * @var string[]
      */
-    public null|array $file_hashes = null;
+    public array $file_hashes;
 
     /** `unspecified` only. Base64-encoded element hash */
-    public null|string $element_hash = null;
+    public string $element_hash;
 
 
     public function __construct(stdClass|null $object = null) {

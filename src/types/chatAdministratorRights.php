@@ -55,16 +55,16 @@ class chatAdministratorRights extends types {
     public bool $can_invite_users;
 
     /** Optional. True, if the administrator can post in the channel; channels only */
-    public null|bool $can_post_messages = null;
+    public bool $can_post_messages;
 
     /** Optional. True, if the administrator can edit messages of other users and can pin messages; channels only */
-    public null|bool $can_edit_messages = null;
+    public bool $can_edit_messages;
 
     /** Optional. True, if the user is allowed to pin messages; groups and supergroups only */
-    public null|bool $can_pin_messages = null;
+    public bool $can_pin_messages;
 
     /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only */
-    public null|bool $can_manage_topics = null;
+    public bool $can_manage_topics;
 
 
     public function __construct(stdClass|null $object = null) {

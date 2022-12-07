@@ -34,16 +34,16 @@ class inputMedia extends types {
     public string $media;
 
     /** Optional. Caption of the photo to be sent, 0-1024 characters after entities parsing */
-    public null|string $caption = null;
+    public string $caption;
 
     /** Optional. Mode for parsing entities in the photo caption. See formatting options for more details. */
-    public null|string $parse_mode = null;
+    public string $parse_mode;
 
     /**
      * Optional. List of special entities that appear in the caption, which can be specified instead of parse_mode
      * @var messageEntity[]
      */
-    public null|array $caption_entities = null;
+    public array $caption_entities;
 
     /**
      * all types except `photo`. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported
@@ -52,31 +52,31 @@ class inputMedia extends types {
      * be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the
      * thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    public null|CURLFile|string $thumb = null;
+    public CURLFile|string $thumb;
 
     /** `video` and `animation` only. width */
-    public null|int $width = null;
+    public int $width;
 
     /** `video` and `animation` only. Optional. height */
-    public null|int $height = null;
+    public int $height;
 
     /** `video` and `animation` and `audio` only.  Optional. duration in seconds*/
-    public null|int $duration = null;
+    public int $duration;
 
     /** `video` only. Optional. Pass True, if the uploaded video is suitable for streaming */
-    public null|bool $supports_streaming = null;
+    public bool $supports_streaming;
 
     /** `audio` only. Optional. Performer of the audio */
-    public null|string $performer = null;
+    public string $performer;
 
     /** `audio` only. Optional. Title of the audio */
-    public null|string $title = null;
+    public string $title;
 
     /**
      * `document` only. Optional. Disables automatic server-side content type detection for files uploaded using multipart/form-data.
      * Always True, if the document is sent as part of an album.
      */
-    public null|bool $disable_content_type_detection = null;
+    public bool $disable_content_type_detection;
 
 
     public function __construct(stdClass|null $object = null) {

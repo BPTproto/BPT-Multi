@@ -1,11 +1,11 @@
 - 1.0.1
   - fix set webhook(for BPT itself) bug that cause infinite loop
-  - fix easyKey method bug that make only last row visible
+  - fix `easyKey` method bug that make only last row visible
 - 1.1.0
   - Move to api version 6.2 completely
   - Add a new setting for set default timeout of telegram methods
   - Fix a bug that timeouts causes errors
-  - Add download method , You could use it for urls , for file_ids or in updates
+  - Add `download` method , You could use it for urls , for file_ids or in updates
      - `$update->message->document->download('file.zip');`
      - `telegram::downloadFile('file.zip','file_id_asdadadad');`
      - `tools::downloadFile('https://example.com/example.zip','example.zip');`
@@ -15,7 +15,13 @@
 - 1.2.1
   - Fixed bug for methods contains chat class as they return value
 - 1.3.0
-  - Added mysql database type
+  - Added `mysql` database type
   - Fixed uninitialized error instead of showing null
   - change api namespace to telegram
-  - remove return_array parameter from telegram methods
+  - remove `return_array` parameter from telegram methods
+- 1.3.1
+  - Some cleaning and optimization
+  - Add comments for some methods
+  - Fix a bug that cause methods with file parameter have warning error
+  - Fix a bug that cause some type classes not work which makes some methods like eKey to not work
+  - change `cloadflare_verify` to `cloudflare_verify`(misType)

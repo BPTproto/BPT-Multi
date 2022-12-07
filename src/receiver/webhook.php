@@ -11,6 +11,7 @@ use BPT\logger;
 use BPT\settings;
 use BPT\tools;
 use CURLFile;
+use JetBrains\PhpStorm\NoReturn;
 
 /**
  * webhook class , for manage and handling webhook setter and getter
@@ -50,13 +51,11 @@ class webhook extends receiver {
 
     protected static function setWebhook(string $url,string $secret = '') {
         $res = telegram::setWebhook($url, settings::$certificate, max_connections: settings::$max_connection, allowed_updates: settings::$allowed_updates, drop_pending_updates: settings::$skip_old_updates, secret_token: $secret);
-        if (telegram::$status) {
-            logger::write('Webhook was set successfully',loggerTypes::INFO);
-        }
-        else {
+        if (!telegram::$status) {
             logger::write("There is some problem happened , telegram response : \n".json_encode($res),loggerTypes::ERROR);
             BPT::exit(print_r($res,true));
         }
+        logger::write('Webhook was set successfully',loggerTypes::INFO);
     }
 
     protected static function checkURL() {
@@ -83,6 +82,7 @@ class webhook extends receiver {
         }
     }
 
+    #[NoReturn]
     private static function processSetWebhook() {
         self::deleteOldLocks();
         self::checkURL();

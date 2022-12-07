@@ -206,13 +206,11 @@ CREATE TABLE `users`
      */
     public static function query (string $query, array $vars = [], bool $need_result = true): mysqli_result|bool {
         $prepare = self::$connection->prepare($query);
-        if ($prepare->execute($vars)) {
-            return $need_result ? $prepare->get_result() : true;
-        }
-        else {
+        if (!$prepare->execute($vars)) {
             logger::write(loggerTypes::WARNING, $prepare->error);
             return false;
         }
+        return $need_result ? $prepare->get_result() : true;
     }
 
     private static function makeArrayReady (string &$query, array $array, string $operator = ' AND '): array {

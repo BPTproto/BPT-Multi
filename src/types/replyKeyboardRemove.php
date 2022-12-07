@@ -29,7 +29,7 @@ class replyKeyboardRemove extends types {
      * message in reply to the vote and removes the keyboard for that user, while still showing the keyboard with
      * poll options to users who haven't voted yet.
      */
-    public null|bool $selective = null;
+    public bool $selective;
 
 
     public function __construct(stdClass|null $object = null) {

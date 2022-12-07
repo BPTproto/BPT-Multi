@@ -6,6 +6,7 @@ use BPT\constants\loggerTypes;
 use BPT\logger;
 use BPT\settings;
 use CurlHandle;
+use JetBrains\PhpStorm\ArrayShape;
 
 /**
  * curl class , part of request class for handling request based on curl
@@ -34,6 +35,7 @@ class curl {
         return json_decode($result);
     }
 
+    #[ArrayShape(['data'    => "array", 'token'   => "mixed|string", 'handler' => "\CurlHandle|false|CurlHandle"])]
     private static function getInfo(array $data): array {
         if (isset($data['token']) && $data['token'] !== settings::$token) {
             $token = $data['token'];

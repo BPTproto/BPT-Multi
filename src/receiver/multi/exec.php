@@ -23,19 +23,16 @@ class exec extends webhook {
 
     private static function getUpdate (): string|null {
         $up = glob('*.update');
-        if (isset($up[0])) {
-            $up = end($up);
-            $ip = explode('-', $up)[0];
-            webhook::telegramVerify($ip);
-            $update = file_get_contents($up);
-            unlink($up);
-            return $update;
-        }
-        else {
+        if (!isset($up[0])) {
             logger::write('not authorized access denied. IP : '. $_SERVER['REMOTE_ADDR'] ?? 'unknown',loggerTypes::WARNING);
             BPT::exit();
-            return null;
         }
+        $up = end($up);
+        $ip = explode('-', $up)[0];
+        webhook::telegramVerify($ip);
+        $update = file_get_contents($up);
+        unlink($up);
+        return $update;
     }
 
     /**
@@ -62,6 +59,7 @@ class exec extends webhook {
         file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
     }
 
+    #[ArrayShape(['url' => "array|string|string[]", 'file' => "string"])]
     private static function setURLS(): array {
         $base_url = (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
         return [

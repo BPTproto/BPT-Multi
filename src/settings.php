@@ -37,7 +37,7 @@ class settings {
 
     public static bool $telegram_verify = true;
 
-    public static bool $cloadflare_verify = false;
+    public static bool $cloudflare_verify = false;
 
     public static bool $arvancloud_verify = false;
 
@@ -66,58 +66,51 @@ class settings {
      */
     public static function init (array|stdClass $settings): void {
         $settings = (array) $settings;
-
         foreach ($settings as $setting => $value) {
-            try{
+            try {
                 if ($setting === 'name') {
                     if (!is_dir('bots_files')) {
                         mkdir('bots_files');
                     }
-                    if (!is_dir('bots_files/'.$value)) {
-                        mkdir('bots_files/'.$value);
+                    if (!is_dir('bots_files/' . $value)) {
+                        mkdir('bots_files/' . $value);
                     }
-                    $value = 'bots_files/'.$value.'/';
+                    $value = 'bots_files/' . $value . '/';
                 }
                 self::$$setting = $value;
             }
-            catch (TypeError){
-                logger::write("$setting setting has wrong type , its set to default value",loggerTypes::WARNING);
+            catch (TypeError) {
+                logger::write("$setting setting has wrong type , its set to default value", loggerTypes::WARNING);
             }
-            catch (Error){
-                logger::write("$setting setting is not one of library settings",loggerTypes::WARNING);
+            catch (Error) {
+                logger::write("$setting setting is not one of library settings", loggerTypes::WARNING);
             }
         }
-
         if (!(isset($settings['logger']) && $settings['logger'] == false)) {
-            logger::init(isset($settings['log_size']) && is_numeric($settings['log_size']) ? $settings['log_size'] : self::$log_size);
+            logger::init(self::$log_size);
         }
-
-        if (self::$token !== '') {
-            if (tools::isToken(self::$token)) {
-                self::security();
-                self::secureFolder();
-                db::init();
-                if (!empty(self::$receiver)) {
-                    self::$receiver !== receiver::GETUPDATES ? webhook::init() : self::getUpdates();
-                }
-            }
-            else {
-                logger::write('token format is not right, check it and try again',loggerTypes::ERROR);
-                throw new bptException('TOKEN_NOT_TRUE');
-            }
-        }
-        else {
-            logger::write('You must specify token parameter in settings',loggerTypes::ERROR);
+        if (self::$token === '') {
+            logger::write('You must specify token parameter in settings', loggerTypes::ERROR);
             throw new bptException('TOKEN_NOT_FOUND');
+        }
+        if (!tools::isToken(self::$token)) {
+            logger::write('token format is not right, check it and try again', loggerTypes::ERROR);
+            throw new bptException('TOKEN_NOT_TRUE');
+        }
+        self::security();
+        self::secureFolder();
+        db::init();
+        if (!empty(self::$receiver)) {
+            self::$receiver !== receiver::GETUPDATES ? webhook::init() : self::getUpdates();
         }
     }
 
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
-    public static function done(): void {
+    public static function done (): void {
         if (self::$logger) {
-            $estimated = round((microtime(true)-$_SERVER['REQUEST_TIME_FLOAT'])*1000,2);
+            $estimated = round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 2);
             $status_message = match (true) {
                 $estimated < 100 => 'Excellent',
                 $estimated < 500 => 'Very good',
@@ -130,7 +123,7 @@ class settings {
         }
     }
 
-    private static function security(): void {
+    private static function security (): void {
         if (self::$security) {
             ini_set('magic_quotes_gpc', 'off');
             ini_set('sql.safe_mode', 'on');
@@ -145,7 +138,7 @@ class settings {
         }
     }
 
-    private static function secureFolder(): void {
+    private static function secureFolder (): void {
         if (self::$secure_folder) {
             $address = explode('/', $_SERVER['REQUEST_URI']);
             unset($address[count($address) - 1]);
@@ -157,13 +150,11 @@ class settings {
         }
     }
 
-    private static function getUpdates(): void {
-        if (self::$handler) {
-            getUpdates::init();
-        }
-        else {
-            logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler',loggerTypes::ERROR);
+    private static function getUpdates (): void {
+        if (!self::$handler) {
+            logger::write('You can\'t use getUpdates receiver when handler is off , use webhook or use handler', loggerTypes::ERROR);
             throw new bptException('GETUPDATE_NEED_HANDLER');
         }
+        getUpdates::init();
     }
 }

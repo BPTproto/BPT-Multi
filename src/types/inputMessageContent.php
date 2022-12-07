@@ -51,95 +51,95 @@ class inputMessageContent extends types {
     private const subs = ['array' => ['entities' => 'BPT\types\messageEntity', 'prices' => 'BPT\types\labeledPrice']];
 
     /** `text` only. Text of the message to be sent, 1-4096 characters */
-    public null|string $message_text = null;
+    public string $message_text;
 
     /** `text` only. Optional. Mode for parsing entities in the message text. See formatting options for more details. */
-    public null|string $parse_mode = null;
+    public string $parse_mode;
 
     /**
      * `text` only. Optional. List of special entities that appear in message text, which can be specified instead of parse_mode
      * @var messageEntity[]
      */
-    public null|array $entities = null;
+    public array $entities;
 
     /** `text` only. Optional. Disables link previews for links in the sent message */
-    public null|bool $disable_web_page_preview = null;
+    public bool $disable_web_page_preview;
 
     /** `location` and `venue` only. Latitude in degrees */
-    public null|float $latitude = null;
+    public float $latitude;
 
     /** `location` and `venue` only. Longitude in degrees */
-    public null|float $longitude = null;
+    public float $longitude;
 
     /** `location` only. Optional. The radius of uncertainty for the location, measured in meters; 0-1500 */
-    public null|float $horizontal_accuracy = null;
+    public float $horizontal_accuracy;
 
     /** `location` only. Optional. Period in seconds for which the location can be updated, should be between 60 and 86400. */
-    public null|int $live_period = null;
+    public int $live_period;
 
     /** `location` only. Optional. For live locations, a direction in which the user is moving, in degrees. Must be between 1 and 360 if specified. */
-    public null|int $heading = null;
+    public int $heading;
 
     /**
      * `location` only. Optional. For live locations, a maximum distance for proximity alerts about approaching another chat member,
      * in meters. Must be between 1 and 100000 if specified.
      */
-    public null|int $proximity_alert_radius = null;
+    public int $proximity_alert_radius;
 
     /** `venue` and `invoice` only. name of the venue or product */
-    public null|string $title = null;
+    public string $title;
 
     /** `venue` only. Address of the venue */
-    public null|string $address = null;
+    public string $address;
 
     /** `venue` only. Optional. Foursquare identifier of the venue, if known */
-    public null|string $foursquare_id = null;
+    public string $foursquare_id;
 
     /**
      * `venue` only. Optional. Foursquare type of the venue, if known. (For example, “arts_entertainment/default”,
      * “arts_entertainment/aquarium” or “food/icecream”.)
      */
-    public null|string $foursquare_type = null;
+    public string $foursquare_type;
 
     /** `venue` only. Optional. Google Places identifier of the venue */
-    public null|string $google_place_id = null;
+    public string $google_place_id;
 
     /** `venue` only. Optional. Google Places type of the venue. (See supported types.) */
-    public null|string $google_place_type = null;
+    public string $google_place_type;
 
     /** `contact` only. Contact's phone number */
-    public null|string $phone_number = null;
+    public string $phone_number;
 
     /** `contact` only. Contact's first name */
-    public null|string $first_name = null;
+    public string $first_name;
 
     /** `contact` only. Optional. Contact's last name */
-    public null|string $last_name = null;
+    public string $last_name;
 
     /** `contact` only. Optional. Additional data about the contact in the form of a vCard, 0-2048 bytes */
-    public null|string $vcard = null;
+    public string $vcard;
 
     /** `invoice` only. Product description, 1-255 characters */
-    public null|string $description = null;
+    public string $description;
 
     /**
      * `invoice` only. Bot-defined invoice payload, 1-128 bytes. This will not be displayed to the user, use for your internal
      * processes.
      */
-    public null|string $payload = null;
+    public string $payload;
 
     /** `invoice` only. Payment provider token, obtained via BotFather */
-    public null|string $provider_token = null;
+    public string $provider_token;
 
     /** `invoice` only. Three-letter ISO 4217 currency code, see more on currencies */
-    public null|string $currency = null;
+    public string $currency;
 
     /**
      * `invoice` only. Price breakdown, a JSON-serialized list of components (e.g. product price, tax, discount, delivery cost,
      * delivery tax, bonus, etc.)
      * @var labeledPrice[]
      */
-    public null|array $prices = null;
+    public array $prices;
 
     /**
      * `invoice` only. Optional. The maximum accepted amount for tips in the smallest units of the currency (integer, not
@@ -147,7 +147,7 @@ class inputMessageContent extends types {
      * currencies.json, it shows the number of digits past the decimal point for each currency (2 for the majority of
      * currencies). Defaults to 0
      */
-    public null|int $max_tip_amount = null;
+    public int $max_tip_amount;
 
     /**
      * `invoice` only. Optional. A JSON-serialized array of suggested amounts of tip in the smallest units of the currency (integer,
@@ -155,49 +155,49 @@ class inputMessageContent extends types {
      * positive, passed in a strictly increased order and must not exceed max_tip_amount.
      * @var int[]
      */
-    public null|array $suggested_tip_amounts = null;
+    public array $suggested_tip_amounts;
 
     /**
      * `invoice` only. Optional. A JSON-serialized object for data about the invoice, which will be shared with the payment provider.
      * A detailed description of the required fields should be provided by the payment provider.
      */
-    public null|string $provider_data = null;
+    public string $provider_data;
 
     /**
      * `invoice` only. Optional. URL of the product photo for the invoice. Can be a photo of the goods or a marketing image for a
      * service.
      */
-    public null|string $photo_url = null;
+    public string $photo_url;
 
     /** `invoice` only. Optional. Photo size in bytes */
-    public null|int $photo_size = null;
+    public int $photo_size;
 
     /** `invoice` only. Optional. Photo width */
-    public null|int $photo_width = null;
+    public int $photo_width;
 
     /** `invoice` only. Optional. Photo height */
-    public null|int $photo_height = null;
+    public int $photo_height;
 
     /** `invoice` only. Optional. Pass True, if you require the user's full name to complete the order */
-    public null|bool $need_name = null;
+    public bool $need_name;
 
     /** `invoice` only. Optional. Pass True, if you require the user's phone number to complete the order */
-    public null|bool $need_phone_number = null;
+    public bool $need_phone_number;
 
     /** `invoice` only. Optional. Pass True, if you require the user's email address to complete the order */
-    public null|bool $need_email = null;
+    public bool $need_email;
 
     /** `invoice` only. Optional. Pass True, if you require the user's shipping address to complete the order */
-    public null|bool $need_shipping_address = null;
+    public bool $need_shipping_address;
 
     /** `invoice` only. Optional. Pass True, if the user's phone number should be sent to provider */
-    public null|bool $send_phone_number_to_provider = null;
+    public bool $send_phone_number_to_provider;
 
     /** `invoice` only. Optional. Pass True, if the user's email address should be sent to provider */
-    public null|bool $send_email_to_provider = null;
+    public bool $send_email_to_provider;
 
     /** `invoice` only. Optional. Pass True, if the final price depends on the shipping method */
-    public null|bool $is_flexible = null;
+    public bool $is_flexible;
 
 
     public function __construct(stdClass|null $object = null) {
