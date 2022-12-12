@@ -261,6 +261,7 @@ class tools{
             curl_close($ch);
         }
         else {
+            $path = realpath($path);
             $size = file_exists($path) ? filesize($path) : false;
         }
         if (isset($size) && is_numeric($size)) {
@@ -283,6 +284,7 @@ class tools{
      * @throws bptException
      */
     public static function delete (string $path, bool $sub = true): bool {
+        $path = realpath($path);
         if (!is_dir($path)) {
             return unlink($path);
         }

@@ -780,14 +780,14 @@ class request {
     private static function readyFile(string $name, array &$arguments): void {
         if ($name === 'sendMediaGroup') {
             foreach ($arguments['media'] as $key => $media) {
-                if (is_string($media['media']) && file_exists($media['media'])) {
+                if (is_string($media['media']) && file_exists(realpath($media['media']))) {
                     $arguments['media'][$key]['media'] = new CURLFile($media['media']);
                 }
             }
         }
         elseif ($file_params = self::methodFile($name)) {
             foreach ($file_params as $param) {
-                if (isset($arguments[$param]) && is_string($arguments[$param]) && file_exists($arguments[$param])) {
+                if (isset($arguments[$param]) && is_string($arguments[$param]) && file_exists(realpath($arguments[$param]))) {
                     $arguments[$param] = new CURLFile($arguments[$param]);
                 }
             }

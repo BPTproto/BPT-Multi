@@ -13,7 +13,7 @@ class lock {
      * @return bool
      */
     public static function exist(string $name): bool {
-        return file_exists(settings::$name."$name.lock");
+        return file_exists(realpath(settings::$name."$name.lock"));
     }
 
     /**
@@ -47,7 +47,7 @@ class lock {
      * @return bool|string
      */
     public static function read(string $name): bool|string {
-        return file_get_contents(settings::$name."$name.lock");
+        return file_get_contents(realpath(settings::$name."$name.lock"));
     }
 
     /**
@@ -58,7 +58,7 @@ class lock {
      * @return bool|int
      */
     public static function mtime(string $name): bool|int {
-        return filemtime(settings::$name."$name.lock");
+        return filemtime(realpath(settings::$name."$name.lock"));
     }
 
     /**
@@ -69,6 +69,6 @@ class lock {
      * @return bool
      */
     public static function delete(string $name): bool {
-        return unlink(settings::$name."$name.lock");
+        return unlink(realpath(settings::$name."$name.lock"));
     }
 }

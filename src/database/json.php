@@ -145,26 +145,26 @@ class json {
     }
 
     private static function create(): void {
-        if (!is_dir(self::$folder)) {
+        if (!is_dir(realpath(self::$folder))) {
             mkdir(self::$folder);
         }
-        if (!is_dir(self::$folder.'/privates')) {
+        if (!is_dir(realpath(self::$folder.'/privates'))) {
             mkdir(self::$folder.'/privates');
         }
-        if (!is_dir(self::$folder.'/groups')) {
+        if (!is_dir(realpath(self::$folder.'/groups'))) {
             mkdir(self::$folder.'/groups');
         }
-        if (!is_dir(self::$folder.'/supergroups')) {
+        if (!is_dir(realpath(self::$folder.'/supergroups'))) {
             mkdir(self::$folder.'/supergroups');
         }
-        if (!is_dir(self::$folder.'/channels')) {
+        if (!is_dir(realpath(self::$folder.'/channels'))) {
             mkdir(self::$folder.'/channels');
         }
 
-        if (!file_exists(self::$folder.'/global.json')) {
+        if (!file_exists(realpath(self::$folder.'/global.json'))) {
             file_put_contents(self::$folder.'/global.json',self::$global_default_data);
         }
-        if (!file_exists(self::$folder.'/ids.json')) {
+        if (!file_exists(realpath(self::$folder.'/ids.json'))) {
             file_put_contents(self::$folder.'/ids.json',json_encode([
                 'privates' => [],
                 'groups' => [],
@@ -182,7 +182,7 @@ class json {
     }
 
     private static function read (string $address) {
-        return file_exists(self::$folder.'/'.$address.'.json') ? json_decode(file_get_contents(self::$folder.'/'.$address.'.json'), false) : null;
+        return file_exists(realpath(self::$folder.'/'.$address.'.json')) ? json_decode(file_get_contents(self::$folder.'/'.$address.'.json'), false) : null;
     }
 
     private static function write (string $address,string $data): void {
@@ -502,7 +502,7 @@ class json {
      */
     public static function deleteUser (int $user_id = null): bool {
         if (empty($user_id)) $user_id = telegram::catchFields(fields::USER_ID);
-        if (!file_exists(self::$folder . '/privates/' . $user_id . '.json')) {
+        if (!file_exists(realpath(self::$folder . '/privates/' . $user_id . '.json'))) {
             return false;
         }
         unset(self::$ids['privates'][array_search($user_id, self::$ids['privates'])]);
@@ -523,7 +523,7 @@ class json {
      */
     public static function deleteGroup (int $group_id = null): bool {
         if (empty($group_id)) $group_id = telegram::catchFields(fields::CHAT_ID);
-        if (!file_exists(self::$folder . '/groups/' . $group_id . '.json')) {
+        if (!file_exists(realpath(self::$folder . '/groups/' . $group_id . '.json'))) {
             return false;
         }
         unset(self::$ids['groups'][array_search($group_id, self::$ids['groups'])]);
@@ -545,7 +545,7 @@ class json {
      */
     public static function deleteSuperGroup (int $group_id = null): bool {
         if (empty($group_id)) $group_id = telegram::catchFields(fields::CHAT_ID);
-        if (!file_exists(self::$folder . '/supergroups/' . $group_id . '.json')) {
+        if (!file_exists(realpath(self::$folder . '/supergroups/' . $group_id . '.json'))) {
             return false;
         }
         unset(self::$ids['supergroups'][array_search($group_id, self::$ids['supergroups'])]);
@@ -567,7 +567,7 @@ class json {
      */
     public static function deleteChannel (int $channel_id = null): bool {
         if (empty($channel_id)) $channel_id = telegram::catchFields(fields::CHAT_ID);
-        if (!file_exists(self::$folder . '/channels/' . $channel_id . '.json')) {
+        if (!file_exists(realpath(self::$folder . '/channels/' . $channel_id . '.json'))) {
             return false;
         }
         unset(self::$ids['channels'][array_search($channel_id, self::$ids['channels'])]);

@@ -19,7 +19,8 @@ class logger {
      */
     public static function init (int $log_size = 10): void {
         self::$log_size = $log_size;
-        if (file_exists(settings::$name.'BPT.log') && !(filesize(settings::$name.'BPT.log') > self::$log_size * 1024 * 1024)) {
+        $log_file = realpath(settings::$name.'BPT.log');
+        if (file_exists($log_file) && !(filesize($log_file) > self::$log_size * 1024 * 1024)) {
             $mode = 'a';
             $write = false;
         }

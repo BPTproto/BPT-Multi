@@ -69,10 +69,10 @@ class settings {
         foreach ($settings as $setting => $value) {
             try {
                 if ($setting === 'name') {
-                    if (!is_dir('bots_files')) {
+                    if (!is_dir(realpath('bots_files'))) {
                         mkdir('bots_files');
                     }
-                    if (!is_dir('bots_files/' . $value)) {
+                    if (!is_dir(realpath('bots_files/' . $value))) {
                         mkdir('bots_files/' . $value);
                     }
                     $value = 'bots_files/' . $value . '/';
@@ -144,7 +144,8 @@ class settings {
             unset($address[count($address) - 1]);
             $address = implode('/', $address) . '/BPT.php';
             $text = "ErrorDocument 404 $address\nErrorDocument 403 $address\n Options -Indexes\n  Order Deny,Allow\nDeny from all\nAllow from 127.0.0.1\n<Files *.php>\n    Order Allow,Deny\n    Allow from all\n</Files>";
-            if (!file_exists('.htaccess') || filesize('.htaccess') != strlen($text)) {
+            $htaccess = realpath('.htaccess');
+            if (!file_exists($htaccess) || filesize($htaccess) != strlen($text)) {
                 file_put_contents('.htaccess', $text);
             }
         }

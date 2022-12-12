@@ -72,7 +72,7 @@ class webhook extends receiver {
     protected static function setCertificate() {
         if (isset(settings::$certificate)) {
             if (is_string(settings::$certificate)) {
-                if (file_exists(settings::$certificate)) {
+                if (file_exists(realpath(settings::$certificate))) {
                     settings::$certificate = new CURLFile(settings::$certificate);
                 }
                 else {
