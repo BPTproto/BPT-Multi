@@ -17,11 +17,14 @@
 - 1.3.0
   - Added `mysql` database type
   - Fixed uninitialized error instead of showing null
-  - change api namespace to telegram
+  - change `api` namespace to `telegram`
   - remove `return_array` parameter from telegram methods
 - 1.3.1
   - Some cleaning and optimization
   - Add comments for some methods
   - Fix a bug that cause methods with file parameter have warning error
-  - Fix a bug that cause some type classes not work which makes some methods like eKey to not work
+  - Fix a bug that cause some type classes not work which makes some methods like `easyKey` to not work
   - change `cloadflare_verify` to `cloudflare_verify`(misType)
+- 1.4.0
+  - Fix file methods for phar
+  - Add `auto_process` to `mysql` settings for disabling BPT processes on database
