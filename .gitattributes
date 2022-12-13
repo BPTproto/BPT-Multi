@@ -1,3 +1,4 @@
 /.* export-ignore
 /examples export-ignore
-/*.md export-ignore
+/change_log.md export-ignore
+/feature.md export-ignore

@@ -28,3 +28,6 @@
 - 1.4.0
   - Fix file methods for phar
   - Add `auto_process` to `mysql` settings for disabling BPT processes on database
+- 1.4.1
+  - Fix `mysql` `auto_process` setting
+  - Fix prepared query bug

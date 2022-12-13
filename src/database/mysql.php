@@ -32,7 +32,7 @@ class mysql {
         $port = settings::$db['port'] ?? 3306;
         $user = settings::$db['user'] ?? settings::$db['username'] ?? 'unknown';
         $pass = settings::$db['pass'] ?? settings::$db['password'] ?? 'unknown';
-        self::$auto_process = settings::$db['auto_process'] == true;
+        self::$auto_process = !isset(settings::$db['auto_process']) || settings::$db['auto_process'] == true;
         $dbname = settings::$db['dbname'];
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
         if (self::$connection->connect_errno) {
@@ -213,7 +213,20 @@ CREATE TABLE `users`
      */
     public static function query (string $query, array $vars = [], bool $need_result = true): mysqli_result|bool {
         $prepare = self::$connection->prepare($query);
-        if (!$prepare->execute($vars)) {
+        $types = '';
+        foreach ($vars as $var) {
+            if (is_int($var)) {
+                $types .= 'i';
+            }
+            elseif (is_double($var)) {
+                $types .= 'd';
+            }
+            else {
+                $types .= 's';
+            }
+        }
+        $prepare->bind_param($types,...$vars);
+        if (!$prepare->execute()) {
             logger::write(loggerTypes::WARNING, $prepare->error);
             return false;
         }
