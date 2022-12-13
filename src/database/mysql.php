@@ -22,6 +22,8 @@ use mysqli_result;
 class mysql {
     private static mysqli $connection;
 
+    private static bool $auto_process = true;
+
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
@@ -30,13 +32,14 @@ class mysql {
         $port = settings::$db['port'] ?? 3306;
         $user = settings::$db['user'] ?? settings::$db['username'] ?? 'unknown';
         $pass = settings::$db['pass'] ?? settings::$db['password'] ?? 'unknown';
+        self::$auto_process = settings::$db['auto_process'] == true;
         $dbname = settings::$db['dbname'];
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
         if (self::$connection->connect_errno) {
             logger::write('SQL connection has problem : ' . self::$connection->connect_error, loggerTypes::ERROR);
             throw new bptException('SQL_CONNECTION_PROBLEM');
         }
-        if (!lock::exist('BPT-MYSQL')) {
+        if (self::$auto_process && !lock::exist('BPT-MYSQL')) {
             self::install();
         }
     }
@@ -63,20 +66,22 @@ CREATE TABLE `users`
      * @internal Only for BPT self usage , Don't use it in your source!
      */
     public static function process (): void {
-        if (isset(BPT::$update->message)) {
-            self::processMessage(BPT::$update->message);
-        }
-        elseif (isset(BPT::$update->edited_message)) {
-            self::processMessage(BPT::$update->edited_message);
-        }
-        elseif (isset(BPT::$update->callback_query)) {
-            self::processCallbackQuery(BPT::$update->callback_query);
-        }
-        elseif (isset(BPT::$update->inline_query)) {
-            self::processInlineQuery(BPT::$update->inline_query);
-        }
-        elseif (isset(BPT::$update->my_chat_member)) {
-            self::processMyChatMember(BPT::$update->my_chat_member);
+        if (self::$auto_process) {
+            if (isset(BPT::$update->message)) {
+                self::processMessage(BPT::$update->message);
+            }
+            elseif (isset(BPT::$update->edited_message)) {
+                self::processMessage(BPT::$update->edited_message);
+            }
+            elseif (isset(BPT::$update->callback_query)) {
+                self::processCallbackQuery(BPT::$update->callback_query);
+            }
+            elseif (isset(BPT::$update->inline_query)) {
+                self::processInlineQuery(BPT::$update->inline_query);
+            }
+            elseif (isset(BPT::$update->my_chat_member)) {
+                self::processMyChatMember(BPT::$update->my_chat_member);
+            }
         }
     }
 
@@ -179,7 +184,7 @@ CREATE TABLE `users`
     /**
      * Run query as what is it
      *
-     * The library doesnt do anything on it
+     * The library doesn't do anything on it
      *
      * It's like calling mysqli->query();
      *
@@ -197,6 +202,8 @@ CREATE TABLE `users`
      * Replace inputs with `?` in query to be replaced safely with $vars in order
      *
      * e.g. : mysql::query('select * from `users` where `id` = ? limit 1',[123456789]);
+     *
+     * e.g. : mysql::query('update `users` set `step` = ? where `id` = ? limit 1',['main',123456789]);
      *
      * @param string $query
      * @param array  $vars        default [] or empty
@@ -305,6 +312,7 @@ CREATE TABLE `users`
      * Run select query
      *
      * e.g. : mysql::select('users','*',['id'=>123456789],1);
+     *
      * e.g. : mysql::select('users',['step','referrals'],['id'=>123456789],1);
      *
      * @param string       $table   table name
