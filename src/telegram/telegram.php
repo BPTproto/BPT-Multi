@@ -2,7 +2,6 @@
 
 namespace BPT\telegram;
 use BPT\constants\fileTypes;
-use BPT\settings;
 use BPT\tools;
 use BPT\types\forceReply;
 use BPT\types\inlineKeyboardMarkup;
@@ -35,12 +34,15 @@ class telegram extends request {
      * @return bool
      */
     public static function downloadFile (string|null $destination = null, string|null $file_id = null): bool {
-        $file = telegram::getFile($file_id);
+        return tools::downloadFile(self::fileLink($file_id), $destination);
+    }
+
+    public static function fileLink(string|null $file_id = null): bool|string {
+        $file = self::getFile($file_id);
         if (!isset($file->file_path)) {
             return false;
         }
-        $file_path = settings::$down_url . 'bot' . settings::$token . '/' . $file->file_path;
-        return tools::downloadFile($file_path, $destination);
+        return $file->link();
     }
 
     /**

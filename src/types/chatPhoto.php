@@ -62,4 +62,8 @@ class chatPhoto extends types {
     public function download(string|null $destination = null,bool $big = true): bool|string {
         return telegram::downloadFile($destination ?? $this->file_name ?? 'unknown.mp4',$big ? $this->big_file_id : $this->small_file_id);
     }
+
+    public function link(bool $big = true): string {
+        return telegram::fileLink($big ? $this->big_file_id : $this->small_file_id);
+    }
 }

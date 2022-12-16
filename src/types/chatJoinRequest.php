@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -35,5 +36,13 @@ class chatJoinRequest extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function accept(): responseError|bool {
+        return telegram::approveChatJoinRequest($this->chat->id,$this->from->id);
+    }
+
+    public function deny(): responseError|bool {
+        return telegram::declineChatJoinRequest($this->chat->id,$this->from->id);
     }
 }

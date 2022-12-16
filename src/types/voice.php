@@ -59,4 +59,8 @@ class voice extends types {
     public function download(string|null $destination = null): bool|string {
         return telegram::downloadFile($destination ?? 'unknown.ogg',$this->file_id);
     }
+
+    public function link(): string {
+        return telegram::fileLink($this->file_id);
+    }
 }

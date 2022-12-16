@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -49,5 +50,9 @@ class chatInviteLink extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function revoke(): self|responseError|bool {
+        return $this->is_revoked ?? telegram::revokeChatInviteLink($this->invite_link);
     }
 }

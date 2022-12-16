@@ -2,6 +2,9 @@
 
 namespace BPT\types;
 
+use BPT\constants\chatType;
+use BPT\telegram\telegram;
+use CURLFile;
 use stdClass;
 
 /**
@@ -123,5 +126,77 @@ class chat extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function isPrivate (): bool {
+        return $this->type === chatType::PRIVATE;
+    }
+
+    public function isGroup (): bool {
+        return $this->type === chatType::GROUP;
+    }
+
+    public function isSuperGroup (): bool {
+        return $this->type === chatType::SUPERGROUP;
+    }
+
+    public function isChannel (): bool {
+        return $this->type === chatType::CHANNEL;
+    }
+
+    public function leave(): responseError|bool {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::leave($this->id);
+    }
+
+    public function setPhoto(CURLFile|array $photo): responseError|bool {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::setChatPhoto($photo,$this->id);
+    }
+
+    public function delPhoto(): responseError|bool {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::deleteChatPhoto($this->id);
+    }
+
+    public function setTitle(string|array $title): responseError|bool {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::setChatTitle($title,$this->id);
+    }
+
+    public function setDescription(string|null $description = null): responseError|bool {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::setChatDescription($this->id,$description);
+    }
+
+    public function getAdmins(): bool|responseError|array {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::getChatAdministrators($this->id);
+    }
+
+    public function getMembersCount(): bool|responseError|int {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::getChatMemberCount($this->id);
+    }
+
+    public function getMember(int|null $user_id = null): chatMember|bool|responseError {
+        if ($this->isPrivate()) {
+            return false;
+        }
+        return telegram::getChatMember($this->id,$user_id);
     }
 }

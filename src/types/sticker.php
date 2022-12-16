@@ -89,4 +89,8 @@ class sticker extends types {
     public function download(string|null $destination = null): bool|string {
         return telegram::downloadFile($destination ?? 'unknown.png',$this->file_id);
     }
+
+    public function link(): string {
+        return telegram::fileLink($this->file_id);
+    }
 }

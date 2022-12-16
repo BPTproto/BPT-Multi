@@ -41,4 +41,8 @@ class location extends types {
             parent::__construct($object, self::subs);
         }
     }
+
+    public function mapLink (): string {
+        return "https://www.google.com/maps/search/$this->latitude,$this->longitude";
+    }
 }

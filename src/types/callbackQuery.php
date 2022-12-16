@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -49,5 +50,22 @@ class callbackQuery extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+
+    public function editText (string $text): message|responseError|bool {
+        return telegram::editMessageText($text);
+    }
+
+    public function editCaption (string $text = ''): message|responseError|bool {
+        return telegram::editMessageCaption(caption: $text);
+    }
+
+    public function editKeyboard (inlineKeyboardMarkup|stdClass|array $reply_markup = null): message|responseError|bool {
+        return telegram::editMessageReplyMarkup(reply_markup: $reply_markup);
+    }
+
+    public function editMedia (inputMedia|array|stdClass $media): message|responseError|bool {
+        return telegram::editMessageMedia($media);
     }
 }

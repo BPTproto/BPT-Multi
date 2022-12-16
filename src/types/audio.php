@@ -71,4 +71,8 @@ class audio extends types {
     public function download(string|null $destination = null): bool|string {
         return telegram::downloadFile($destination ?? $this->file_name ?? 'unknown.mp3',$this->file_id);
     }
+
+    public function link(): string {
+        return telegram::fileLink($this->file_id);
+    }
 }

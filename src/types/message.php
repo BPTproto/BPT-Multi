@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -340,5 +341,9 @@ class message extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function delete (): responseError|bool {
+        return telegram::deleteMessage($this->chat->id,$this->id);
     }
 }

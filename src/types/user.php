@@ -2,6 +2,8 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
+use BPT\tools;
 use stdClass;
 
 /**
@@ -53,5 +55,17 @@ class user extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function inviteLink(): string {
+        return tools::inviteLink($this->id);
+    }
+
+    public function fullName(bool $nameFirst = true): string {
+        return trim($nameFirst ? $this->first_name . ' ' . $this->last_name : $this->last_name . ' ' . $this->first_name);
+    }
+
+    public function getProfiles(int|null $offset = null, int|null $limit = null): userProfilePhotos|responseError {
+        return telegram::getUserProfilePhotos($this->id,$offset,$limit);
     }
 }

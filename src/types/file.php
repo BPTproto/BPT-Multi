@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\settings;
 use stdClass;
 
 /**
@@ -40,5 +41,9 @@ class file extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function link(): string {
+        return settings::$down_url . 'bot' . settings::$token . '/' . $this->file_path;
     }
 }
