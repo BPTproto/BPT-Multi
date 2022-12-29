@@ -105,4 +105,34 @@ class webhook extends receiver {
     protected static function getSecret() {
         return $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] ?? false;
     }
+
+    /**
+     * Fast end webserver process and run codes in background
+     *
+     * It will help you with telegram if you call it in less than 30 second of start time
+     *
+     * @param int $timeout set time out if you know how much your code will take , default is 1 day
+     *
+     * @return bool
+     */
+    public static function fastClose (int $timeout = 86400): bool {
+        if (settings::$multi || !lock::exist('BPT-HOOK')) {
+            return false;
+        }
+        http_response_code(200);
+        ini_set('max_execution_time', $timeout);
+        set_time_limit($timeout);
+        ignore_user_abort(true);
+        if (function_exists('fastcgi_finish_request')) {
+            fastcgi_finish_request();
+        }
+        elseif (function_exists('litespeed_finish_request')) {
+            litespeed_finish_request();
+        }
+        else {
+            return false;
+        }
+
+        return true;
+    }
 }

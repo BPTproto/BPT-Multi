@@ -225,7 +225,9 @@ CREATE TABLE `users`
                 $types .= 's';
             }
         }
-        $prepare->bind_param($types,...$vars);
+        if (!empty($types) && !empty($vars)) {
+            $prepare->bind_param($types,...$vars);
+        }
         if (!$prepare->execute()) {
             logger::write(loggerTypes::WARNING, $prepare->error);
             return false;

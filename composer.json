@@ -16,14 +16,14 @@
 		"api"
 	],
 	"homepage": "https://bptlib.ir",
-	"time": "2022-12-13",
+	"time": "2022-12-29",
 	"license": "MIT",
 	"authors": [
 		{
 			"name": "Miaad Sadeghloo",
 			"email": "miaadps@gmail.com",
 			"role": "Developer",
-			"homepage": "https://miaadp.ir"
+			"homepage": "https://github.com/miaadp"
 		},
 		{
 			"name": "Alireza",

@@ -31,3 +31,12 @@
 - 1.4.1
   - Fix `mysql` `auto_process` setting
   - Fix prepared query bug
+- 1.5.0
+  - a lot of extra method added to type classes
+  - fix `mysql` class bug : `auto_process` setting not worked
+  - fix `mysql` class bug : queries with empty data got error
+  - add `space_between` parameter to `tools::byteFormat()`
+  - add `fastClose` method to `webhook` class for background process
+  - `tools::crypto()` is deprecated , use `tools::codec()` instead(old style will be removed from 1.6.0)
+  - `cryptoAction` class is deprecated , use `codecAction` instead(old style will be removed from 1.6.0)
+  - add `crypto` class for cryptocurrency payments(nowPayments)
