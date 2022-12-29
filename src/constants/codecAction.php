@@ -3,9 +3,9 @@
 namespace BPT\constants;
 
 /**
- * @deprecated use codecAction instead , will remove in 1.6.0
+ * Different type of crypto action
  */
-class cryptoAction {
+class codecAction {
     public const ENCRYPT = 'encrypt';
     public const DECRYPT = 'decrypt';
 }
