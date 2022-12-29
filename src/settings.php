@@ -6,6 +6,7 @@ use BPT\constants\loggerTypes;
 use BPT\constants\receiver;
 use BPT\database\db;
 use BPT\exception\bptException;
+use BPT\pay\pay;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
 use CURLFile;
@@ -61,6 +62,8 @@ class settings {
 
     public static array|null $db = ['type' => 'json'];
 
+    public static array|null $pay = null;
+
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
@@ -100,6 +103,7 @@ class settings {
         self::security();
         self::secureFolder();
         db::init();
+        pay::init();
         if (!empty(self::$receiver)) {
             self::$receiver !== receiver::GETUPDATES ? webhook::init() : self::getUpdates();
         }
