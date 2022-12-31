@@ -373,12 +373,13 @@ class tools{
      *
      * e.g. => tools::byteFormat(byte: 123456789);
      *
-     * @param int $byte      size in byte
-     * @param int $precision decimal precision
+     * @param int  $byte      size in byte
+     * @param int  $precision decimal precision
+     * @param bool $space_between
      *
      * @return string
      */
-    public static function byteFormat (int $byte, int $precision = 2): string {
+    public static function byteFormat (int $byte, int $precision = 2, bool $space_between = true): string {
         $rate_counter = 0;
 
         while ($byte > 1024){
@@ -390,7 +391,7 @@ class tools{
             $byte = round($byte, $precision);
         }
 
-        return $byte . ' ' . ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'][$rate_counter];
+        return $byte . ($space_between ? ' ' : '') . ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'][$rate_counter];
     }
 
     /**
