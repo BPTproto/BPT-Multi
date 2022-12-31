@@ -8,6 +8,7 @@ use stdClass;
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and
  * examples).
  * @method self setKeyboard(array $value)
+ * @method self setIs_persistent(bool $value)
  * @method self setResize_keyboard(bool $value)
  * @method self setOne_time_keyboard(bool $value)
  * @method self setInput_field_placeholder(string $value)
@@ -22,6 +23,12 @@ class replyKeyboardMarkup extends types {
      * @var keyboardButton[][]
      */
     public array $keyboard;
+
+    /**
+     * Optional. Requests clients to always show the keyboard when the regular keyboard is hidden. Defaults to false,
+     * in which case the custom keyboard can be hidden and opened with a keyboard icon.
+     */
+    public bool $is_persistent;
 
     /**
      * Optional. Requests clients to resize the keyboard vertically for optimal fit (e.g., make the keyboard smaller

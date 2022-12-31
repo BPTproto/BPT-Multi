@@ -18,8 +18,9 @@ class getUpdates extends receiver {
     #[NoReturn]
     public static function init () {
         $last_update_id = self::loadData();
+        lock::set('getUpdateHook');
         while(true) {
-            if (!lock::exist('getUpdate')) {
+            if (lock::exist('getUpdateHook')) {
                 $updates = telegram::getUpdates($last_update_id,allowed_updates: settings::$allowed_updates);
                 if (!telegram::$status) {
                     logger::write("There is some problem happened , telegram response : \n".json_encode($updates),loggerTypes::ERROR);

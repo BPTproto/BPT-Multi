@@ -12,6 +12,7 @@ use stdClass;
  * @method self setCaption(string $value)
  * @method self setParse_mode(string $value)
  * @method self setCaption_entities(array $value)
+ * @method self setHas_spoiler(bool $value)
  * @method self setThumb(CURLFile|string $value)
  * @method self setWidth(int $value)
  * @method self setHeight(int $value)
@@ -44,6 +45,9 @@ class inputMedia extends types {
      * @var messageEntity[]
      */
     public array $caption_entities;
+
+    /** `video` and `animation` and `photo` only. Optional. Pass True if the photo needs to be covered with a spoiler animation */
+    public bool $has_spoiler;
 
     /**
      * all types except `photo`. Thumbnail of the file sent; can be ignored if thumbnail generation for the file is supported

@@ -203,6 +203,9 @@ class message extends types {
      */
     public null|array $caption_entities = null;
 
+    /** Optional. True, if the message media is covered by a spoiler animation */
+    public null|bool $has_media_spoiler = null;
+
     /** Optional. Message is a shared contact, information about the contact */
     public null|contact $contact = null;
 
@@ -300,6 +303,9 @@ class message extends types {
     /** Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
     public null|string $connected_website = null;
 
+    /** Optional. Service message: the user allowed the bot added to the attachment menu to write messages */
+    public null|writeAccessAllowed $write_access_allowed = null;
+
     /** Optional. Telegram Passport data */
     public null|passportData $passport_data = null;
 
@@ -312,11 +318,20 @@ class message extends types {
     /** Optional. Service message: forum topic created */
     public null|forumTopicCreated $forum_topic_created = null;
 
+    /** Optional. Service message: forum topic edited */
+    public null|forumTopicEdited $forum_topic_edited = null;
+
     /** Optional. Service message: forum topic closed */
     public null|forumTopicClosed $forum_topic_closed = null;
 
     /** Optional. Service message: forum topic reopened */
     public null|forumTopicReopened $forum_topic_reopened = null;
+
+    /** Optional. Service message: the 'General' forum topic hidden */
+    public null|generalForumTopicHidden $general_forum_topic_hidden = null;
+
+    /** Optional. Service message: the 'General' forum topic unhidden */
+    public null|generalForumTopicUnhidden $general_forum_topic_unhidden = null;
 
     /** Optional. Service message: video chat scheduled */
     public null|videoChatScheduled $video_chat_scheduled = null;
