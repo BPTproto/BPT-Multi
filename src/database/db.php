@@ -18,23 +18,21 @@ class db {
      * @internal Only for BPT self usage , Don't use it in your source!
      */
     public static function init (): void {
-        if (!empty(settings::$db)) {
-            if (!isset(settings::$db['type'])) {
-                settings::$db['type'] = dbTypes::JSON;
-            }
-            switch (settings::$db['type']) {
-                case dbTypes::JSON:
-                    json::init();
-                    break;
-                case dbTypes::MYSQL:
-                    mysql::init();
-                    break;
-                default:
-                    logger::write('DB type is wrong', loggerTypes::ERROR);
-                    throw new bptException('DB_TYPE_WRONG');
-            }
-            self::$active = true;
+        if (!isset(settings::$db['type'])) {
+            settings::$db['type'] = dbTypes::JSON;
         }
+        switch (settings::$db['type']) {
+            case dbTypes::JSON:
+                json::init();
+                break;
+            case dbTypes::MYSQL:
+                mysql::init();
+                break;
+            default:
+                logger::write('DB type is wrong', loggerTypes::ERROR);
+                throw new bptException('DB_TYPE_WRONG');
+        }
+        self::$active = true;
     }
 
     /**

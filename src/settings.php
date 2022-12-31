@@ -102,8 +102,12 @@ class settings {
         }
         self::security();
         self::secureFolder();
-        db::init();
-        pay::init();
+        if (!empty(settings::$db)) {
+            db::init();
+        }
+        if (!empty(settings::$pay)) {
+            pay::init();
+        }
         if (!empty(self::$receiver)) {
             self::$receiver !== receiver::GETUPDATES ? webhook::init() : self::getUpdates();
         }

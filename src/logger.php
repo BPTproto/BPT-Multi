@@ -28,7 +28,7 @@ class logger {
             $mode = 'w';
             $write = true;
         }
-        self::$handler = fopen(settings::$name.'BPT.log', $mode);
+        self::$handler = fopen($log_file, $mode);
 
         if ($write) {
             fwrite(self::$handler,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT Library LOG STARTED ...\nwarning : this file automatically deleted when its size reached log_size setting, do not delete it manually\n\n");

@@ -47,6 +47,9 @@ class webhook extends receiver {
         if (lock::exist('getUpdate')) {
             lock::delete('getUpdate');
         }
+        if (lock::exist('getUpdateHook')) {
+            lock::delete('getUpdateHook');
+        }
     }
 
     protected static function setWebhook(string $url,string $secret = '') {

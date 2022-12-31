@@ -41,5 +41,8 @@ class multi extends webhook {
         if (lock::exist('getUpdate')) {
             lock::delete('getUpdate');
         }
+        if (lock::exist('getUpdateHook')) {
+            lock::delete('getUpdateHook');
+        }
     }
 }

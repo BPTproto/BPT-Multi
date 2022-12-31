@@ -139,7 +139,7 @@ class receiver {
                 BPT::$handler->something_else(BPT::$update);
             }
             else {
-                logger::write('Update received but handlers does not set',loggerTypes::WARNING);
+                logger::write('Update received but handlers are not set',loggerTypes::WARNING);
             }
         }
     }
