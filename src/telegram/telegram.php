@@ -61,30 +61,17 @@ class telegram extends request {
      */
     public static function sendFile (string $file_id, int|string $chat_id = null, int $message_thread_id = null, string $caption = null, string $parse_mode = null, array $caption_entities = null, bool $disable_notification = null, bool $protect_content = null, int $reply_to_message_id = null, bool $allow_sending_without_reply = null, inlineKeyboardMarkup|replyKeyboardMarkup|replyKeyboardRemove|forceReply|stdClass|array $reply_markup = null, string $token = null, bool $forgot = null, bool $answer = null): message|bool|responseError {
         $type = tools::fileType($file_id);
-        if ($type === fileTypes::VIDEO) {
-            return self::sendVideo($file_id,$chat_id,$message_thread_id,null,null,null,null,$caption,$parse_mode,$caption_entities,null,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::VIDEO_NOTE) {
-            return self::sendVideoNote($file_id,$chat_id,$message_thread_id,null,null,null,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::ANIMATION) {
-            return self::sendAnimation($file_id,$chat_id,$message_thread_id,null,null,null,null,$caption,$parse_mode,$caption_entities,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::AUDIO) {
-            return self::sendAudio($file_id,$chat_id,$message_thread_id,$caption,$parse_mode,$caption_entities,null,null,null,null,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::PHOTO || $type === fileTypes::PROFILE_PHOTO) {
-            return self::sendPhoto($file_id,$chat_id,$message_thread_id,$caption,$parse_mode,$caption_entities,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::VOICE) {
-            return self::sendVoice($file_id,$chat_id,$message_thread_id,$caption,$parse_mode,$caption_entities,null,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::STICKER) {
-            return self::sendSticker($file_id,$chat_id,$message_thread_id,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        elseif ($type === fileTypes::DOCUMENT) {
-            return self::sendDocument($file_id,$chat_id,$message_thread_id,null,$caption,$parse_mode,$caption_entities,null,$disable_notification,$protect_content,$reply_to_message_id,$allow_sending_without_reply,$reply_markup,$token,$forgot,$answer);
-        }
-        else return false;
+        return match ($type) {
+            fileTypes::VIDEO => self::sendVideo($file_id, $chat_id, null, null, null, null, $caption, $parse_mode, $caption_entities, null, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::VIDEO_NOTE => self::sendVideoNote($file_id, $chat_id, null, null, null, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::ANIMATION => self::sendAnimation($file_id, $chat_id, null, null, null, null, $caption, $parse_mode, $caption_entities, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::AUDIO => self::sendAudio($file_id, $chat_id, $caption, $parse_mode, $caption_entities, null, null, null, null, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::PHOTO,
+            fileTypes::PROFILE_PHOTO => self::sendPhoto($file_id, $chat_id, $caption, $parse_mode, $caption_entities, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::VOICE => self::sendVoice($file_id, $chat_id, $caption, $parse_mode, $caption_entities, null, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::STICKER => self::sendSticker($file_id, $chat_id, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            fileTypes::DOCUMENT => self::sendDocument($file_id, $chat_id, null, $caption, $parse_mode, $caption_entities, null, $disable_notification, $protect_content, $reply_to_message_id, $allow_sending_without_reply, $reply_markup, $token, $forgot, $answer, $message_thread_id),
+            default => false,
+        };
     }
 }

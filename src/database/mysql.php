@@ -225,7 +225,7 @@ CREATE TABLE `users`
                 $types .= 's';
             }
         }
-        if (!empty($types) && !empty($vars)) {
+        if (!empty($types)) {
             $prepare->bind_param($types,...$vars);
         }
         if (!$prepare->execute()) {

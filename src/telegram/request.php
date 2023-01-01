@@ -864,14 +864,12 @@ class request {
     }
 
     private static function processResponse(string $name, stdClass $response) {
+        self::$status = $response->ok;
+        self::$pure_response = $response;
         if ($response->ok) {
-            self::$status = true;
-            self::$pure_response = $response;
             return self::methodReturn($name,$response);
         }
         else {
-            self::$status = false;
-            self::$pure_response = $response;
             return new responseError($response);
         }
     }
