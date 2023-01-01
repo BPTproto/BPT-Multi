@@ -30,17 +30,8 @@ class receiver {
 
     protected static function telegramVerify(string $ip = null): void {
         if (settings::$telegram_verify) {
-            $ip = $ip ?? $_SERVER['REMOTE_ADDR'];
-            if (settings::$cloudflare_verify) {
-                if (isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
-                    $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-                }
-            }
-            elseif (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
-                $ip = $_SERVER['HTTP_AR_REAL_IP'];
-            }
-
-            if (!tools::isTelegram($ip ?? '')) {
+            $ip = $ip ?? tools::remoteIP();
+            if (!tools::isTelegram($ip)) {
                 logger::write('not authorized access denied. IP : '. $ip ?? 'unknown',loggerTypes::WARNING);
                 BPT::exit();
             }

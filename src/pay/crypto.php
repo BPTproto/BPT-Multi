@@ -153,17 +153,7 @@ class crypto {
     }
 
     public static function isNowPayments(): bool {
-        $ip = $_SERVER['REMOTE_ADDR'];
-        if (settings::$cloudflare_verify) {
-            if (isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
-                $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
-            }
-        }
-        elseif (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
-            $ip = $_SERVER['HTTP_AR_REAL_IP'];
-        }
-
-        return $ip === '144.76.201.30';
+        return tools::remoteIP() === '144.76.201.30';
     }
 
     public static function isIPNRequestValid (): bool {

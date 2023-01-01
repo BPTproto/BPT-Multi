@@ -451,10 +451,7 @@ class tools{
      * @throws Exception
      */
     public static function timeDiff (int|string $target_time, int|string|null $base_time = null): array {
-        if (!isset($base_time)) {
-            $base_time = '@'.time();
-        }
-        $base_time = new DateTime($base_time);
+        $base_time = new DateTime($base_time ?? '@'.time());
         $target_time = new DateTime(is_numeric($target_time) ? '@' . $target_time : $target_time . ' +00:00');
 
         $diff = $base_time->diff($target_time);
@@ -789,5 +786,21 @@ class tools{
             $num += strpos($codes,$value) * pow(62,$key);
         }
         return $num;
+    }
+
+    /**
+     * Get remote IP address
+     *
+     * @return string
+     */
+    public static function remoteIP(): string {
+        $ip = $_SERVER['REMOTE_ADDR'];
+        if (settings::$cloudflare_verify && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
+            $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+        }
+        elseif (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
+            $ip = $_SERVER['HTTP_AR_REAL_IP'];
+        }
+        return $ip;
     }
 }
