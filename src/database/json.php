@@ -270,9 +270,9 @@ class json {
                 self::$ids[$category][] = self::$user_id;
                 self::$user = (object) self::$user_default_data;
                 self::$user->first_active = self::$user->last_active = time();
-                if (isset($update->commend) && isset($update->commend_payload) && $update->commend === 'start' && str_starts_with($update->commend_payload,'ref_')) {
-                    if (tools::isShorted(substr($update->commend_payload,4))) {
-                        $referral = tools::shortDecode(substr($update->commend_payload,4));
+                if (isset($update->command) && isset($update->command_payload) && $update->command === 'start' && str_starts_with($update->command_payload,'ref_')) {
+                    if (tools::isShorted(substr($update->command_payload,4))) {
+                        $referral = tools::shortDecode(substr($update->command_payload,4));
                         if (in_array($referral,self::$ids[$category])) {
                             self::$user->referral = $referral;
                         }

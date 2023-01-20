@@ -20,6 +20,8 @@ use TypeError;
 class settings {
     public static string $token = '';
 
+    public static int $bot_id = 0;
+
     public static string $name = '';
 
     public static bool $logger = true;
@@ -100,6 +102,7 @@ class settings {
             logger::write('token format is not right, check it and try again', loggerTypes::ERROR);
             throw new bptException('TOKEN_NOT_TRUE');
         }
+        self::$bot_id = explode(':', self::$token)[0];
         self::security();
         self::secureFolder();
         if (!empty(settings::$db)) {

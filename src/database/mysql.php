@@ -93,9 +93,9 @@ CREATE TABLE `users`
             $referral = null;
             $username = $update->from->username;
             $lang_code = $update->from->language_code;
-            if (isset($update->commend) && isset($update->commend_payload) && $update->commend === 'start' && str_starts_with($update->commend_payload, 'ref_')) {
-                if (tools::isShorted(substr($update->commend_payload, 4))) {
-                    $referral = tools::shortDecode(substr($update->commend_payload, 4));
+            if (isset($update->command) && isset($update->command_payload) && $update->command === 'start' && str_starts_with($update->command_payload, 'ref_')) {
+                if (tools::isShorted(substr($update->command_payload, 4))) {
+                    $referral = tools::shortDecode(substr($update->command_payload, 4));
                 }
             }
             self::query("INSERT INTO `users`(`id`, `username`, `lang_code`, `first_active`, `last_active`, `referral`) VALUES (?,?,?,?,?,?) on duplicate key update `last_active` = ?, `username` = ?", [
@@ -201,6 +201,8 @@ CREATE TABLE `users`
      *
      * Replace inputs with `?` in query to be replaced safely with $vars in order
      *
+     * it will use `pureQuery` if `$vars` be empty
+     *
      * e.g. : mysql::query('select * from `users` where `id` = ? limit 1',[123456789]);
      *
      * e.g. : mysql::query('update `users` set `step` = ? where `id` = ? limit 1',['main',123456789]);
@@ -212,6 +214,9 @@ CREATE TABLE `users`
      * @return mysqli_result|bool
      */
     public static function query (string $query, array $vars = [], bool $need_result = true): mysqli_result|bool {
+        if (empty($vars)) {
+            return self::pureQuery($query);
+        }
         $prepare = self::$connection->prepare($query);
         $types = '';
         foreach ($vars as $var) {
@@ -225,9 +230,7 @@ CREATE TABLE `users`
                 $types .= 's';
             }
         }
-        if (!empty($types)) {
-            $prepare->bind_param($types,...$vars);
-        }
+        $prepare->bind_param($types,...$vars);
         if (!$prepare->execute()) {
             logger::write(loggerTypes::WARNING, $prepare->error);
             return false;

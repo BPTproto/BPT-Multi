@@ -774,15 +774,17 @@ class request {
         self::readyFile($action,$arguments);
         self::setDefaults($action,$arguments);
         if (isset($arguments['answer'])) {
-            return answer::init($action,$arguments);
-        }
-        else {
-            $result = curl::init($action,$arguments);
-            if (!is_object($result)) {
-                return false;
+            if (!answer::isAnswered()) {
+                return answer::init($action,$arguments);
             }
-            return self::processResponse($action,$result);
+            logger::write('you can use answer mode only once for each webhook update, Others will be called like normal',loggerTypes::WARNING);
+            unset($arguments['answer']);
         }
+        $result = curl::init($action,$arguments);
+        if (!is_object($result)) {
+            return false;
+        }
+        return self::processResponse($action,$result);
     }
 
     private static function checkArguments(array &$arguments): void {
@@ -807,17 +809,29 @@ class request {
     private static function readyFile(string $name, array &$arguments): void {
         if ($name === 'sendMediaGroup') {
             foreach ($arguments['media'] as $key => $media) {
-                if (is_string($media['media']) && file_exists(realpath($media['media']))) {
+                if ($media['media'] instanceof CURLFile) {
+                    $remove_answer = true;
+                }
+                elseif (is_string($media['media']) && file_exists(realpath($media['media']))) {
                     $arguments['media'][$key]['media'] = new CURLFile($media['media']);
+                    $remove_answer = true;
                 }
             }
         }
         elseif ($file_params = self::methodFile($name)) {
             foreach ($file_params as $param) {
-                if (isset($arguments[$param]) && is_string($arguments[$param]) && file_exists(realpath($arguments[$param]))) {
+                if ($arguments[$param] instanceof CURLFile) {
+                    $remove_answer = true;
+                }
+                elseif (isset($arguments[$param]) && is_string($arguments[$param]) && file_exists(realpath($arguments[$param]))) {
                     $arguments[$param] = new CURLFile($arguments[$param]);
+                    $remove_answer = true;
                 }
             }
+        }
+        if (isset($remove_answer) && isset($arguments['answer'])) {
+            unset($arguments['answer']);
+            logger::write("You can not use answer while sending file", loggerTypes::WARNING);
         }
     }
 
@@ -826,22 +840,18 @@ class request {
     }
 
     private static function methodReturn(string $name,stdClass $response) {
-        if (isset(self::METHODS_RETURN[$name])) {
-            $return = self::METHODS_RETURN[$name];
-            if (is_array($return)) {
-                $response = $response->result;
-                foreach ($response as &$value) {
-                    $value = new ($return[0]) ($value);
-                }
-                return $response;
-            }
-            else {
-                return new ($return) ($response->result);
-            }
-        }
-        else {
+        if (!isset(self::METHODS_RETURN[$name])) {
             return $response->result;
         }
+        $return = self::METHODS_RETURN[$name];
+        if (!is_array($return)) {
+            return new ($return) ($response->result);
+        }
+        $response = $response->result;
+        foreach ($response as &$value) {
+            $value = new ($return[0]) ($value);
+        }
+        return $response;
     }
 
     private static function setDefaults(string $name, array &$arguments): void {
@@ -866,12 +876,11 @@ class request {
     private static function processResponse(string $name, stdClass $response) {
         self::$status = $response->ok;
         self::$pure_response = $response;
-        if ($response->ok) {
-            return self::methodReturn($name,$response);
-        }
-        else {
+        if (!$response->ok) {
+            logger::write("Telegram $name method failed : " . json_encode($response), loggerTypes::WARNING);
             return new responseError($response);
         }
+        return self::methodReturn($name,$response);
     }
 
     /**

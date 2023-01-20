@@ -18,7 +18,6 @@ class answer {
      * @internal Only for BPT self usage , Don't use it in your source!
      */
     public static function init(string $method,array $data): bool {
-        self::checkAnswered();
         self::checkWebhook();
         self::sieveData($data);
         self::$is_answered = true;
@@ -29,11 +28,8 @@ class answer {
         return true;
     }
 
-    private static function checkAnswered(): void {
-        if (self::$is_answered) {
-            logger::write('You can use answer mode only once for each webhook update , You already did it!',loggerTypes::ERROR);
-            throw new bptException('ANSWER_MODE_USED');
-        }
+    public static function isAnswered (): bool {
+        return self::$is_answered;
     }
 
     private static function checkWebhook(): void {
@@ -41,7 +37,7 @@ class answer {
             logger::write('Answer mode only work when receiver is webhook',loggerTypes::ERROR);
             throw new bptException('ANSWER_MODE_GETUPDATES');
         }
-        elseif(settings::$multi) {
+        if(settings::$multi) {
             logger::write('You can not use answer mode when multi setting is on',loggerTypes::ERROR);
             throw new bptException('ANSWER_MODE_MULTI');
         }
