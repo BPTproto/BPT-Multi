@@ -62,7 +62,7 @@ class settings {
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 
-    public static array|null $db = ['type' => 'json'];
+    public static array|null $db = null;
 
     public static array|null $pay = null;
 
