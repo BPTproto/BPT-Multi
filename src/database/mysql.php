@@ -25,15 +25,15 @@ class mysql {
     private static bool $auto_process = true;
 
     /**
-     * @internal Only for BPT self usage , Don't use it in your source!
+     * If you want to use it in standalone mode , you MUST set `auto_process` to `false`
      */
-    public static function init (): void {
-        $host = settings::$db['host'] ?? 'localhost';
-        $port = settings::$db['port'] ?? 3306;
-        $user = settings::$db['user'] ?? settings::$db['username'] ?? 'root';
-        $pass = settings::$db['pass'] ?? settings::$db['password'] ?? '';
-        self::$auto_process = !isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true);
-        $dbname = settings::$db['dbname'];
+    public static function init (string $host = 'localhost', string $username = 'root', string $password = '', string $dbname = '', bool $auto_process = null, int $port = 3306): void {
+        $host = settings::$db['host'] ?? $host;
+        $port = settings::$db['port'] ?? $port;
+        $user = settings::$db['user'] ?? settings::$db['username'] ?? $username;
+        $pass = settings::$db['pass'] ?? settings::$db['password'] ?? $password;
+        self::$auto_process = $auto_process ?? (isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
+        $dbname = settings::$db['dbname'] ?? $dbname;
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
         if (self::$connection->connect_errno) {
             logger::write('SQL connection has problem : ' . self::$connection->connect_error, loggerTypes::ERROR);

@@ -21,9 +21,9 @@ class crypto {
 
     private static CurlHandle $session;
 
-    public static function init (): void {
-        self::$api_key = settings::$pay['crypto']['api_key'] ?? '';
-        self::$ipn_secret = settings::$pay['crypto']['ipn_secret'] ?? '';
+    public static function init (string $api_key = '', string $ipn_secret = ''): void {
+        self::$api_key = settings::$pay['crypto']['api_key'] ?? $api_key;
+        self::$ipn_secret = settings::$pay['crypto']['ipn_secret'] ?? $ipn_secret;
         self::$session = curl_init();
         curl_setopt(self::$session, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYPEER, 1);
