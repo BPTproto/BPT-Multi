@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -40,5 +41,9 @@ class inlineQuery extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function answer(array $results, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, string|null $switch_pm_text = null, string|null $switch_pm_parameter = null): responseError|bool {
+        return telegram::answerInlineQuery($results, $this->id, $cache_time, $is_personal, $next_offset, $switch_pm_text, $switch_pm_parameter);
     }
 }

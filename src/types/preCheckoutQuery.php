@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -41,5 +42,9 @@ class preCheckoutQuery extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function answer (bool $ok, string|null $error_message = null): responseError|bool {
+        return telegram::answerPreCheckoutQuery($ok, $this->id, $error_message);
     }
 }

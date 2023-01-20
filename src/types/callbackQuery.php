@@ -52,6 +52,9 @@ class callbackQuery extends types {
         }
     }
 
+    public function answer (string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null): responseError|bool {
+        return telegram::answerCallbackQuery($this->id, $text, $show_alert, $url, $cache_time);
+    }
 
     public function editText (string $text): message|responseError|bool {
         return telegram::editMessageText($text);

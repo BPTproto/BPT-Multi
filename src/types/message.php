@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\constants\chatMemberStatus;
 use BPT\telegram\telegram;
 use stdClass;
 
@@ -358,7 +359,42 @@ class message extends types {
         }
     }
 
+    public function isCommand (): bool {
+        return !empty($this->command);
+    }
+
+    public function isForwarded (): bool {
+        return $this->forward_from !== null || $this->forward_from_chat !== null;
+    }
+
+    public function isAdmin (): bool {
+        return $this->chat->getMember($this->from->id)->status === chatMemberStatus::ADMINISTRATOR;
+    }
+
+    public function isOwner (): bool {
+        return $this->chat->getMember($this->from->id)->status === chatMemberStatus::CREATOR;
+    }
+
+    public function banMember(): responseError|bool {
+        if ($this->chat->isPrivate()) {
+            return false;
+        }
+        return telegram::banChatMember($this->chat->id, $this->from->id);
+    }
+
     public function delete (): responseError|bool {
         return telegram::deleteMessage($this->chat->id,$this->id);
+    }
+
+    public function editText (string $text): message|responseError|bool {
+        return telegram::editMessageText($text,$this->chat->id,$this->message_id);
+    }
+
+    public function copy (int|string $chat_id): messageId|responseError {
+        return telegram::copyMessage($chat_id);
+    }
+
+    public function forward (int|string $chat_id): message|responseError {
+        return telegram::forwardMessage($chat_id);
     }
 }

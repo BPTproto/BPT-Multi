@@ -2,6 +2,8 @@
 
 namespace BPT\types;
 
+use BPT\constants\chatMemberStatus;
+use BPT\settings;
 use stdClass;
 
 /**
@@ -43,5 +45,45 @@ class chatMemberUpdated extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function isUnBlockedMe(): bool {
+        return $this->chat->isPrivate() && $this->isMe() && $this->isJoined();
+    }
+
+    public function isBlockedMe(): bool {
+        return $this->chat->isPrivate() && $this->isMe() && $this->isKicked();
+    }
+
+    public function isMe (): bool {
+        return $this->new_chat_member->user->id == settings::$bot_id;
+    }
+
+    public function isAdded(): bool {
+        return $this->isJoined() && $this->from->id !== $this->new_chat_member->user->id;
+    }
+
+    public function isJoined(): bool {
+        return $this->new_chat_member->status === chatMemberStatus::MEMBER;
+    }
+
+    public function isJoinedByLink(): bool {
+        return $this->isJoined() && !empty($this->invite_link);
+    }
+
+    public function isLeaved (): bool {
+        return $this->new_chat_member->status === chatMemberStatus::LEFT;
+    }
+
+    public function isKicked (): bool {
+        return $this->new_chat_member->status === chatMemberStatus::KICKED;
+    }
+
+    public function isOldAdmin (): bool {
+        return $this->old_chat_member->status === chatMemberStatus::ADMINISTRATOR && $this->isJoined();
+    }
+
+    public function isNewAdmin (): bool {
+        return $this->new_chat_member->status === chatMemberStatus::ADMINISTRATOR;
     }
 }

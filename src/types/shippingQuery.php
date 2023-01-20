@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -28,5 +29,9 @@ class shippingQuery extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    public function answer (bool $ok, null|array $shipping_options = null, string|null $error_message = null): responseError|bool {
+        return telegram::answerShippingQuery($ok, $this->id, $shipping_options, $error_message);
     }
 }
