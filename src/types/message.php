@@ -148,14 +148,14 @@ class message extends types {
     /** Optional. For text messages, the actual UTF-8 text of the message */
     public null|string $text = null;
 
-    /** Optional. If user message was a commend , this parameter will be the commend */
-    public string|null $commend = null;
+    /** Optional. If user message was a command , this parameter will be the command */
+    public string|null $command = null;
 
-    /** Optional. If user message was a commend , this parameter will be the commend username(if exist) */
-    public string|null $commend_username = null;
+    /** Optional. If user message was a command , this parameter will be the command username(if exist) */
+    public string|null $command_username = null;
 
-    /** Optional. If user message was a commend , this parameter will be the commend payload(if exist) */
-    public string|null $commend_payload = null;
+    /** Optional. If user message was a command , this parameter will be the command payload(if exist) */
+    public string|null $command_payload = null;
 
     /**
      * Optional. For text messages, special entities like usernames, URLs, bot commands, etc. that appear in the text

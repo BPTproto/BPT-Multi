@@ -67,13 +67,13 @@ class receiver {
             if (str_starts_with($text, '/')) {
                 preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
                 if (isset($result[1])) {
-                    $update->$type->commend = $result[1];
+                    $update->$type->command = $result[1];
                 }
                 if (isset($result[2])) {
-                    $update->$type->commend_username = $result[2];
+                    $update->$type->command_username = $result[2];
                 }
                 if (isset($result[3])) {
-                    $update->$type->commend_payload = $result[3];
+                    $update->$type->command_payload = $result[3];
                 }
             }
         }
