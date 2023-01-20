@@ -40,3 +40,12 @@
   - `tools::crypto()` is deprecated , use `tools::codec()` instead(old style will be removed from 1.6.0)
   - `cryptoAction` class is deprecated , use `codecAction` instead(old style will be removed from 1.6.0)
   - add `crypto` class for cryptocurrency payments(nowPayments)
+- 1.6.0
+  - Update to Telegram API v6.4
+  - some changes did not apply in 1.5.0 , applied now
+  - some cleaning and optimizing
+  - from now , database is off by default
+  - fixed a typo, replaced `commend` to `command` in message class
+  - a lot of extra method added to type classes 
+  - add standalone support to `mysql` and `crypto` classes
+  - now library support `jdf library` as build-in class
