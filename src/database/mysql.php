@@ -32,7 +32,7 @@ class mysql {
         $port = settings::$db['port'] ?? $port;
         $user = settings::$db['user'] ?? settings::$db['username'] ?? $username;
         $pass = settings::$db['pass'] ?? settings::$db['password'] ?? $password;
-        self::$auto_process = $auto_process ?? (isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
+        self::$auto_process = $auto_process ?? (!isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
         $dbname = settings::$db['dbname'] ?? $dbname;
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
         if (self::$connection->connect_errno) {
