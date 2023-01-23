@@ -49,3 +49,7 @@
   - a lot of extra method added to type classes 
   - add standalone support to `mysql` and `crypto` classes
   - now library support `jdf library` as build-in class
+- 1.6.1
+  - fix `mysql` `auto_process` bug
+  - fix `logger` `realPath` bug
+  - removed deprecated method from tools class (`tools::crypto()`)
