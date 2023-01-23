@@ -740,13 +740,6 @@ class tools{
     }
 
     /**
-     * @deprecated use tools::codec() instead , will remove in 1.6.0
-     */
-    public static function crypto (string $action, string $text, string $key = null, string $iv = null): bool|array|string {
-        return self::codec($action,$text,$key,$iv);
-    }
-
-    /**
      * encode int to a string
      *
      * e.g. => tools::shortEncode(123456789);
@@ -796,10 +789,10 @@ class tools{
     public static function remoteIP(): string {
         $ip = $_SERVER['REMOTE_ADDR'];
         if (settings::$cloudflare_verify && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
-            $ip = $_SERVER['HTTP_CF_CONNECTING_IP'];
+            return $_SERVER['HTTP_CF_CONNECTING_IP'];
         }
-        elseif (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
-            $ip = $_SERVER['HTTP_AR_REAL_IP'];
+        if (settings::$arvancloud_verify && isset($_SERVER['HTTP_AR_REAL_IP']) && tools::isArvanCloud($ip)) {
+            return $_SERVER['HTTP_AR_REAL_IP'];
         }
         return $ip;
     }
