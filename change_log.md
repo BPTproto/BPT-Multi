@@ -53,3 +53,8 @@
   - fix `mysql` `auto_process` bug
   - fix `logger` `realPath` bug
   - removed deprecated method from tools class (`tools::crypto()`)
+- 1.7.0
+  - Update to Telegram API v6.5
+  - A little cleaning
+  - A little optimizing
+  - Add new methods and different query support to mysql class
