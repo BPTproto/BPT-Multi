@@ -18,7 +18,7 @@ class cryptoStatus {
     /**
      * the funds are being sent to your personal wallet. We are in the process of sending the funds to you.
      */
-    public const SENDING = 'SENDING';
+    public const SENDING = 'sending';
     /**
      * it shows that the customer sent the less than the actual price. Appears when the funds have arrived in your wallet.
      */

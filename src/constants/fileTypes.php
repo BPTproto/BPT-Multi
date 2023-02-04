@@ -3,7 +3,7 @@
 namespace BPT\constants;
 
 /**
- * db class for different types of files
+ * class for different types of files
  */
 class fileTypes {
     public const THUMBNAIL = 'thumbnail';

@@ -96,4 +96,8 @@ Examples :
 
 ### Planning to add
 - [x] mysql db type
-- [ ] ezPay || easyPay (crypto and rial)
+- [x] crypto payment
+- [ ] rial payment
+- [ ] ezPay
+- [ ] anti spam
+- [ ] forward to all
