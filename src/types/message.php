@@ -44,6 +44,8 @@ class message extends types {
         'pinned_message' => 'BPT\types\message',
         'invoice' => 'BPT\types\invoice',
         'successful_payment' => 'BPT\types\successfulPayment',
+        'user_shared' => 'BPT\types\userShared',
+        'chat_shared' => 'BPT\types\chatShared',
         'passport_data' => 'BPT\types\passportData',
         'proximity_alert_triggered' => 'BPT\types\proximityAlertTriggered',
         'forum_topic_created' => 'BPT\types\forumTopicCreated',
@@ -56,8 +58,10 @@ class message extends types {
         'web_app_data' => 'BPT\types\webAppData',
         'reply_markup' => 'BPT\types\inlineKeyboardMarkup',
     ];
-
-    /** Unique message identifier inside this chat */
+    /**
+     * Unique message identifier inside this chat
+     * This will be empty for response of called methods
+     */
     public int $id;
 
     /** Unique message identifier inside this chat */
@@ -300,6 +304,12 @@ class message extends types {
      * payments »
      */
     public null|successfulPayment $successful_payment = null;
+
+    /** Optional. Service message: a user was shared with the bot */
+    public null|userShared $user_shared = null;
+
+    /** Optional. Service message: a chat was shared with the bot */
+    public null|chatShared $chat_shared = null;
 
     /** Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
     public null|string $connected_website = null;

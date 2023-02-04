@@ -76,8 +76,23 @@ class chatMember extends types {
     /** `restricted` only. True, if the user is allowed to send text messages, contacts, locations and venues */
     public null|bool $can_send_messages = null;
 
-    /** `restricted` only. True, if the user is allowed to send audios, documents, photos, videos, video notes and voice notes */
-    public null|bool $can_send_media_messages = null;
+    /** `restricted` only. Optional. True, if the user is allowed to send audios */
+    public bool $can_send_audios;
+
+    /** `restricted` only. Optional. True, if the user is allowed to send documents */
+    public bool $can_send_documents;
+
+    /** `restricted` only. Optional. True, if the user is allowed to send photos */
+    public bool $can_send_photos;
+
+    /** `restricted` only. Optional. True, if the user is allowed to send videos */
+    public bool $can_send_videos;
+
+    /** `restricted` only. Optional. True, if the user is allowed to send video notes */
+    public bool $can_send_video_notes;
+
+    /** `restricted` only. Optional. True, if the user is allowed to send voice notes */
+    public bool $can_send_voice_notes;
 
     /** `restricted` only. True, if the user is allowed to send polls */
     public null|bool $can_send_polls = null;

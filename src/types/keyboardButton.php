@@ -16,13 +16,30 @@ use stdClass;
  */
 class keyboardButton extends types {
     /** Keep all of properties which has sub properties */
-    private const subs = ['request_poll' => 'BPT\types\keyboardButtonPollType', 'web_app' => 'BPT\types\webAppInfo'];
+    private const subs = [
+        'request_user' => 'BPT\types\keyboardButtonRequestUser',
+        'request_chat' => 'BPT\types\keyboardButtonRequestChat',
+        'request_poll' => 'BPT\types\keyboardButtonPollType',
+        'web_app' => 'BPT\types\webAppInfo'
+    ];
 
     /**
      * Text of the button. If none of the optional fields are used, it will be sent as a message when the button is
      * pressed
      */
     public string $text;
+
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
+     * their identifier to the bot in a “user_shared” service message. Available in private chats only.
+     */
+    public keyboardButtonRequestUser $request_user;
+
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
+     * its identifier to the bot in a “chat_shared” service message. Available in private chats only.
+     */
+    public keyboardButtonRequestChat $request_chat;
 
     /**
      * Optional. If True, the user's phone number will be sent as a contact when the button is pressed. Available in
