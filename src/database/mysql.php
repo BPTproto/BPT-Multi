@@ -182,6 +182,35 @@ CREATE TABLE `users`
     }
 
     /**
+     * Get last error
+     *
+     * @return string
+     */
+    public static function error (): string {
+        return self::$connection->error;
+    }
+
+    /**
+     * Get last error code
+     *
+     * @return int
+     */
+    public static function errno (): int {
+        return self::$connection->errno;
+    }
+
+    /**
+     * set database charset
+     *
+     * @param string $charset
+     *
+     * @return bool
+     */
+    public static function setCharset (string $charset): bool {
+        return self::$connection->set_charset($charset);
+    }
+
+    /**
      * Run query as what is it
      *
      * The library doesn't do anything on it
@@ -238,7 +267,7 @@ CREATE TABLE `users`
         return $need_result ? $prepare->get_result() : true;
     }
 
-    private static function makeArrayReady (string &$query, array $array, string $operator = ' AND '): array {
+    private static function makeArrayReady (string &$query, array $array, string $operator = ' AND ', bool $is_update = false): array {
         $first = true;
         $values = [];
         foreach ($array as $name => $value) {
@@ -248,8 +277,15 @@ CREATE TABLE `users`
             else {
                 $query .= $operator;
             }
-            $query .= " `$name` = ?";
-            $values[] = $value;
+            if ($is_update && str_starts_with($value, '.=') && is_numeric(substr($value,2))) {
+                $query .= " `$name` = `$name` + ?";
+                $values[] = substr($value,2);
+            }
+            else {
+                $query .= " `$name` = ?";
+                $values[] = $value;
+            }
+
         }
         return $values;
     }
@@ -269,6 +305,168 @@ CREATE TABLE `users`
         return $values;
     }
 
+    private static function whereBuilder(string &$query, array $where = null): array {
+        if (empty($where)) {
+            return [];
+        }
+
+        $query .= " WHERE";
+        $first = true;
+        $values = [];
+
+        foreach ($where as $name => $value) {
+            if ($first) {
+                $first = false;
+            }
+            else {
+                $query .= ' AND';
+            }
+
+            $operator = substr($value,0,2);
+            $operator_value = substr($value,2);
+            switch ($operator) {
+                case '>=':
+                    $query .= " `$name` >= ?";
+                    $value = $operator_value;
+                    break;
+                case '<=':
+                    $query .= " `$name` <= ?";
+                    $value = $operator_value;
+                    break;
+                case '> ':
+                    $query .= " `$name` > ?";
+                    $value = $operator_value;
+                    break;
+                case '< ':
+                    $query .= " `$name` < ?";
+                    $value = $operator_value;
+                    break;
+                case '% ':
+                    $query .= " `$name` like ?";
+                    $value = $operator_value;
+                    break;
+                case '!=':
+                    $query .= " `$name` != ?";
+                    $value = $operator_value;
+                    break;
+                default:
+                    $query .= " `$name` = ?";
+                    break;
+            }
+
+            $values[] = $value;
+        }
+
+        return $values;
+    }
+
+    private static function groupByBuilder(string &$query, string|array $group_by = []): void {
+        if (empty($group_by)) {
+            return;
+        }
+        if (is_string($group_by)) {
+            $group_by = [$group_by];
+        }
+        $query .= ' GROUP BY `' . implode('`, `',$group_by) . '`';
+    }
+
+    private static function orderByBuilder(string &$query, string|array $order_by = []): void {
+        if (empty($order_by)) {
+            return;
+        }
+        if (is_string($order_by)) {
+            $order_by = [$order_by => 'ASC'];
+        }
+
+        $query .= ' ORDER BY `';
+
+        $first = true;
+        foreach ($order_by as $key => $mode) {
+            if ($first) {
+                $first = false;
+            }
+            else {
+                $query .= ', ';
+            }
+            if (is_numeric($key)) {
+                $key = $mode;
+                $mode = 'ASC';
+            }
+            $query .= "$key` $mode";
+        }
+    }
+
+    private static function countBuilder(string &$query, int $count = null, int $offset = null): void {
+        if (!empty($count)) {
+            $query .= !empty($offset) ? " LIMIT $offset,$count" : " LIMIT $count";
+        }
+        elseif (!empty($offset)) {
+            $query .= " OFFSET $offset";
+        }
+    }
+
+    private static function updateBuilder(string &$query, array $modify): array {
+        $first = true;
+        $values = [];
+
+        foreach ($modify as $name => $value) {
+            if ($first) {
+                $first = false;
+            }
+            else {
+                $query .= ' ,';
+            }
+
+            $operator = substr($value,0,2);
+            $operator_value = substr($value,2);
+            switch ($operator) {
+                case '+=':
+                    $query .= " `$name` = `$name` + ?";
+                    $value = $operator_value;
+                    break;
+                case '-=':
+                    $query .= " `$name` = `$name` - ?";
+                    $value = $operator_value;
+                    break;
+                case '*=':
+                    $query .= " `$name` = `$name` * ?";
+                    $value = $operator_value;
+                    break;
+                case '/=':
+                    $query .= " `$name` = `$name` / ?";
+                    $value = $operator_value;
+                    break;
+                case '%=':
+                    $query .= " `$name` = `$name` % ?";
+                    $value = $operator_value;
+                    break;
+                default:
+                    $query .= " `$name` = ?";
+                    break;
+            }
+
+            $values[] = $value;
+        }
+
+        return $values;
+    }
+
+    private static function insertBuilder(string &$query, string|array $columns, array|string $values): array {
+        $query .= '(`' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '`) VALUES (';
+        if (is_string($values)) $values = [$values];
+        $query .= '?' . str_repeat(',?', count($values) - 1) . ')';
+        return $values;
+    }
+
+    private static function selectBuilder(string &$query, string|array $columns): void {
+        if ($columns == '*') {
+            $query .= " * ";
+        }
+        else {
+            $query .= ' `' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '` ';
+        }
+    }
+
     /**
      * Run delete query
      *
@@ -281,10 +479,10 @@ CREATE TABLE `users`
      *
      * @return mysqli_result|bool
      */
-    public static function delete (string $table, array $where = null, int $count = null, int $offset = null): mysqli_result|bool {
+    public static function delete (string $table, array $where = null, int $count = null, int $offset = null): bool {
         $query = "DELETE FROM `$table`";
-        $res = self::makeQueryReady($query, $where, $count, $offset);
-        return self::query($query, $res, false);
+        $vars = self::whereBuilder($query, $where);
+        return self::query($query, $vars, false);
     }
 
     /**
@@ -300,11 +498,12 @@ CREATE TABLE `users`
      *
      * @return mysqli_result|bool
      */
-    public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null): mysqli_result|bool {
+    public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null): bool {
         $query = "UPDATE `$table` SET";
-        $values = self::makeArrayReady($query, $modify, ', ');
-        $res = self::makeQueryReady($query, $where, $count, $offset);
-        return self::query($query, array_merge($values, $res), false);
+        $modify_vars = self::updateBuilder($query, $modify);
+        $where_vars = self::whereBuilder($query, $where);
+        self::countBuilder($query, $count, $offset);
+        return self::query($query, array_merge($modify_vars, $where_vars), false);
     }
 
     /**
@@ -318,11 +517,9 @@ CREATE TABLE `users`
      *
      * @return mysqli_result|bool
      */
-    public static function insert (string $table, string|array $columns, array|string $values): mysqli_result|bool {
-        $query = "INSERT INTO `$table`(";
-        $query .= '`' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '`) VALUES (';
-        if (is_string($values)) $values = [$values];
-        $query .= '?' . str_repeat(',?', count($values) - 1) . ')';
+    public static function insert (string $table, string|array $columns, array|string $values): bool {
+        $query = "INSERT INTO `$table`";
+        $values = self::insertBuilder($query, $columns, $values);
         return self::query($query, $values, false);
     }
 
@@ -338,20 +535,20 @@ CREATE TABLE `users`
      * @param array|null   $where   Set your ifs default : null
      * @param int|null     $count   Set if you want to select specific amount of row default : null
      * @param int|null     $offset  Set if you want to select rows after specific row default : null
+     * @param array|string $group_by group result based on these columns
+     * @param array|string $order_by order result based on these columns
      *
      * @return mysqli_result|bool
      */
-    public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null): mysqli_result|bool {
-        $query = "SELECT ";
-        if ($columns == '*') {
-            $query .= "* ";
-        }
-        else {
-            $query .= '`' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '` ';
-        }
+    public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = []): mysqli_result|bool {
+        $query = "SELECT";
+        self::selectBuilder($query, $columns);
         $query .= "FROM `$table`";
-        $res = self::makeQueryReady($query, $where, $count, $offset);
-        return self::query($query, $res);
+        $var = self::whereBuilder($query,$where);
+        self::groupByBuilder($query, $group_by);
+        self::orderByBuilder($query, $order_by);
+        self::countBuilder($query,$count,$offset);
+        return self::query($query, $var);
     }
 
     /**
@@ -410,5 +607,62 @@ CREATE TABLE `users`
             while ($row = $res->fetch_assoc()) yield $row;
         }
         else return $res;
+    }
+
+    /**
+     * get backup from database, you can get full backup or specific table backup
+     *
+     * @param array|null $wanted_tables set if you want specific table which exist
+     * @param bool       $table_data set false if you only want the creation queries(no data)
+     * @param bool       $save set false if you want to receive sql as string
+     * @param string     $file_name file name for saving
+     *
+     * @return string if save is true , return file name otherwise return sql data
+     */
+    public static function backup (array $wanted_tables = null, bool $table_data = true, bool $save = true, string $file_name = ''): string {
+        self::setCharset('utf8mb4');
+        $tables = array_column(self::query('SHOW TABLES')->fetch_all(),0);
+        if (!empty($wanted_tables)) {
+            $tables = array_intersect($tables, $wanted_tables);
+        }
+        $sql = '';
+        foreach ($tables as $table) {
+            $sql .= self::query("SHOW CREATE TABLE `$table`")->fetch_row()[1] . ";\n\n";
+
+            if ($table_data) {
+                $total_rows = self::query("SELECT COUNT(*) as `cnt` FROM `$table`")->fetch_object()->cnt;
+                for ($i = 0; $i < $total_rows; $i = $i + 1000) {
+                    $sql .= "INSERT INTO " . $table . " VALUES";
+                    $result = self::select($table, '*' , null, 1000, $i);
+                    $field_count = $result->field_count;
+                    $affected_rows = self::affected_rows();
+                    $counter = 1;
+                    while ($row = $result->fetch_row()) {
+                        $sql .= "\n(";
+                        for ($column = 0; $column < $field_count; $column++) {
+                            $row[$column] = str_replace("\n", "\\n", addslashes($row[$column]));
+                            $sql .= !empty($row[$column]) ? '"' . $row[$column] . '"' : '""';
+                            if ($column < $field_count - 1) {
+                                $sql .= ',';
+                            }
+                        }
+                        $sql .= ')' . ($counter == $affected_rows ? ';' : ',');
+                        $counter++;
+                    }
+                }
+                if ($total_rows > 0) {
+                    $sql .= "\n\n";
+                }
+            }
+            $sql .= "\n";
+        }
+        if (!$save) {
+            return $sql;
+        }
+        if (empty($file_name)) {
+            $file_name = self::query('SELECT database() as `db_name`')->fetch_object()->db_name . time() . '.sql';
+        }
+        file_put_contents($file_name, $sql);
+        return $file_name;
     }
 }
