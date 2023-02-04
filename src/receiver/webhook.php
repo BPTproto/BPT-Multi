@@ -119,7 +119,7 @@ class webhook extends receiver {
      * @return bool
      */
     public static function fastClose (int $timeout = 86400): bool {
-        if (settings::$multi || !lock::exist('BPT-HOOK')) {
+        if (settings::$multi || !lock::exist('BPT-HOOK') || settings::$receiver !== \BPT\constants\receiver::WEBHOOK) {
             return false;
         }
         http_response_code(200);

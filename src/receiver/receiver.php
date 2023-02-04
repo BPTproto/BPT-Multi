@@ -73,7 +73,7 @@ class receiver {
                     $update->$type->command_username = $result[2];
                 }
                 if (isset($result[3])) {
-                    $update->$type->command_payload = $result[3];
+                    $update->$type->command_payload = trim($result[3]);
                 }
             }
         }

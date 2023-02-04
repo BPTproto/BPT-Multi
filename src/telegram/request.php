@@ -774,12 +774,14 @@ class request {
         self::keysName($action,$arguments);
         self::readyFile($action,$arguments);
         self::setDefaults($action,$arguments);
-        if (isset($arguments['answer'])) {
+        self::cleanArguments($arguments);
+
+        if (isset($arguments['answer']) && $arguments['answer'] === true) {
+            unset($arguments['answer']);
             if (!answer::isAnswered()) {
                 return answer::init($action,$arguments);
             }
             logger::write('you can use answer mode only once for each webhook update, Others will be called like normal',loggerTypes::WARNING);
-            unset($arguments['answer']);
         }
         $result = curl::init($action,$arguments);
         if (!is_object($result)) {
@@ -884,6 +886,13 @@ class request {
         return self::methodReturn($name,$response);
     }
 
+    private static function cleanArguments (array &$arguments): void {
+        foreach ($arguments as $key => $argument) {
+            if ($argument == [] || $argument === null) {
+                unset($arguments[$key]);
+            }
+        }
+    }
     /**
      * easy method for getting fields from update
      *
