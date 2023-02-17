@@ -71,4 +71,23 @@ class lock {
     public static function delete(string $name): bool {
         return unlink(realpath(settings::$name."$name.lock"));
     }
+
+    /**
+     * check lock exist or not then delete it
+     *
+     * @param string|array $names
+     *
+     * @return bool
+     */
+    public static function deleteIfExist (string|array $names): bool {
+        if (is_string($names)) {
+            $names = [$names];
+        }
+        foreach ($names as $name) {
+            if ($path = realpath(settings::$name."$name.lock")) {
+                unlink($path);
+            }
+        }
+        return true;
+    }
 }
