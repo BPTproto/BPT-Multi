@@ -38,8 +38,7 @@ class curl extends webhook {
     public static function install() {
         $urls = self::setURLS();
         $file = $urls['file'];
-        $timeout = self::getTimeout($file);
-        self::create($file,$timeout);
+        self::create($file, self::getTimeout($file));
         self::setWebhook($urls['url']);
         lock::set('BPT-MULTI-CURL');
     }

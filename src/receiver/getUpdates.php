@@ -20,42 +20,32 @@ class getUpdates extends receiver {
         $last_update_id = self::loadData();
         lock::set('getUpdateHook');
         while(true) {
-            if (lock::exist('getUpdateHook')) {
-                $updates = telegram::getUpdates($last_update_id,allowed_updates: settings::$allowed_updates);
-                if (!telegram::$status) {
-                    logger::write("There is some problem happened , telegram response : \n".json_encode($updates),loggerTypes::ERROR);
-                    BPT::exit(print_r($updates,true));
-                }
-                self::handleUpdates($updates);
-                lock::save('getUpdate',BPT::$update->update_id+1);
-                $last_update_id = BPT::$update->update_id+1;
+            if (!lock::exist('getUpdateHook')) {
+                break;
             }
+            $updates = telegram::getUpdates($last_update_id,allowed_updates: settings::$allowed_updates);
+            if (!telegram::$status) {
+                logger::write("There is some problem happened , telegram response : \n".json_encode($updates),loggerTypes::ERROR);
+                BPT::exit(print_r($updates,true));
+            }
+            self::handleUpdates($updates);
+            $last_update_id = BPT::$update->update_id+1;
+            lock::save('getUpdate',$last_update_id);
         }
     }
 
     private static function loadData(): bool|int|string {
         if (lock::exist('getUpdate')) {
-            $last_update_id = lock::read('getUpdate');
+            return lock::read('getUpdate');
         }
-        else {
-            self::deleteOldLocks();
-            telegram::deleteWebhook();
-            $last_update_id = 0;
-            lock::save('getUpdate',0);
-        }
-        return $last_update_id;
+        self::deleteOldLocks();
+        telegram::deleteWebhook();
+        lock::save('getUpdate',0);
+        return 0;
     }
 
     private static function deleteOldLocks() {
-        if (lock::exist('BPT-HOOK')) {
-            lock::delete('BPT-HOOK');
-        }
-        if (lock::exist('BPT-MULTI-EXEC')) {
-            lock::delete('BPT-MULTI-EXEC');
-        }
-        if (lock::exist('BPT-MULTI-CURL')) {
-            lock::delete('BPT-MULTI-CURL');
-        }
+        lock::deleteIfExist(['BPT-HOOK', 'BPT-MULTI-EXEC', 'BPT-MULTI-CURL']);
     }
 
     /**

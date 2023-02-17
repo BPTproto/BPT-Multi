@@ -35,14 +35,6 @@ class multi extends webhook {
     }
 
     private static function deleteOldLocks() {
-        if (lock::exist('BPT')) {
-            lock::delete('BPT');
-        }
-        if (lock::exist('getUpdate')) {
-            lock::delete('getUpdate');
-        }
-        if (lock::exist('getUpdateHook')) {
-            lock::delete('getUpdateHook');
-        }
+        lock::deleteIfExist(['BPT', 'getUpdate', 'getUpdateHook']);
     }
 }

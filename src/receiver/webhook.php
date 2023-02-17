@@ -2,7 +2,6 @@
 
 namespace BPT\receiver;
 
-use BPT\telegram\telegram;
 use BPT\BPT;
 use BPT\constants\loggerTypes;
 use BPT\exception\bptException;
@@ -25,36 +24,24 @@ class webhook extends receiver {
             multi::init();
         }
         else {
-            if (lock::exist('BPT-HOOK')) {
-                receiver::telegramVerify();
-                self::checkSecret();
-                logger::write('Update received , lets process it ;)');
-                receiver::processUpdate();
-            }
-            else {
+            if (!lock::exist('BPT-HOOK')) {
                 self::processSetWebhook();
             }
+
+            receiver::telegramVerify();
+            self::checkSecret();
+            logger::write('Update received , lets process it ;)');
+            receiver::processUpdate();
         }
     }
 
     private static function deleteOldLocks() {
-        if (lock::exist('BPT-MULTI-EXEC')) {
-            lock::delete('BPT-MULTI-EXEC');
-        }
-        if (lock::exist('BPT-MULTI-CURL')) {
-            lock::delete('BPT-MULTI-CURL');
-        }
-        if (lock::exist('getUpdate')) {
-            lock::delete('getUpdate');
-        }
-        if (lock::exist('getUpdateHook')) {
-            lock::delete('getUpdateHook');
-        }
+        lock::deleteIfExist(['BPT-MULTI-EXEC', 'BPT-MULTI-CURL', 'getUpdate', 'getUpdateHook']);
     }
 
     protected static function setWebhook(string $url,string $secret = '') {
-        $res = telegram::setWebhook($url, settings::$certificate, max_connections: settings::$max_connection, allowed_updates: settings::$allowed_updates, drop_pending_updates: settings::$skip_old_updates, secret_token: $secret);
-        if (!telegram::$status) {
+        $res = BPT::setWebhook($url, settings::$certificate, max_connections: settings::$max_connection, allowed_updates: settings::$allowed_updates, drop_pending_updates: settings::$skip_old_updates, secret_token: $secret);
+        if (!BPT::$status) {
             logger::write("There is some problem happened , telegram response : \n".json_encode($res),loggerTypes::ERROR);
             BPT::exit(print_r($res,true));
         }
@@ -73,15 +60,8 @@ class webhook extends receiver {
     }
 
     protected static function setCertificate() {
-        if (isset(settings::$certificate)) {
-            if (is_string(settings::$certificate)) {
-                if (file_exists(realpath(settings::$certificate))) {
-                    settings::$certificate = new CURLFile(settings::$certificate);
-                }
-                else {
-                    settings::$certificate = null;
-                }
-            }
+        if (isset(settings::$certificate) && is_string(settings::$certificate)) {
+            settings::$certificate = file_exists(realpath(settings::$certificate)) ? new CURLFile(settings::$certificate) : null;
         }
     }
 

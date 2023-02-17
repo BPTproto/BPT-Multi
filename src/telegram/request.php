@@ -773,8 +773,8 @@ class request {
         self::checkArguments($arguments);
         self::keysName($action,$arguments);
         self::readyFile($action,$arguments);
-        self::setDefaults($action,$arguments);
         self::cleanArguments($arguments);
+        self::setDefaults($action,$arguments);
 
         if (isset($arguments['answer']) && $arguments['answer'] === true) {
             unset($arguments['answer']);

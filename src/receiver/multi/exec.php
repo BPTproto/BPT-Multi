@@ -28,8 +28,7 @@ class exec extends webhook {
             BPT::exit();
         }
         $up = end($up);
-        $ip = explode('-', $up)[0];
-        webhook::telegramVerify($ip);
+        webhook::telegramVerify(explode('-', $up)[0]);
         $update = file_get_contents($up);
         unlink($up);
         return $update;
@@ -49,9 +48,8 @@ class exec extends webhook {
      */
     public static function install() {
         $urls = self::setURLS();
-        $url = $urls['url'];
         self::create($urls['file']);
-        self::setWebhook($url);
+        self::setWebhook($urls['url']);
         lock::set('BPT-MULTI-EXEC');
     }
 

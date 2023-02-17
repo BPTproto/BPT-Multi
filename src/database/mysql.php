@@ -24,6 +24,8 @@ class mysql {
 
     private static bool $auto_process = true;
 
+    private static string $db_name = '';
+
     /**
      * If you want to use it in standalone mode , you MUST set `auto_process` to `false`
      */
@@ -34,6 +36,7 @@ class mysql {
         $pass = settings::$db['pass'] ?? settings::$db['password'] ?? $password;
         self::$auto_process = $auto_process ?? (!isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
         $dbname = settings::$db['dbname'] ?? $dbname;
+        self::$db_name = $dbname;
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
         if (self::$connection->connect_errno) {
             logger::write('SQL connection has problem : ' . self::$connection->connect_error, loggerTypes::ERROR);
@@ -660,7 +663,7 @@ CREATE TABLE `users`
             return $sql;
         }
         if (empty($file_name)) {
-            $file_name = self::query('SELECT database() as `db_name`')->fetch_object()->db_name . time() . '.sql';
+            $file_name = self::$db_name . time() . '.sql';
         }
         file_put_contents($file_name, $sql);
         return $file_name;
