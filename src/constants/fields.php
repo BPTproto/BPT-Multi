@@ -23,5 +23,6 @@ class fields {
     public const GROUP_NAME = 'group_name';
     public const GROUP_USERNAME = 'group_username';
     public const UPDATE_TYPE = 'update_type';
+    public const UPDATE_DATE = 'update_date';
     public const URL = 'url';
 }

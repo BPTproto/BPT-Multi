@@ -1035,6 +1035,17 @@ class request {
                     isset(BPT::$update->poll_answer) => updateTypes::POLL_ANSWER,
                     default => false
                 };
+            case fields::UPDATE_DATE :
+                return match(true) {
+                    isset(BPT::$update->message) => BPT::$update->message->date,
+                    isset(BPT::$update->edited_message) => BPT::$update->edited_message->date,
+                    isset(BPT::$update->chat_join_request) => BPT::$update->chat_join_request->date,
+                    isset(BPT::$update->my_chat_member) => BPT::$update->my_chat_member->date,
+                    isset(BPT::$update->chat_member) => BPT::$update->chat_member->date,
+                    isset(BPT::$update->channel_post) => BPT::$update->channel_post->date,
+                    isset(BPT::$update->edited_channel_post) => BPT::$update->edited_channel_post->date,
+                    default => false
+                };
             case fields::URL :
                 return 'https://' . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
             default:
