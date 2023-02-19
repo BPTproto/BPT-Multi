@@ -12,5 +12,8 @@ class pay {
         if (isset(settings::$pay['idpay'])) {
             idpay::init();
         }
+        if (isset(settings::$pay['zarinpal'])) {
+            zarinpal::init();
+        }
     }
 }
