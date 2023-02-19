@@ -89,7 +89,7 @@ class zarinpal {
      * @return object|requestInterface
      */
     public static function request (int $amount, string $description, string $callback_url, array $metadata = [], string $mobile = '', string $email = '', array $wages = [], int $card_pan = null, string $currency = ''): object {
-        return self::execute('/verify.json', [
+        return self::execute('/request.json', [
             'amount'       => $amount,
             'description'  => $description,
             'callback_url' => $callback_url,
@@ -100,6 +100,16 @@ class zarinpal {
             'card_pan'     => $card_pan,
             'currency'     => $currency,
         ]);
+    }
+
+    public static function payURL (string|array $authority): bool|string {
+        if (is_array($authority)) {
+            if (!isset($authority->authority)) {
+                return false;
+            }
+            $authority = $authority->authority;
+        }
+        return self::getUrl("/$authority", true);
     }
 
     /**
