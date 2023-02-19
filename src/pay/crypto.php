@@ -28,6 +28,10 @@ class crypto {
         curl_setopt(self::$session, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYHOST, 2);
+        curl_setopt(self::$session, CURLOPT_HTTPHEADER, [
+            'X-API-KEY: ' . self::$api_key,
+            'Content-Type: application/json'
+        ]);
     }
 
     private static function execute (string $method, string $endpoint, string|array $data = '') {
@@ -40,10 +44,7 @@ class crypto {
         }
 
         $session = self::$session;
-        curl_setopt($session, CURLOPT_HTTPHEADER, [
-            'X-API-KEY: ' . self::$api_key,
-            'Content-Type: application/json'
-        ]);
+
         switch ($method) {
             case 'GET':
                 curl_setopt($session, CURLOPT_URL, self::API_BASE . $endpoint . !empty($data) && is_array($data) ? ('?' . http_build_query($data)) : '');
