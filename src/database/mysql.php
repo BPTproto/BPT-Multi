@@ -158,6 +158,8 @@ CREATE TABLE `users`
     /**
      * Get affected rows
      *
+     * same as affectedRows
+     *
      * @return int|string
      */
     public static function affected_rows (): int|string {
@@ -165,11 +167,35 @@ CREATE TABLE `users`
     }
 
     /**
+     * Get affected rows
+     *
+     * same as affected_rows
+     *
+     * @return int|string
+     */
+    public static function affectedRows (): int|string {
+        return self::$connection->affected_rows;
+    }
+
+    /**
      * Get inserted id
+     *
+     * same as insertId
      *
      * @return int|string
      */
     public static function insert_id (): int|string {
+        return self::$connection->insert_id;
+    }
+
+    /**
+     * Get inserted id
+     *
+     * same as insert_id
+     *
+     * @return int|string
+     */
+    public static function insertId (): int|string {
         return self::$connection->insert_id;
     }
 
@@ -268,44 +294,6 @@ CREATE TABLE `users`
             return false;
         }
         return $need_result ? $prepare->get_result() : true;
-    }
-
-    private static function makeArrayReady (string &$query, array $array, string $operator = ' AND ', bool $is_update = false): array {
-        $first = true;
-        $values = [];
-        foreach ($array as $name => $value) {
-            if ($first) {
-                $first = false;
-            }
-            else {
-                $query .= $operator;
-            }
-            if ($is_update && str_starts_with($value, '.=') && is_numeric(substr($value,2))) {
-                $query .= " `$name` = `$name` + ?";
-                $values[] = substr($value,2);
-            }
-            else {
-                $query .= " `$name` = ?";
-                $values[] = $value;
-            }
-
-        }
-        return $values;
-    }
-
-    private static function makeQueryReady (string &$query, array $where = null, int $count = null, int $offset = null): array {
-        $values = [];
-        if (!empty($where)) {
-            $query .= " WHERE";
-            $values = self::makeArrayReady($query, $where);
-        }
-        if (!empty($count)) {
-            $query .= !empty($offset) ? " LIMIT $offset,$count" : " LIMIT $count";
-        }
-        elseif (!empty($offset)) {
-            $query .= " OFFSET $offset";
-        }
-        return $values;
     }
 
     private static function whereBuilder(string &$query, array $where = null): array {
@@ -562,11 +550,13 @@ CREATE TABLE `users`
      * @param string       $table   table name
      * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
      * @param array|null   $where   Set your ifs default : null
+     * @param array|string $group_by group result based on these columns
+     * @param array|string $order_by order result based on these columns
      *
      * @return null|bool|array
      */
-    public static function selectArray (string $table, array|string $columns = '*', array $where = null): bool|array|null {
-        $res = self::select($table, $columns, $where, 1);
+    public static function selectArray (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []): bool|array|null {
+        $res = self::select($table, $columns, $where, 1, $group_by, $order_by);
         if ($res) {
             return $res->fetch_assoc();
         }
@@ -581,9 +571,11 @@ CREATE TABLE `users`
      * @param string       $table   table name
      * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
      * @param array|null   $where   Set your ifs default : null
+     * @param array|string $group_by group result based on these columns
+     * @param array|string $order_by order result based on these columns
      */
-    public static function selectObject (string $table, array|string $columns = '*', array $where = null) {
-        $res = self::select($table, $columns, $where, 1);
+    public static function selectObject (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []) {
+        $res = self::select($table, $columns, $where, 1, $group_by, $order_by);
         if ($res) {
             return $res->fetch_object();
         }
@@ -601,11 +593,13 @@ CREATE TABLE `users`
      * @param array|null   $where   Set your ifs default : null
      * @param int|null     $count   Set if you want to select specific amount of row default : null
      * @param int|null     $offset  Set if you want to select rows after specific row default : null
+     * @param array|string $group_by group result based on these columns
+     * @param array|string $order_by order result based on these columns
      *
      * @return bool|Generator
      */
-    public static function selectEach (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null): bool|Generator {
-        $res = self::select($table, $columns, $where, $count, $offset);
+    public static function selectEach (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = []): bool|Generator {
+        $res = self::select($table, $columns, $where, $count, $offset, $group_by, $order_by);
         if ($res) {
             while ($row = $res->fetch_assoc()) yield $row;
         }
@@ -624,14 +618,19 @@ CREATE TABLE `users`
      */
     public static function backup (array $wanted_tables = null, bool $table_data = true, bool $save = true, string $file_name = ''): string {
         self::setCharset('utf8mb4');
+
         $tables = array_column(self::query('SHOW TABLES')->fetch_all(),0);
         if (!empty($wanted_tables)) {
             $tables = array_intersect($tables, $wanted_tables);
         }
+
         $sql = '';
+
+        if (empty($tables)) {
+            logger::write('No table founded for backup, if your database has table : check $wanted_tables argument', loggerTypes::WARNING);
+        }
         foreach ($tables as $table) {
             $sql .= self::query("SHOW CREATE TABLE `$table`")->fetch_row()[1] . ";\n\n";
-
             if ($table_data) {
                 $total_rows = self::query("SELECT COUNT(*) as `cnt` FROM `$table`")->fetch_object()->cnt;
                 for ($i = 0; $i < $total_rows; $i = $i + 1000) {
@@ -659,9 +658,11 @@ CREATE TABLE `users`
             }
             $sql .= "\n";
         }
+
         if (!$save) {
             return $sql;
         }
+
         if (empty($file_name)) {
             $file_name = self::$db_name . time() . '.sql';
         }
