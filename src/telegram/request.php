@@ -3,6 +3,7 @@
 namespace BPT\telegram;
 
 use BPT\BPT;
+use BPT\settings;
 use BPT\constants\{chatActions, fields, fileTypes, loggerTypes, updateTypes};
 use BPT\exception\bptException;
 use BPT\logger;
@@ -874,6 +875,12 @@ class request {
                 break;
             }
         }
+        if (!isset($arguments['parse_mode']) && !empty(settings::$default_parse_mode) && in_array('parse_mode', self::METHODS_KEYS[$name])) {
+            $arguments['parse_mode'] = settings::$default_parse_mode;
+        }
+        if (!isset($arguments['protect_content']) && !empty(settings::$default_protect_content) && in_array('protect_content', self::METHODS_KEYS[$name])) {
+            $arguments['protect_content'] = settings::$default_protect_content;
+        }
     }
 
     private static function processResponse(string $name, stdClass $response) {
@@ -893,6 +900,7 @@ class request {
             }
         }
     }
+
     /**
      * easy method for getting fields from update
      *

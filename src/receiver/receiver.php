@@ -3,10 +3,12 @@
 namespace BPT\receiver;
 
 use BPT\BPT;
+use BPT\constants\fields;
 use BPT\constants\loggerTypes;
 use BPT\database\db;
 use BPT\logger;
 use BPT\settings;
+use BPT\telegram\telegram;
 use BPT\tools;
 use BPT\types\update;
 use stdClass;
@@ -43,6 +45,13 @@ class receiver {
             $update = json_decode($update ?? file_get_contents("php://input"));
             if (!$update) {
                 BPT::exit();
+            }
+        }
+
+        if (settings::$ignore_updates_older_then > 0) {
+            if (time() - settings::$ignore_updates_older_then > telegram::catchFields(fields::UPDATE_DATE)) {
+                logger::write('Update is old, Ignored.');
+                return;
             }
         }
 

@@ -54,6 +54,12 @@ class settings {
 
     public static string $down_url = 'https://api.telegram.org/file';
 
+    public static string $default_parse_mode = '';
+
+    public static bool $default_protect_content = false;
+
+    public static int $ignore_updates_older_then = 0;
+
     public static int $forgot_time = 100;
 
     public static int $base_timeout = 300;
