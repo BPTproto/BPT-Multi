@@ -6,9 +6,11 @@ use BPT\settings;
 
 class pay {
     public static function init (): void {
-        if (!isset(settings::$pay['crypto'])) {
-            return;
+        if (isset(settings::$pay['crypto'])) {
+            crypto::init();
         }
-        crypto::init();
+        if (isset(settings::$pay['idpay'])) {
+            idpay::init();
+        }
     }
 }
