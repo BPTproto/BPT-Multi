@@ -17,6 +17,7 @@ class messageEntityTypes {
     public const ITALIC = 'italic';
     public const UNDERLINE = 'underline';
     public const STRIKETHROUGH = 'strikethrough';
+    public const SPOILER = 'spoiler';
     public const CODE = 'code';
     public const PRE = 'pre';
     public const TEXT_LINK = 'text_link';
