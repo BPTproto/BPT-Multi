@@ -43,7 +43,7 @@ class tools{
      */
     public static function isUsername (string $username): bool {
         $length = strlen($username);
-        return !str_contains($username, '__') && $length >= 5 && $length <= 33 && preg_match('/^@?([a-zA-Z])(\w{4,31})$/', $username);
+        return !str_contains($username, '__') && $length >= 4 && $length <= 33 && preg_match('/^@?([a-zA-Z])(\w{4,31})$/', $username);
     }
 
     /**
@@ -247,10 +247,11 @@ class tools{
      *
      * @param string $path   file path, could be url
      * @param bool   $format if you set this true , you will receive symbolic string like 2.76MB for return
+     * @param bool   $space_between this will only work when format is true, convert 2.76MB to 2.76 MB
      *
      * @return string|int|false string for formatted data , int for normal data , false when size can not be found(file not found or ...)
      */
-    public static function size (string $path, bool $format = true): string|int|false {
+    public static function size (string $path, bool $format = true, bool $space_between = true): string|int|false {
         if (filter_var($path, FILTER_VALIDATE_URL)) {
             $ch = curl_init($path);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -265,7 +266,7 @@ class tools{
             $size = file_exists($path) ? filesize($path) : false;
         }
         if (isset($size) && is_numeric($size)) {
-            return $format ? tools::byteFormat($size) : $size;
+            return $format ? tools::byteFormat($size, space_between: $space_between) : $size;
         }
         return false;
     }
@@ -349,7 +350,7 @@ class tools{
      *
      * @return bool true on success and false in failure
      */
-    public static function downloadFile (string $url, string $path,int $chunk_size = 512): bool {
+    public static function downloadFile (string $url, string $path, int $chunk_size = 512): bool {
         $file = fopen($url, 'rb');
         if (!$file) return false;
         $path = fopen($path, 'wb');
