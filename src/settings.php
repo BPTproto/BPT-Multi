@@ -101,8 +101,12 @@ class settings {
             logger::init(self::$log_size);
         }
         if (self::$token === '') {
-            logger::write('You must specify token parameter in settings', loggerTypes::ERROR);
-            throw new bptException('TOKEN_NOT_FOUND');
+            $secret = str_replace('---', ':', webhook::getSecret());
+            if (!lock::exist('BPT-HOOK') || !tools::isToken($secret)) {
+                logger::write('You must specify token parameter in settings', loggerTypes::ERROR);
+                throw new bptException('TOKEN_NOT_FOUND');
+            }
+            self::$token = $secret;
         }
         if (!tools::isToken(self::$token)) {
             logger::write('token format is not right, check it and try again', loggerTypes::ERROR);

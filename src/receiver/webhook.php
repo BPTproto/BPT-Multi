@@ -71,21 +71,24 @@ class webhook extends receiver {
         self::checkURL();
         self::setCertificate();
         $url = self::setURL();
-        $secret = !empty(settings::$secret) ? settings::$secret : tools::randomString(64);
+        $secret = !empty(settings::$secret) ? settings::$secret : str_replace(':','---',settings::$token);
         self::setWebhook($url,$secret);
-        lock::save('BPT-HOOK',$secret);
+        lock::save('BPT-HOOK', md5($secret));
         BPT::exit('Done');
     }
 
     private static function checkSecret() {
-        $secret = lock::read('BPT-HOOK');
-        if ($secret !== self::getSecret()) {
+        $secret_hash = lock::read('BPT-HOOK');
+        if ($secret_hash !== md5(self::getSecret())) {
             logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
             self::processSetWebhook();
         }
     }
 
-    protected static function getSecret() {
+    /**
+     * @internal Only for BPT self usage , Don't use it in your source!
+     */
+    public static function getSecret() {
         return $_SERVER['HTTP_X_TELEGRAM_BOT_API_SECRET_TOKEN'] ?? false;
     }
 
