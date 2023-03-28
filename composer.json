@@ -16,7 +16,7 @@
 		"api"
 	],
 	"homepage": "https://bptlib.ir",
-	"time": "2023-2-4",
+	"time": "2023-3-28",
 	"license": "MIT",
 	"authors": [
 		{
@@ -42,7 +42,7 @@
 	},
 	"suggest": {
 		"ext-zip": "Needed for using zip method in tools class",
-		"ext-openssl": "Needed for using crypto method in tools class",
+		"ext-openssl": "Needed for using codec method in tools class",
 		"ext-mysqli": "Needed for using mysql database"
 	},
 	"autoload": {

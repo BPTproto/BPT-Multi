@@ -1,6 +1,6 @@
 # What is BPT multi features?
 
-### 1- Support all telegram methods and classes (Api v6.5)
+### 1- Support all telegram methods and classes (Api v6.6)
 
 ### 2- autoload system tnx to composer (only needed file will include)
 
@@ -97,7 +97,7 @@ Examples :
 ### Planning to add
 - [x] mysql db type
 - [x] crypto payment
-- [ ] rial payment
+- [x] rial payment
 - [ ] ezPay
 - [ ] anti spam
 - [ ] forward to all
