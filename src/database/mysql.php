@@ -313,6 +313,12 @@ CREATE TABLE `users`
                 $query .= ' AND';
             }
 
+            if (empty($value)) {
+                $query .= " `$name` = ?";
+                $values[] = $value;
+                continue;
+            }
+
             $operator = substr($value,0,2);
             $operator_value = substr($value,2);
             switch ($operator) {
@@ -408,6 +414,12 @@ CREATE TABLE `users`
                 $query .= ' ,';
             }
 
+            if (empty($value)) {
+                $query .= " `$name` = ?";
+                $values[] = $value;
+                continue;
+            }
+
             $operator = substr($value,0,2);
             $operator_value = substr($value,2);
             switch ($operator) {
@@ -468,7 +480,7 @@ CREATE TABLE `users`
      * @param int|null   $count  Set if you want to delete specific amount of row default : null
      * @param int|null   $offset Set if you want to delete rows after specific row default : null
      *
-     * @return mysqli_result|bool
+     * @return bool
      */
     public static function delete (string $table, array $where = null, int $count = null, int $offset = null): bool {
         $query = "DELETE FROM `$table`";
@@ -487,7 +499,7 @@ CREATE TABLE `users`
      * @param int|null   $count  Set if you want to update specific amount of row default : null
      * @param int|null   $offset Set if you want to update rows after specific row default : null
      *
-     * @return mysqli_result|bool
+     * @return bool
      */
     public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null): bool {
         $query = "UPDATE `$table` SET";
@@ -506,7 +518,7 @@ CREATE TABLE `users`
      * @param string|array $columns sets columns that you want to fill
      * @param array|string $values  sets value that you want to set
      *
-     * @return mysqli_result|bool
+     * @return bool
      */
     public static function insert (string $table, string|array $columns, array|string $values): bool {
         $query = "INSERT INTO `$table`";
