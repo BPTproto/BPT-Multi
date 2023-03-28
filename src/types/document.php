@@ -22,7 +22,7 @@ class document extends types {
     public string $file_unique_id;
 
     /** Optional. Document thumbnail as defined by sender */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
     /** Optional. Original filename as defined by sender */
     public null|string $file_name = null;

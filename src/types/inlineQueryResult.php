@@ -127,13 +127,13 @@ class inlineQueryResult extends types {
      *
      * `video` and `document` could be jpeg only
      */
-    public string $thumb_url;
+    public string $thumbnail_url;
 
     /** `article` and `document` and `location` and `venue` and `contact` only. Optional. Thumbnail width */
-    public int $thumb_width;
+    public int $thumbnail_width;
 
     /** `article` and `document` and `location` and `venue` and `contact` only. Optional. Thumbnail height */
-    public int $thumb_height;
+    public int $thumbnail_height;
 
     /** `photo` only. A valid URL of the photo. Photo must be in JPEG format. Photo size must not exceed 5MB */
     public string $photo_url;
@@ -179,7 +179,7 @@ class inlineQueryResult extends types {
     public int $gif_duration;
 
     /** `gif` and `mpeg4Gif` only. could be `application/pdf` or `application/zip` or `video/mp4`. default : `image/jpeg` */
-    public string $thumb_mime_type;
+    public string $thumbnail_mime_type;
 
     /** `mpeg4Gif` only. A valid URL for the MPEG4 file. File size must not exceed 1MB */
     public string $mpeg4_url;

@@ -31,7 +31,7 @@ class animation extends types {
     public int $duration;
 
     /** Optional. Animation thumbnail as defined by sender */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
     /** Optional. Original animation filename as defined by sender */
     public null|string $file_name = null;

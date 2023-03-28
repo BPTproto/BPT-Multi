@@ -44,7 +44,7 @@ class sticker extends types {
     public null|bool $is_video = null;
 
     /** Optional. Sticker thumbnail in the .WEBP or .JPG format */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
     /** Optional. Emoji associated with the sticker */
     public null|string $emoji = null;

@@ -56,7 +56,7 @@ class inputMedia extends types {
      * be reused and can be only uploaded as a new file, so you can pass “attach://<file_attach_name>” if the
      * thumbnail was uploaded using multipart/form-data under <file_attach_name>.
      */
-    public CURLFile|string $thumb;
+    public CURLFile|string $thumbnail;
 
     /** `video` and `animation` only. width */
     public int $width;

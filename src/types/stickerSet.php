@@ -36,7 +36,7 @@ class stickerSet extends types {
     public array $stickers;
 
     /** Optional. Sticker set thumbnail in the .WEBP, .TGS, or .WEBM format */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
 
     public function __construct(stdClass|null $object = null) {

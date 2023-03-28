@@ -28,7 +28,7 @@ class videoNote extends types {
     public int $duration;
 
     /** Optional. Video thumbnail */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
     /** Optional. File size in bytes */
     public null|int $file_size = null;

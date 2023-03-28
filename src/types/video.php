@@ -31,7 +31,7 @@ class video extends types {
     public int $duration;
 
     /** Optional. Video thumbnail */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
     /** Optional. Original filename as defined by sender */
     public null|string $file_name = null;

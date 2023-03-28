@@ -44,7 +44,7 @@ class audio extends types {
     public null|int $file_size = null;
 
     /** Optional. Thumbnail of the album cover to which the music file belongs */
-    public null|photoSize $thumb = null;
+    public null|photoSize $thumbnail = null;
 
 
     public function __construct(stdClass|null $object = null) {
