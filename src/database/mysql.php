@@ -568,7 +568,7 @@ CREATE TABLE `users`
      * @return null|bool|array
      */
     public static function selectArray (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []): bool|array|null {
-        $res = self::select($table, $columns, $where, 1, $group_by, $order_by);
+        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by);
         if ($res) {
             return $res->fetch_assoc();
         }
@@ -587,7 +587,7 @@ CREATE TABLE `users`
      * @param array|string $order_by order result based on these columns
      */
     public static function selectObject (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []) {
-        $res = self::select($table, $columns, $where, 1, $group_by, $order_by);
+        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by);
         if ($res) {
             return $res->fetch_object();
         }
