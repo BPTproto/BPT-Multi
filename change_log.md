@@ -74,3 +74,6 @@
 - 1.8.1
   - Fix method docs in `request` and `BPT` class
   - Fix change log 1.8.0 format
+- 1.8.2
+  - Fix ignoring url parameter in webhook process
+  - Optimize url generating in webhook process
