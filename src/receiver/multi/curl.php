@@ -62,7 +62,7 @@ class curl extends webhook {
 
     #[ArrayShape(['url' => "array|string|string[]", 'file' => "array|string|string[]"])]
     private static function setURLS(): array {
-        $base_url = (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $base_url = self::setURL();
         $file = basename($_SERVER['REQUEST_URI']);
         return [
             'url'=>str_replace($file, 'receiver.php', $base_url),

@@ -59,7 +59,7 @@ class exec extends webhook {
 
     #[ArrayShape(['url' => "array|string|string[]", 'file' => "string"])]
     private static function setURLS(): array {
-        $base_url = (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
+        $base_url = self::setURL();
         return [
             'url'=>str_replace(basename($_SERVER['REQUEST_URI']), 'receiver.php', $base_url),
             'file'=>basename($_SERVER['SCRIPT_NAME'])
