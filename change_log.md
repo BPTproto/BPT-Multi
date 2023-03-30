@@ -61,13 +61,16 @@
 - 1.8.0
   - Change telegram methods argument's order to original order
   - Update to Telegram API v6.6
-  - Add deleteIfExist method to lock class
+  - Add `deleteIfExist` method to `lock` class
   - A lot of cleaning and optimizing
-  - Add update_date field to catchFields method in request class
-  - Add 3 new settings: default_parse_mode, default_protect_content, ignore_updates_older_then
-  - Remove some unused method from mysql class
-  - Add new methods to mysql class
-  - Add group_by and order_by support to mysql class
-  - Add new classes for persian payments: zarinpal, idpay
+  - Add `update_date` field to `catchFields` method in `request` class
+  - Add 3 new settings: `default_parse_mode`, `default_protect_content`, `ignore_updates_older_then`
+  - Remove some unused method from `mysql` class
+  - Add new methods to `mysql` class
+  - Add `group_by` and `order_by` support to `mysql` class
+  - Add new classes for persian payments: `zarinpal`, `idpay`
   - Rework telegram secret process
   - Add hidden token mode, Its only work in webhook mode
+- 1.8.1
+  - Fix method docs in `request` and `BPT` class
+  - Fix change log 1.8.0 format
