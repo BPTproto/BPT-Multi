@@ -733,7 +733,7 @@ class request {
         'reopenGeneralForumTopic'           => ['chat_id'],
         'hideGeneralForumTopic'             => ['chat_id'],
         'unhideGeneralForumTopic'           => ['chat_id'],
-        'answerCallbackQuery'               => ['url', 'callback_query_id'],
+        'answerCallbackQuery'               => ['callback_query_id'],
         'setChatMenuButton'                 => ['chat_id'],
         'getChatMenuButton'                 => ['chat_id'],
         'editMessageText'                   => ['inline_query' => ['inline_message_id'], 'other' => ['chat_id', 'message_id']],
