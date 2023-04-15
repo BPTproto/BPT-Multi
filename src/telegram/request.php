@@ -871,13 +871,16 @@ class request {
         }
         elseif ($file_params = self::methodFile($name)) {
             foreach ($file_params as $param) {
-                if ($arguments[$param] instanceof CURLFile) {
-                    $remove_answer = true;
+                if (isset($arguments[$param])) {
+                    if ($arguments[$param] instanceof CURLFile) {
+                        $remove_answer = true;
+                    }
+                    elseif (is_string($arguments[$param]) && file_exists(realpath($arguments[$param]))) {
+                        $arguments[$param] = new CURLFile($arguments[$param]);
+                        $remove_answer = true;
+                    }
                 }
-                elseif (isset($arguments[$param]) && is_string($arguments[$param]) && file_exists(realpath($arguments[$param]))) {
-                    $arguments[$param] = new CURLFile($arguments[$param]);
-                    $remove_answer = true;
-                }
+
             }
         }
         if (isset($remove_answer) && isset($arguments['answer'])) {
