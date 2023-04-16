@@ -62,7 +62,7 @@ class settings {
 
     public static int $forgot_time = 100;
 
-    public static int $base_timeout = 300;
+    public static int $base_timeout = 1000;
 
     public static string $receiver = receiver::WEBHOOK;
 
