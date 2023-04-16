@@ -77,3 +77,8 @@
 - 1.8.2
   - Fix ignoring url parameter in webhook process
   - Optimize url generating in webhook process
+- 1.8.3
+  - Fix mysql `selectArray` and `selectObject` method
+  - Fix `answerCallbackQuery` method
+  - Fix methods with file parameter
+  - Increase base timeout setting
