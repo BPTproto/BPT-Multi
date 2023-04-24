@@ -4,7 +4,9 @@ namespace BPT\telegram;
 
 use BPT\BPT;
 use BPT\types\botDescription;
+use BPT\types\botName;
 use BPT\types\botShortDescription;
+use BPT\types\inlineQueryResultsButton;
 use BPT\types\inputSticker;
 use BPT\constants\{chatActions, fields, fileTypes, loggerTypes, updateTypes};
 use BPT\exception\bptException;
@@ -850,7 +852,7 @@ class request {
     }
 
     private static function checkArguments(array &$arguments): void {
-        if (isset($arguments[0]) && count($arguments) === 1 && is_array($arguments[0]) && isset($arguments[0][0])) {
+        if (isset($arguments[0][0]) && count($arguments) === 1 && is_array($arguments[0])) {
             $arguments = $arguments[0];
         }
     }

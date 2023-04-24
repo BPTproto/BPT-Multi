@@ -82,3 +82,6 @@
   - Fix `answerCallbackQuery` method
   - Fix methods with file parameter
   - Increase base timeout setting
+- 1.9.0
+  - Update to Telegram API v6.7
+  - Fix a bug that caused some type class show thumbnail error
