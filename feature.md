@@ -1,6 +1,6 @@
 # What is BPT multi features?
 
-### 1- Support all telegram methods and classes (Api v6.6)
+### 1- Support all telegram methods and classes (Api v6.7)
 
 ### 2- autoload system tnx to composer (only needed file will include)
 

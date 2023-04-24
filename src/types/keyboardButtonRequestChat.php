@@ -6,16 +6,19 @@ use stdClass;
 
 /**
  * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be
- * shared with the bot when the corresponding button is pressed.
+ * shared with the bot when the corresponding button is pressed. More about requesting chats »
  */
 class keyboardButtonRequestChat extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'user_administrator_rights' => 'BPT\types\chatAdministratorRights',
         'bot_administrator_rights' => 'BPT\types\chatAdministratorRights',
     ];
 
-    /** Signed 32-bit identifier of the request */
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the ChatShared object. Must be unique
+     * within the message
+     */
     public int $request_id;
 
     /** Pass True to request a channel chat, pass False to request a group or a supergroup chat. */
@@ -37,8 +40,9 @@ class keyboardButtonRequestChat extends types {
     public bool $chat_is_created;
 
     /**
-     * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. If not
-     * specified, no additional restrictions are applied.
+     * Optional. A JSON-serialized object listing the required administrator rights of the user in the chat. The
+     * rights must be a superset of bot_administrator_rights. If not specified, no additional restrictions are
+     * applied.
      */
     public chatAdministratorRights $user_administrator_rights;
 

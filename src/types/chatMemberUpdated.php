@@ -10,7 +10,7 @@ use stdClass;
  * This object represents changes in the status of a chat member.
  */
 class chatMemberUpdated extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'chat' => 'BPT\types\chat',
         'from' => 'BPT\types\user',
@@ -38,7 +38,10 @@ class chatMemberUpdated extends types {
      * Optional. Chat invite link, which was used by the user to join the chat; for joining by invite link events
      * only.
      */
-    public null|chatInviteLink $invite_link = null;
+    public chatInviteLink $invite_link;
+
+    /** Optional. True, if the user joined the chat via a chat folder invite link */
+    public bool $via_chat_folder_invite_link;
 
 
     public function __construct(stdClass|null $object = null) {

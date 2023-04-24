@@ -6,13 +6,16 @@ use stdClass;
 
 /**
  * This object defines the criteria used to request a suitable user. The identifier of the selected user will be
- * shared with the bot when the corresponding button is pressed.
+ * shared with the bot when the corresponding button is pressed. More about requesting users »
  */
 class keyboardButtonRequestUser extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
-    /** Signed 32-bit identifier of the request */
+    /**
+     * Signed 32-bit identifier of the request, which will be received back in the UserShared object. Must be unique
+     * within the message
+     */
     public int $request_id;
 
     /**

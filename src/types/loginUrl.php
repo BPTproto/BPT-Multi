@@ -15,12 +15,12 @@ use stdClass;
  * @method self setRequest_write_access(bool $value)
  */
 class loginUrl extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /**
-     * An HTTP URL to be opened with user authorization data added to the query string when the button is pressed. If
-     * the user refuses to provide authorization data, the original URL without information about the user will be
+     * An HTTPS URL to be opened with user authorization data added to the query string when the button is pressed.
+     * If the user refuses to provide authorization data, the original URL without information about the user will be
      * opened. The data added is the same as described in Receiving authorization data.NOTE: You must always check
      * the hash of the received data to verify the authentication and the integrity of the data as described in
      * Checking authorization.

@@ -9,8 +9,8 @@ use stdClass;
  * This object represents a general file (as opposed to photos, voice messages and audio files).
  */
 class document extends types {
-    /** Keep all of properties which has sub properties */
-    private const subs = ['thumb' => 'BPT\types\photoSize'];
+    /** Keep all properties which has sub properties */
+    private const subs = ['thumbnail' => 'BPT\types\photoSize'];
 
     /** Identifier for this file, which can be used to download or reuse the file */
     public string $file_id;

@@ -11,7 +11,7 @@ use stdClass;
 class sticker extends types {
     /** Keep all of properties which has sub properties */
     private const subs = [
-        'thumb' => 'BPT\types\photoSize',
+        'thumbnail' => 'BPT\types\photoSize',
         'premium_animation' => 'BPT\types\file',
         'mask_position' => 'BPT\types\maskPosition',
     ];
@@ -59,7 +59,13 @@ class sticker extends types {
     public null|maskPosition $mask_position = null;
 
     /** Optional. For custom emoji stickers, unique identifier of the custom emoji */
-    public null|string $custom_emoji_id = null;
+    public string $custom_emoji_id;
+
+    /**
+     * Optional. True, if the sticker must be repainted to a text color in messages, the color of the Telegram
+     * Premium badge in emoji status, white color on chat photos, or another appropriate color in other places
+     */
+    public bool $needs_repainting;
 
     /** Optional. File size in bytes */
     public null|int $file_size = null;

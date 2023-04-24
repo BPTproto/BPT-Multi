@@ -8,7 +8,7 @@ use stdClass;
  * This object represents an animated emoji that displays a random value.
  */
 class dice extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /** Emoji on which the dice throw animation is based */

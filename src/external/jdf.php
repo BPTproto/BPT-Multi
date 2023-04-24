@@ -11,28 +11,29 @@ namespace BPT\external;
  */
 class jdf {
     public static function jdate ($format, $timestamp = '', $none = '', $time_zone = 'Asia/Tehran', $tr_num = 'fa') {
-        $T_sec = 0;/* <= رفع خطاي زمان سرور ، با اعداد '+' و '-' بر حسب ثانيه */
-        if ($time_zone != 'local') date_default_timezone_set(($time_zone === '') ? 'Asia/Tehran' : $time_zone);
-        $ts = $T_sec + (($timestamp === '') ? time() : self::tr_num($timestamp));
-        $date = explode('_', date('H_i_j_n_O_P_s_w_Y', $ts));
-        [$j_y, $j_m, $j_d] = self::gregorian_to_jalali($date[8], $date[3], $date[2]);
-        $doy = ($j_m < 7) ? (($j_m - 1) * 31) + $j_d - 1 : (($j_m - 7) * 30) + $j_d + 185;
-        $kab = (((($j_y + 12) % 33) % 4) == 1) ? 1 : 0;
-        $sl = strlen($format);
-        $out = '';
-        for ($i = 0; $i < $sl; $i++) {
+        $T_sec = 0;
+        if ($time_zone != 'local') {
+            date_default_timezone_set(empty($time_zone) ? 'Asia/Tehran' : $time_zone);
+        }
+        $timestamp = $T_sec + empty($timestamp) ? time() : self::tr_num($timestamp);
+        $date = explode('_', date('H_i_j_n_O_P_s_w_Y', $timestamp));
+        [$jalali_year, $jalali_month, $jalali_day] = self::gregorian_to_jalali($date[8], $date[3], $date[2]);
+        $doy = $jalali_month < 7 ? ($jalali_month - 1) * 31 + $jalali_day - 1 : ($jalali_month - 7) * 30 + $jalali_day + 185;
+        $leap_year = ($jalali_year + 12) % 33 % 4 == 1 ? 1 : 0;
+        $length = strlen($format);
+        $output = '';
+        for ($i = 0; $i < $length; $i++) {
             $sub = substr($format, $i, 1);
             if ($sub == '\\') {
-                $out .= substr($format, ++$i, 1);
+                $output .= substr($format, ++$i, 1);
                 continue;
             }
             switch ($sub) {
-
                 case 'E':
                 case 'R':
                 case 'x':
                 case 'X':
-                    $out .= 'http://jdf.scr.ir';
+                    $output .= 'http://jdf.scr.ir';
                     break;
                 case 'B':
                 case 'e':
@@ -43,195 +44,195 @@ class jdf {
                 case 'T':
                 case 'u':
                 case 'Z':
-                    $out .= date($sub, $ts);
+                    $output .= date($sub, $timestamp);
                     break;
                 case 'a':
-                    $out .= ($date[0] < 12) ? 'ق.ظ' : 'ب.ظ';
+                    $output .= $date[0] < 12 ? 'ق.ظ' : 'ب.ظ';
                     break;
                 case 'A':
-                    $out .= ($date[0] < 12) ? 'قبل از ظهر' : 'بعد از ظهر';
+                    $output .= $date[0] < 12 ? 'قبل از ظهر' : 'بعد از ظهر';
                     break;
                 case 'b':
-                    $out .= (int) ($j_m / 3.1) + 1;
+                    $output .= (int) ($jalali_month / 3.1) + 1;
                     break;
                 case 'c':
-                    $out .= $j_y . '/' . $j_m . '/' . $j_d . ' ،' . $date[0] . ':' . $date[1] . ':' . $date[6] . ' ' . $date[5];
+                    $output .= $jalali_year . '/' . $jalali_month . '/' . $jalali_day . ' ،' . $date[0] . ':' . $date[1] . ':' . $date[6] . ' ' . $date[5];
                     break;
                 case 'C':
-                    $out .= (int) (($j_y + 99) / 100);
+                    $output .= (int) (($jalali_year + 99) / 100);
                     break;
                 case 'd':
-                    $out .= ($j_d < 10) ? '0' . $j_d : $j_d;
+                    $output .= $jalali_day < 10 ? '0' . $jalali_day : $jalali_day;
                     break;
                 case 'D':
-                    $out .= self::jdate_words(['kh' => $date[7]], ' ');
+                    $output .= self::jdate_words(['kh' => $date[7]], ' ');
                     break;
                 case 'f':
-                    $out .= self::jdate_words(['ff' => $j_m], ' ');
+                    $output .= self::jdate_words(['ff' => $jalali_month], ' ');
                     break;
                 case 'F':
-                    $out .= self::jdate_words(['mm' => $j_m], ' ');
+                    $output .= self::jdate_words(['mm' => $jalali_month], ' ');
                     break;
                 case 'H':
-                    $out .= $date[0];
+                    $output .= $date[0];
                     break;
                 case 'i':
-                    $out .= $date[1];
+                    $output .= $date[1];
                     break;
                 case 'j':
-                    $out .= $j_d;
+                    $output .= $jalali_day;
                     break;
                 case 'J':
-                    $out .= self::jdate_words(['rr' => $j_d], ' ');
+                    $output .= self::jdate_words(['rr' => $jalali_day], ' ');
                     break;
                 case 'k';
-                    $out .= self::tr_num(100 - (int) ($doy / ($kab + 365.24) * 1000) / 10, $tr_num);
+                    $output .= self::tr_num(100 - (int) ($doy / ($leap_year + 365.24) * 1000) / 10, $tr_num);
                     break;
                 case 'K':
-                    $out .= self::tr_num((int) ($doy / ($kab + 365.24) * 1000) / 10, $tr_num);
+                    $output .= self::tr_num((int) ($doy / ($leap_year + 365.24) * 1000) / 10, $tr_num);
                     break;
                 case 'l':
-                    $out .= self::jdate_words(['rh' => $date[7]], ' ');
+                    $output .= self::jdate_words(['rh' => $date[7]], ' ');
                     break;
                 case 'L':
-                    $out .= $kab;
+                    $output .= $leap_year;
                     break;
                 case 'm':
-                    $out .= ($j_m > 9) ? $j_m : '0' . $j_m;
+                    $output .= $jalali_month > 9 ? $jalali_month : '0' . $jalali_month;
                     break;
                 case 'M':
-                    $out .= self::jdate_words(['km' => $j_m], ' ');
+                    $output .= self::jdate_words(['km' => $jalali_month], ' ');
                     break;
                 case 'n':
-                    $out .= $j_m;
+                    $output .= $jalali_month;
                     break;
                 case 'N':
-                    $out .= $date[7] + 1;
+                    $output .= $date[7] + 1;
                     break;
                 case 'o':
-                    $jdw = ($date[7] == 6) ? 0 : $date[7] + 1;
-                    $dny = 364 + $kab - $doy;
-                    $out .= ($jdw > ($doy + 3) and $doy < 3) ? $j_y - 1 : (((3 - $dny) > $jdw and $dny < 3) ? $j_y + 1 : $j_y);
+                    $jdw = $date[7] == 6 ? 0 : $date[7] + 1;
+                    $dny = 364 + $leap_year - $doy;
+                    $output .= ($jdw > $doy + 3 and $doy < 3) ? $jalali_year - 1 : ((3 - $dny > $jdw and $dny < 3) ? $jalali_year + 1 : $jalali_year);
                     break;
                 case 'O':
-                    $out .= $date[4];
+                    $output .= $date[4];
                     break;
                 case 'p':
-                    $out .= self::jdate_words(['mb' => $j_m], ' ');
+                    $output .= self::jdate_words(['mb' => $jalali_month], ' ');
                     break;
                 case 'P':
-                    $out .= $date[5];
+                    $output .= $date[5];
                     break;
                 case 'q':
-                    $out .= self::jdate_words(['sh' => $j_y], ' ');
+                    $output .= self::jdate_words(['sh' => $jalali_year], ' ');
                     break;
                 case 'Q':
-                    $out .= $kab + 364 - $doy;
+                    $output .= $leap_year + 364 - $doy;
                     break;
                 case 'r':
-                    $key = self::jdate_words(['rh' => $date[7], 'mm' => $j_m]);
-                    $out .= $date[0] . ':' . $date[1] . ':' . $date[6] . ' ' . $date[4] . ' ' . $key['rh'] . '، ' . $j_d . ' ' . $key['mm'] . ' ' . $j_y;
+                    $key = self::jdate_words(['rh' => $date[7], 'mm' => $jalali_month]);
+                    $output .= $date[0] . ':' . $date[1] . ':' . $date[6] . ' ' . $date[4] . ' ' . $key['rh'] . '، ' . $jalali_day . ' ' . $key['mm'] . ' ' . $jalali_year;
                     break;
                 case 's':
-                    $out .= $date[6];
+                    $output .= $date[6];
                     break;
                 case 'S':
-                    $out .= 'ام';
+                    $output .= 'ام';
                     break;
                 case 't':
-                    $out .= ($j_m != 12) ? (31 - (int) ($j_m / 6.5)) : ($kab + 29);
+                    $output .= $jalali_month != 12 ? 31 - (int) ($jalali_month / 6.5) : ($leap_year + 29);
                     break;
                 case 'U':
-                    $out .= $ts;
+                    $output .= $timestamp;
                     break;
                 case 'v':
-                    $out .= self::jdate_words(['ss' => ($j_y % 100)], ' ');
+                    $output .= self::jdate_words(['ss' => ($jalali_year % 100)], ' ');
                     break;
                 case 'V':
-                    $out .= self::jdate_words(['ss' => $j_y], ' ');
+                    $output .= self::jdate_words(['ss' => $jalali_year], ' ');
                     break;
                 case 'w':
-                    $out .= ($date[7] == 6) ? 0 : $date[7] + 1;
+                    $output .= $date[7] == 6 ? 0 : $date[7] + 1;
                     break;
                 case 'W':
-                    $avs = (($date[7] == 6) ? 0 : $date[7] + 1) - ($doy % 7);
+                    $avs = ($date[7] == 6 ? 0 : $date[7] + 1) - $doy % 7;
                     if ($avs < 0) $avs += 7;
                     $num = (int) (($doy + $avs) / 7);
                     if ($avs < 4) {
                         $num++;
                     }
                     elseif ($num < 1) {
-                        $num = ($avs == 4 or $avs == ((((($j_y % 33) % 4) - 2) == ((int) (($j_y % 33) * 0.05))) ? 5 : 4)) ? 53 : 52;
+                        $num = ($avs == 4 or $avs == ($jalali_year % 33 % 4 - 2 == (int) ($jalali_year % 33 * 0.05) ? 5 : 4)) ? 53 : 52;
                     }
-                    $aks = $avs + $kab;
-                    if ($aks == 7) $aks = 0;
-                    $out .= (($kab + 363 - $doy) < $aks and $aks < 3) ? '01' : (($num < 10) ? '0' . $num : $num);
+                    $aks = $avs + $leap_year;
+                    if ($aks == 7) {
+                        $aks = 0;
+                    }
+                    $output .= ($leap_year + 363 - $doy < $aks and $aks < 3) ? '01' : ($num < 10 ? '0' . $num : $num);
                     break;
                 case 'y':
-                    $out .= substr($j_y, 2, 2);
+                    $output .= substr($jalali_year, 2, 2);
                     break;
                 case 'Y':
-                    $out .= $j_y;
+                    $output .= $jalali_year;
                     break;
                 case 'z':
-                    $out .= $doy;
+                    $output .= $doy;
                     break;
                 default:
-                    $out .= $sub;
+                    $output .= $sub;
             }
         }
-        return ($tr_num != 'en') ? self::tr_num($out, 'fa', '.') : $out;
+        return $tr_num != 'en' ? self::tr_num($output, 'fa', '.') : $output;
     }
     public static function jstrftime ($format, $timestamp = '', $none = '', $time_zone = 'Asia/Tehran', $tr_num = 'fa') {
         $T_sec = 0;/* <= رفع خطاي زمان سرور ، با اعداد '+' و '-' بر حسب ثانيه */
         if ($time_zone != 'local') date_default_timezone_set(($time_zone === '') ? 'Asia/Tehran' : $time_zone);
-        $ts = $T_sec + (($timestamp === '') ? time() : self::tr_num($timestamp));
-        $date = explode('_', date('h_H_i_j_n_s_w_Y', $ts));
-        [$j_y, $j_m, $j_d] = self::gregorian_to_jalali($date[7], $date[4], $date[3]);
-        $doy = ($j_m < 7) ? (($j_m - 1) * 31) + $j_d - 1 : (($j_m - 7) * 30) + $j_d + 185;
-        $kab = (((($j_y + 12) % 33) % 4) == 1) ? 1 : 0;
-        $sl = strlen($format);
-        $out = '';
-        for ($i = 0; $i < $sl; $i++) {
+        $timestamp = $T_sec + (($timestamp === '') ? time() : self::tr_num($timestamp));
+        $date = explode('_', date('h_H_i_j_n_s_w_Y', $timestamp));
+        [$jalali_year, $jalali_month, $jalali_day] = self::gregorian_to_jalali($date[7], $date[4], $date[3]);
+        $doy = ($jalali_month < 7) ? (($jalali_month - 1) * 31) + $jalali_day - 1 : (($jalali_month - 7) * 30) + $jalali_day + 185;
+        $leap_year = (((($jalali_year + 12) % 33) % 4) == 1) ? 1 : 0;
+        $length = strlen($format);
+        $output = '';
+        for ($i = 0; $i < $length; $i++) {
             $sub = substr($format, $i, 1);
             if ($sub == '%') {
                 $sub = substr($format, ++$i, 1);
             }
             else {
-                $out .= $sub;
+                $output .= $sub;
                 continue;
             }
             switch ($sub) {
 
-                /* Day */
-                case 'a':
-                $out .= self::jdate_words(['kh' => $date[6]], ' ');
+                /* Day */ case 'a':
+                $output .= self::jdate_words(['kh' => $date[6]], ' ');
                 break;
                 case 'A':
-                    $out .= self::jdate_words(['rh' => $date[6]], ' ');
+                    $output .= self::jdate_words(['rh' => $date[6]], ' ');
                     break;
                 case 'd':
-                    $out .= ($j_d < 10) ? '0' . $j_d : $j_d;
+                    $output .= ($jalali_day < 10) ? '0' . $jalali_day : $jalali_day;
                     break;
                 case 'e':
-                    $out .= ($j_d < 10) ? ' ' . $j_d : $j_d;
+                    $output .= ($jalali_day < 10) ? ' ' . $jalali_day : $jalali_day;
                     break;
                 case 'j':
-                    $out .= str_pad($doy + 1, 3, 0, STR_PAD_LEFT);
+                    $output .= str_pad($doy + 1, 3, 0, STR_PAD_LEFT);
                     break;
                 case 'u':
-                    $out .= $date[6] + 1;
+                    $output .= $date[6] + 1;
                     break;
                 case 'w':
-                    $out .= ($date[6] == 6) ? 0 : $date[6] + 1;
+                    $output .= ($date[6] == 6) ? 0 : $date[6] + 1;
                     break;
-                /* Week */
-                case 'U':
+                /* Week */ case 'U':
                 $avs = (($date[6] < 5) ? $date[6] + 2 : $date[6] - 5) - ($doy % 7);
                 if ($avs < 0) $avs += 7;
                 $num = (int) (($doy + $avs) / 7) + 1;
                 if ($avs > 3 or $avs == 1) $num--;
-                $out .= ($num < 10) ? '0' . $num : $num;
+                $output .= ($num < 10) ? '0' . $num : $num;
                 break;
                 case 'V':
                     $avs = (($date[6] == 6) ? 0 : $date[6] + 1) - ($doy % 7);
@@ -241,163 +242,170 @@ class jdf {
                         $num++;
                     }
                     elseif ($num < 1) {
-                        $num = ($avs == 4 or $avs == ((((($j_y % 33) % 4) - 2) == ((int) (($j_y % 33) * 0.05))) ? 5 : 4)) ? 53 : 52;
+                        $num = ($avs == 4 or $avs == ((((($jalali_year % 33) % 4) - 2) == ((int) (($jalali_year % 33) * 0.05))) ? 5 : 4)) ? 53 : 52;
                     }
-                    $aks = $avs + $kab;
+                    $aks = $avs + $leap_year;
                     if ($aks == 7) $aks = 0;
-                    $out .= (($kab + 363 - $doy) < $aks and $aks < 3) ? '01' : (($num < 10) ? '0' . $num : $num);
+                    $output .= (($leap_year + 363 - $doy) < $aks and $aks < 3) ? '01' : (($num < 10) ? '0' . $num : $num);
                     break;
                 case 'W':
                     $avs = (($date[6] == 6) ? 0 : $date[6] + 1) - ($doy % 7);
                     if ($avs < 0) $avs += 7;
                     $num = (int) (($doy + $avs) / 7) + 1;
                     if ($avs > 3) $num--;
-                    $out .= ($num < 10) ? '0' . $num : $num;
+                    $output .= ($num < 10) ? '0' . $num : $num;
                     break;
-                /* Month */
-                case 'b':
+                /* Month */ case 'b':
                 case 'h':
-                    $out .= self::jdate_words(['km' => $j_m], ' ');
+                    $output .= self::jdate_words(['km' => $jalali_month], ' ');
                     break;
                 case 'B':
-                    $out .= self::jdate_words(['mm' => $j_m], ' ');
+                    $output .= self::jdate_words(['mm' => $jalali_month], ' ');
                     break;
                 case 'm':
-                    $out .= ($j_m > 9) ? $j_m : '0' . $j_m;
+                    $output .= ($jalali_month > 9) ? $jalali_month : '0' . $jalali_month;
                     break;
-                /* Year */
-                case 'C':
-                $tmp = (int) ($j_y / 100);
-                $out .= ($tmp > 9) ? $tmp : '0' . $tmp;
+                /* Year */ case 'C':
+                $tmp = (int) ($jalali_year / 100);
+                $output .= ($tmp > 9) ? $tmp : '0' . $tmp;
                 break;
                 case 'g':
                     $jdw = ($date[6] == 6) ? 0 : $date[6] + 1;
-                    $dny = 364 + $kab - $doy;
-                    $out .= substr(($jdw > ($doy + 3) and $doy < 3) ? $j_y - 1 : (((3 - $dny) > $jdw and $dny < 3) ? $j_y + 1 : $j_y), 2, 2);
+                    $dny = 364 + $leap_year - $doy;
+                    $output .= substr(($jdw > ($doy + 3) and $doy < 3) ? $jalali_year - 1 : (((3 - $dny) > $jdw and $dny < 3) ? $jalali_year + 1 : $jalali_year), 2, 2);
                     break;
                 case 'G':
                     $jdw = ($date[6] == 6) ? 0 : $date[6] + 1;
-                    $dny = 364 + $kab - $doy;
-                    $out .= ($jdw > ($doy + 3) and $doy < 3) ? $j_y - 1 : (((3 - $dny) > $jdw and $dny < 3) ? $j_y + 1 : $j_y);
+                    $dny = 364 + $leap_year - $doy;
+                    $output .= ($jdw > ($doy + 3) and $doy < 3) ? $jalali_year - 1 : (((3 - $dny) > $jdw and $dny < 3) ? $jalali_year + 1 : $jalali_year);
                     break;
                 case 'y':
-                    $out .= substr($j_y, 2, 2);
+                    $output .= substr($jalali_year, 2, 2);
                     break;
                 case 'Y':
-                    $out .= $j_y;
+                    $output .= $jalali_year;
                     break;
-                /* Time */
-                case 'H':
-                $out .= $date[1];
+                /* Time */ case 'H':
+                $output .= $date[1];
                 break;
                 case 'I':
-                    $out .= $date[0];
+                    $output .= $date[0];
                     break;
                 case 'l':
-                    $out .= ($date[0] > 9) ? $date[0] : ' ' . (int) $date[0];
+                    $output .= ($date[0] > 9) ? $date[0] : ' ' . (int) $date[0];
                     break;
                 case 'M':
-                    $out .= $date[2];
+                    $output .= $date[2];
                     break;
                 case 'p':
-                    $out .= ($date[1] < 12) ? 'قبل از ظهر' : 'بعد از ظهر';
+                    $output .= ($date[1] < 12) ? 'قبل از ظهر' : 'بعد از ظهر';
                     break;
                 case 'P':
-                    $out .= ($date[1] < 12) ? 'ق.ظ' : 'ب.ظ';
+                    $output .= ($date[1] < 12) ? 'ق.ظ' : 'ب.ظ';
                     break;
                 case 'r':
-                    $out .= $date[0] . ':' . $date[2] . ':' . $date[5] . ' ' . (($date[1] < 12) ? 'قبل از ظهر' : 'بعد از ظهر');
+                    $output .= $date[0] . ':' . $date[2] . ':' . $date[5] . ' ' . (($date[1] < 12) ? 'قبل از ظهر' : 'بعد از ظهر');
                     break;
                 case 'R':
-                    $out .= $date[1] . ':' . $date[2];
+                    $output .= $date[1] . ':' . $date[2];
                     break;
                 case 'S':
-                    $out .= $date[5];
+                    $output .= $date[5];
                     break;
                 case 'T':
-                    $out .= $date[1] . ':' . $date[2] . ':' . $date[5];
+                    $output .= $date[1] . ':' . $date[2] . ':' . $date[5];
                     break;
                 case 'X':
-                    $out .= $date[0] . ':' . $date[2] . ':' . $date[5];
+                    $output .= $date[0] . ':' . $date[2] . ':' . $date[5];
                     break;
                 case 'z':
-                    $out .= date('O', $ts);
+                    $output .= date('O', $timestamp);
                     break;
                 case 'Z':
-                    $out .= date('T', $ts);
+                    $output .= date('T', $timestamp);
                     break;
-                /* Time and Date Stamps */
-                case 'c':
-                $key = self::jdate_words(['rh' => $date[6], 'mm' => $j_m]);
-                $out .= $date[1] . ':' . $date[2] . ':' . $date[5] . ' ' . date('P', $ts) . ' ' . $key['rh'] . '، ' . $j_d . ' ' . $key['mm'] . ' ' . $j_y;
+                /* Time and Date Stamps */ case 'c':
+                $key = self::jdate_words(['rh' => $date[6], 'mm' => $jalali_month]);
+                $output .= $date[1] . ':' . $date[2] . ':' . $date[5] . ' ' . date('P', $timestamp) . ' ' . $key['rh'] . '، ' . $jalali_day . ' ' . $key['mm'] . ' ' . $jalali_year;
                 break;
                 case 'D':
-                    $out .= substr($j_y, 2, 2) . '/' . (($j_m > 9) ? $j_m : '0' . $j_m) . '/' . (($j_d < 10) ? '0' . $j_d : $j_d);
+                    $output .= substr($jalali_year, 2, 2) . '/' . (($jalali_month > 9) ? $jalali_month : '0' . $jalali_month) . '/' . (($jalali_day < 10) ? '0' . $jalali_day : $jalali_day);
                     break;
                 case 'F':
-                    $out .= $j_y . '-' . (($j_m > 9) ? $j_m : '0' . $j_m) . '-' . (($j_d < 10) ? '0' . $j_d : $j_d);
+                    $output .= $jalali_year . '-' . (($jalali_month > 9) ? $jalali_month : '0' . $jalali_month) . '-' . (($jalali_day < 10) ? '0' . $jalali_day : $jalali_day);
                     break;
                 case 's':
-                    $out .= $ts;
+                    $output .= $timestamp;
                     break;
                 case 'x':
-                    $out .= substr($j_y, 2, 2) . '/' . (($j_m > 9) ? $j_m : '0' . $j_m) . '/' . (($j_d < 10) ? '0' . $j_d : $j_d);
+                    $output .= substr($jalali_year, 2, 2) . '/' . (($jalali_month > 9) ? $jalali_month : '0' . $jalali_month) . '/' . (($jalali_day < 10) ? '0' . $jalali_day : $jalali_day);
                     break;
-                /* Miscellaneous */
-                case 'n':
-                $out .= "\n";
+                /* Miscellaneous */ case 'n':
+                $output .= "\n";
                 break;
                 case 't':
-                    $out .= "\t";
+                    $output .= "\t";
                     break;
                 case '%':
-                    $out .= '%';
+                    $output .= '%';
                     break;
                 default:
-                    $out .= $sub;
+                    $output .= $sub;
             }
         }
-        return ($tr_num != 'en') ? self::tr_num($out, 'fa', '.') : $out;
+        return ($tr_num != 'en') ? self::tr_num($output, 'fa', '.') : $output;
     }
-    public static function jmktime ($h = '', $m = '', $s = '', $jm = '', $jd = '', $jy = '', $none = '', $timezone = 'Asia/Tehran') {
+    public static function jmktime ($hour = '', $minute = '', $second = '', $jalali_month = '', $jalali_day = '', $jalali_year = '', $none = '', $timezone = 'Asia/Tehran'): bool|int {
         if ($timezone != 'local') date_default_timezone_set($timezone);
-        if ($h === '') {
+        if ($hour === '') {
             return time();
         }
         else {
             [
-                $h,
-                $m,
-                $s,
-                $jm,
-                $jd,
-                $jy
-            ] = explode('_', self::tr_num($h . '_' . $m . '_' . $s . '_' . $jm . '_' . $jd . '_' . $jy));
-            if ($m === '') {
-                return mktime($h);
+                $hour,
+                $minute,
+                $second,
+                $jalali_month,
+                $jalali_day,
+                $jalali_year
+            ] = explode('_', self::tr_num($hour . '_' . $minute . '_' . $second . '_' . $jalali_month . '_' . $jalali_day . '_' . $jalali_year));
+            if ($minute === '') {
+                return mktime($hour);
             }
             else {
-                if ($s === '') {
-                    return mktime($h, $m);
+                if ($second === '') {
+                    return mktime($hour, $minute);
                 }
                 else {
-                    if ($jm === '') {
-                        return mktime($h, $m, $s);
+                    if ($jalali_month === '') {
+                        return mktime($hour, $minute, $second);
                     }
                     else {
                         $jdate = explode('_', self::jdate('Y_j', '', '', $timezone, 'en'));
-                        if ($jd === '') {
-                            [$gy, $gm, $gd] = self::jalali_to_gregorian($jdate[0], $jm, $jdate[1]);
-                            return mktime($h, $m, $s, $gm);
+                        if ($jalali_day === '') {
+                            [
+                                $gregorian_year,
+                                $gregorian_month,
+                                $gregorian_day
+                            ] = self::jalali_to_gregorian($jdate[0], $jalali_month, $jdate[1]);
+                            return mktime($hour, $minute, $second, $gregorian_month);
                         }
                         else {
-                            if ($jy === '') {
-                                [$gy, $gm, $gd] = self::jalali_to_gregorian($jdate[0], $jm, $jd);
-                                return mktime($h, $m, $s, $gm, $gd);
+                            if ($jalali_year === '') {
+                                [
+                                    $gregorian_year,
+                                    $gregorian_month,
+                                    $gregorian_day
+                                ] = self::jalali_to_gregorian($jdate[0], $jalali_month, $jalali_day);
+                                return mktime($hour, $minute, $second, $gregorian_month, $gregorian_day);
                             }
                             else {
-                                [$gy, $gm, $gd] = self::jalali_to_gregorian($jy, $jm, $jd);
-                                return mktime($h, $m, $s, $gm, $gd, $gy);
+                                [
+                                    $gregorian_year,
+                                    $gregorian_month,
+                                    $gregorian_day
+                                ] = self::jalali_to_gregorian($jalali_year, $jalali_month, $jalali_day);
+                                return mktime($hour, $minute, $second, $gregorian_month, $gregorian_day, $gregorian_year);
                             }
                         }
                     }
@@ -406,8 +414,8 @@ class jdf {
         }
     }
     public static function jgetdate ($timestamp = '', $none = '', $timezone = 'Asia/Tehran', $tn = 'en') {
-        $ts = ($timestamp === '') ? time() : self::tr_num($timestamp);
-        $jdate = explode('_', self::jdate('F_G_i_j_l_n_s_w_Y_z', $ts, '', $timezone, $tn));
+        $timestamp = ($timestamp === '') ? time() : self::tr_num($timestamp);
+        $jdate = explode('_', self::jdate('F_G_i_j_l_n_s_w_Y_z', $timestamp, '', $timezone, $tn));
         return [
             'seconds' => self::tr_num((int) self::tr_num($jdate[6]), $tn),
             'minutes' => self::tr_num((int) self::tr_num($jdate[2]), $tn),
@@ -419,35 +427,45 @@ class jdf {
             'yday'    => $jdate[9],
             'weekday' => $jdate[4],
             'month'   => $jdate[0],
-            0         => self::tr_num($ts, $tn)
+            0         => self::tr_num($timestamp, $tn)
         ];
     }
-    public static function jcheckdate ($jm, $jd, $jy) {
-        [$jm, $jd, $jy] = explode('_', self::tr_num($jm . '_' . $jd . '_' . $jy));
-        $l_d = ($jm == 12 and ((($jy + 12) % 33) % 4) != 1) ? 29 : (31 - (int) ($jm / 6.5));
-        return ($jm > 12 or $jd > $l_d or $jm < 1 or $jd < 1 or $jy < 1) ? false : true;
+    public static function jcheckdate ($jalali_month, $jalali_day, $jalali_year): bool {
+        [$jalali_month, $jalali_day, $jalali_year] = explode('_', self::tr_num($jalali_month . '_' . $jalali_day . '_' . $jalali_year));
+        $l_d = ($jalali_month == 12 and ($jalali_year + 12) % 33 % 4 != 1) ? 29 : 31 - (int) ($jalali_month / 6.5);
+        return !(($jalali_month > 12 or $jalali_day > $l_d or $jalali_month < 1 or $jalali_day < 1 or $jalali_year < 1));
     }
-    public static function tr_num ($str, $mod = 'en', $mf = '٫') {
-        $num_a = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
-        $key_a = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', $mf];
-        return ($mod == 'fa') ? str_replace($num_a, $key_a, $str) : str_replace($key_a, $num_a, $str);
+    public static function tr_num ($string, $mod = 'en', $mf = '٫'): array|string {
+        $english_number = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'];
+        $persian_number = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹', $mf];
+        return $mod == 'fa' ? str_replace($english_number, $persian_number, $string) : str_replace($persian_number, $english_number, $string);
     }
-    public static function jdate_words ($array, $mod = '') {
+    public static function jdate_words ($array, $splitter = '') {
         foreach ($array as $type => $num) {
             $num = (int) self::tr_num($num);
             switch ($type) {
-
                 case 'ss':
-                    $sl = strlen($num);
-                    $xy3 = substr($num, 2 - $sl, 1);
+                    $length = strlen($num);
+                    $xy3 = substr($num, 2 - $length, 1);
                     $h3 = $h34 = $h4 = '';
                     if ($xy3 == 1) {
                         $p34 = '';
-                        $k34 = ['ده', 'یازده', 'دوازده', 'سیزده', 'چهارده', 'پانزده', 'شانزده', 'هفده', 'هجده', 'نوزده'];
-                        $h34 = $k34[substr($num, 2 - $sl, 2) - 10];
+                        $k34 = [
+                            'ده',
+                            'یازده',
+                            'دوازده',
+                            'سیزده',
+                            'چهارده',
+                            'پانزده',
+                            'شانزده',
+                            'هفده',
+                            'هجده',
+                            'نوزده'
+                        ];
+                        $h34 = $k34[substr($num, 2 - $length, 2) - 10];
                     }
                     else {
-                        $xy4 = substr($num, 3 - $sl, 1);
+                        $xy4 = substr($num, 3 - $length, 1);
                         $p34 = ($xy3 == 0 or $xy4 == 0) ? '' : ' و ';
                         $k3 = ['', '', 'بیست', 'سی', 'چهل', 'پنجاه', 'شصت', 'هفتاد', 'هشتاد', 'نود'];
                         $h3 = $k3[$xy3];
@@ -460,10 +478,10 @@ class jdf {
                                 'هزار و چهارصد',
                                 'هزار و نهصد',
                                 'دوهزار'
-                            ], substr($num, 0, 2)) . ((substr($num, 2, 2) == '00') ? '' : ' و ') : '') . $h3 . $p34 . $h34 . $h4;
+                            ], substr($num, 0, 2)) . (substr($num, 2, 2) == '00' ? '' : ' و ') : '') . $h3 . $p34 . $h34 . $h4;
                     break;
                 case 'mm':
-                    $key = [
+                    $array[$type] = [
                         'فروردین',
                         'اردیبهشت',
                         'خرداد',
@@ -476,11 +494,10 @@ class jdf {
                         'دی',
                         'بهمن',
                         'اسفند'
-                    ];
-                    $array[$type] = $key[$num - 1];
+                    ][$num - 1];
                     break;
                 case 'rr':
-                    $key = [
+                    $array[$type] = [
                         'یک',
                         'دو',
                         'سه',
@@ -512,84 +529,118 @@ class jdf {
                         'بیست و نه',
                         'سی',
                         'سی و یک'
-                    ];
-                    $array[$type] = $key[$num - 1];
+                    ][$num - 1];
                     break;
                 case 'rh':
-                    $key = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'];
-                    $array[$type] = $key[$num];
+                    $array[$type] = ['یکشنبه', 'دوشنبه', 'سه شنبه', 'چهارشنبه', 'پنجشنبه', 'جمعه', 'شنبه'][$num];
                     break;
                 case 'sh':
-                    $key = ['مار', 'اسب', 'گوسفند', 'میمون', 'مرغ', 'سگ', 'خوک', 'موش', 'گاو', 'پلنگ', 'خرگوش', 'نهنگ'];
-                    $array[$type] = $key[$num % 12];
+                    $array[$type] = [
+                        'مار',
+                        'اسب',
+                        'گوسفند',
+                        'میمون',
+                        'مرغ',
+                        'سگ',
+                        'خوک',
+                        'موش',
+                        'گاو',
+                        'پلنگ',
+                        'خرگوش',
+                        'نهنگ'
+                    ][$num % 12];
                     break;
                 case 'mb':
-                    $key = ['حمل', 'ثور', 'جوزا', 'سرطان', 'اسد', 'سنبله', 'میزان', 'عقرب', 'قوس', 'جدی', 'دلو', 'حوت'];
-                    $array[$type] = $key[$num - 1];
+                    $array[$type] = [
+                        'حمل',
+                        'ثور',
+                        'جوزا',
+                        'سرطان',
+                        'اسد',
+                        'سنبله',
+                        'میزان',
+                        'عقرب',
+                        'قوس',
+                        'جدی',
+                        'دلو',
+                        'حوت'
+                    ][$num - 1];
                     break;
                 case 'ff':
-                    $key = ['بهار', 'تابستان', 'پاییز', 'زمستان'];
-                    $array[$type] = $key[(int) ($num / 3.1)];
+                    $array[$type] = ['بهار', 'تابستان', 'پاییز', 'زمستان'][(int) ($num / 3.1)];
                     break;
                 case 'km':
-                    $key = ['فر', 'ار', 'خر', 'تی‍', 'مر', 'شه‍', 'مه‍', 'آب‍', 'آذ', 'دی', 'به‍', 'اس‍'];
-                    $array[$type] = $key[$num - 1];
+                    $array[$type] = [
+                        'فر',
+                        'ار',
+                        'خر',
+                        'تی‍',
+                        'مر',
+                        'شه‍',
+                        'مه‍',
+                        'آب‍',
+                        'آذ',
+                        'دی',
+                        'به‍',
+                        'اس‍'
+                    ][$num - 1];
                     break;
                 case 'kh':
-                    $key = ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'];
-                    $array[$type] = $key[$num];
+                    $array[$type] = ['ی', 'د', 'س', 'چ', 'پ', 'ج', 'ش'][$num];
                     break;
                 default:
                     $array[$type] = $num;
             }
         }
-        return ($mod === '') ? $array : implode($mod, $array);
+        return $splitter === '' ? $array : implode($splitter, $array);
     }
-    public static function gregorian_to_jalali ($gy, $gm, $gd, $mod = '') {
-        [$gy, $gm, $gd] = explode('_', self::tr_num($gy . '_' . $gm . '_' . $gd));/* <= Extra :اين سطر ، جزء تابع اصلي نيست */
+    public static function gregorian_to_jalali ($gregorian_year, $gregorian_month, $gregorian_day, $splitter = ''): array|string {
+        [$gregorian_year, $gregorian_month, $gregorian_day] = explode('_', self::tr_num($gregorian_year . '_' . $gregorian_month . '_' . $gregorian_day));/* <= Extra :اين سطر ، جزء تابع اصلي نيست */
         $g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334];
-        $gy2 = ($gm > 2) ? ($gy + 1) : $gy;
-        $days = 355666 + (365 * $gy) + ((int) (($gy2 + 3) / 4)) - ((int) (($gy2 + 99) / 100)) + ((int) (($gy2 + 399) / 400)) + $gd + $g_d_m[$gm - 1];
-        $jy = -1595 + (33 * ((int) ($days / 12053)));
+        $gregorian_year2 = ($gregorian_month > 2) ? ($gregorian_year + 1) : $gregorian_year;
+        $days = 355666 + (365 * $gregorian_year) + ((int) (($gregorian_year2 + 3) / 4)) - ((int) (($gregorian_year2 + 99) / 100)) + ((int) (($gregorian_year2 + 399) / 400)) + $gregorian_day + $g_d_m[$gregorian_month - 1];
+        $jalali_year = -1595 + (33 * ((int) ($days / 12053)));
         $days %= 12053;
-        $jy += 4 * ((int) ($days / 1461));
+        $jalali_year += 4 * ((int) ($days / 1461));
         $days %= 1461;
         if ($days > 365) {
-            $jy += (int) (($days - 1) / 365);
+            $jalali_year += (int) (($days - 1) / 365);
             $days = ($days - 1) % 365;
         }
         if ($days < 186) {
-            $jm = 1 + (int) ($days / 31);
-            $jd = 1 + ($days % 31);
+            $jalali_month = 1 + (int) ($days / 31);
+            $jalali_day = 1 + ($days % 31);
         }
         else {
-            $jm = 7 + (int) (($days - 186) / 30);
-            $jd = 1 + (($days - 186) % 30);
+            $jalali_month = 7 + (int) (($days - 186) / 30);
+            $jalali_day = 1 + (($days - 186) % 30);
         }
-        return ($mod == '') ? [$jy, $jm, $jd] : $jy . $mod . $jm . $mod . $jd;
+        return $splitter == '' ? [$jalali_year, $jalali_month, $jalali_day] : $jalali_year . $splitter . $jalali_month . $splitter . $jalali_day;
     }
-    public static function jalali_to_gregorian ($jy, $jm, $jd, $mod = '') {
-        [$jy, $jm, $jd] = explode('_', self::tr_num($jy . '_' . $jm . '_' . $jd));/* <= Extra :اين سطر ، جزء تابع اصلي نيست */
-        $jy += 1595;
-        $days = -355668 + (365 * $jy) + (((int) ($jy / 33)) * 8) + ((int) ((($jy % 33) + 3) / 4)) + $jd + (($jm < 7) ? ($jm - 1) * 31 : (($jm - 7) * 30) + 186);
-        $gy = 400 * ((int) ($days / 146097));
+    public static function jalali_to_gregorian ($jalali_year, $jalali_month, $jalali_day, $splitter = ''): array|string {
+        [$jalali_year, $jalali_month, $jalali_day] = explode('_', self::tr_num($jalali_year . '_' . $jalali_month . '_' . $jalali_day));
+        $jalali_year += 1595;
+        $days = -355668 + (365 * $jalali_year) + (((int) ($jalali_year / 33)) * 8) + ((int) ((($jalali_year % 33) + 3) / 4)) + $jalali_day + (($jalali_month < 7) ? ($jalali_month - 1) * 31 : (($jalali_month - 7) * 30) + 186);
+        $gregorian_year = 400 * (int) ($days / 146097);
         $days %= 146097;
         if ($days > 36524) {
-            $gy += 100 * ((int) (--$days / 36524));
+            $gregorian_year += 100 * ((int) (--$days / 36524));
             $days %= 36524;
-            if ($days >= 365) $days++;
+            if ($days >= 365) {
+                $days++;
+            }
         }
-        $gy += 4 * ((int) ($days / 1461));
+        $gregorian_year += 4 * ((int) ($days / 1461));
         $days %= 1461;
         if ($days > 365) {
-            $gy += (int) (($days - 1) / 365);
+            $gregorian_year += (int) (($days - 1) / 365);
             $days = ($days - 1) % 365;
         }
-        $gd = $days + 1;
-        $sal_a = [
+        $gregorian_day = $days + 1;
+        $month_days = [
             0,
             31,
-            (($gy % 4 == 0 and $gy % 100 != 0) or ($gy % 400 == 0)) ? 29 : 28,
+            (($gregorian_year % 4 == 0 and $gregorian_year % 100 != 0) or ($gregorian_year % 400 == 0)) ? 29 : 28,
             31,
             30,
             31,
@@ -601,7 +652,9 @@ class jdf {
             30,
             31
         ];
-        for ($gm = 0; $gm < 13 and $gd > $sal_a[$gm]; $gm++) $gd -= $sal_a[$gm];
-        return ($mod == '') ? [$gy, $gm, $gd] : $gy . $mod . $gm . $mod . $gd;
+        for ($gregorian_month = 0; $gregorian_month < 13 and $gregorian_day > $month_days[$gregorian_month]; $gregorian_month++) {
+            $gregorian_day -= $month_days[$gregorian_month];
+        }
+        return $splitter == '' ? [$gregorian_year, $gregorian_month, $gregorian_day] : $gregorian_year . $splitter . $gregorian_month . $splitter . $gregorian_day;
     }
 }

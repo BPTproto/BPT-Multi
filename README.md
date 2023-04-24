@@ -1,4 +1,4 @@
-[![API Version](https://img.shields.io/badge/Bot%20API-6.6-32a2da?style=for-the-badge&logo=V)](https://core.telegram.org/bots/api#november-5-2022)
+[![API Version](https://img.shields.io/badge/Bot%20API-6.7-32a2da?style=for-the-badge&logo=V)](https://core.telegram.org/bots/api#november-5-2022)
 [![Version](https://img.shields.io/badge/Version-1.8.3-blue?style=for-the-badge&logo=V)](https://packagist.org/packages/bpt/bpt-multi)
 [![PHP](https://img.shields.io/badge/php-+8-green?style=for-the-badge&logo=php)](https://php.net/)
 [![License](https://img.shields.io/badge/License-MIT-gold?style=for-the-badge&logo=surveymonkey)](https://github.com/php-telegram-bot/core/LICENSE)

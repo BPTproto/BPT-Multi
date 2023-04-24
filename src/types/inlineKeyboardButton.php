@@ -13,14 +13,16 @@ use stdClass;
  * @method self setLogin_url(loginUrl $value)
  * @method self setSwitch_inline_query(string $value)
  * @method self setSwitch_inline_query_current_chat(string $value)
+ * @method self setSwitch_inline_query_chosen_chat(switchInlineQueryChosenChat $value)
  * @method self setCallback_game(callbackGame $value)
  * @method self setPay(bool $value)
  */
 class inlineKeyboardButton extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'web_app' => 'BPT\types\webAppInfo',
         'login_url' => 'BPT\types\loginUrl',
+        'switch_inline_query_chosen_chat' => 'BPT\types\switchInlineQueryChosenChat',
         'callback_game' => 'BPT\types\callbackGame',
     ];
 
@@ -67,6 +69,11 @@ class inlineKeyboardButton extends types {
      */
     public string $switch_inline_query_current_chat;
 
+    /**
+     * Optional. If set, pressing the button will prompt the user to select one of their chats of the specified type,
+     * open that chat and insert the bot's username and the specified inline query in the input field
+     */
+    public switchInlineQueryChosenChat $switch_inline_query_chosen_chat;
     /**
      * Optional. Description of the game that will be launched when the user presses the button.NOTE: This type of
      * button must always be the first button in the first row.

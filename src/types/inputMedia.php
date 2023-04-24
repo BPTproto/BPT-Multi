@@ -23,8 +23,11 @@ use stdClass;
  * @method self setDisable_content_type_detection(bool $value)
  */
 class inputMedia extends types {
-    /** Keep all of properties which has sub properties */
-    private const subs = ['array' => ['caption_entities' => 'BPT\types\messageEntity']];
+    /** Keep all properties which has sub properties */
+    private const subs = [
+        'thumbnail' => 'BPT\types\inputFile',
+        'array' => ['caption_entities' => 'BPT\types\messageEntity']
+    ];
 
     /** Type of the result could be `photo`, `video`, `animation`, `audio`, `document` */
     public string $type;

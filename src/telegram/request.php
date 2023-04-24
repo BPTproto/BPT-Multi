@@ -206,6 +206,10 @@ use stdClass;
  * @method static bool|responseError deleteCommands (botCommandScope|array|object|null $scope = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to delete the list of the bot's commands for the given scope and user language. After deletion, higher level commands will be shown to affected users. Returns True on success.
  * @method static botCommand[]|responseError getMyCommands (botCommandScope|array|object|null $scope = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
  * @method static botCommand[]|responseError getCommands (botCommandScope|array|object|null $scope = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get the current list of the bot's commands for the given scope and user language. Returns an Array of BotCommand objects. If commands aren't set, an empty list is returned.
+ * @method static bool|responseError setMyName (string|array|null $name = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the bot's name. Returns True on success.
+ * @method static bool|responseError setName (string|array|null $name = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the bot's name. Returns True on success.
+ * @method static botName|responseError getMyName (string|array|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get the current bot name for the given user language. Returns BotName on success.
+ * @method static botName|responseError getName (string|array|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get the current bot name for the given user language. Returns BotName on success.
  * @method static bool|responseError setMyDescription (string|array|null $description = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
  * @method static bool|responseError setDescription (string|array|null $description = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the bot's description, which is shown in the chat with the bot if the chat is empty. Returns True on success.
  * @method static botDescription|responseError getMyDescription (string|array|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get the current bot description for the given user language. Returns BotDescription on success.
@@ -270,8 +274,8 @@ use stdClass;
  * @method static bool|responseError setStickerThumb (string|array $name, int|null $user_id = null, CURLFile|string|object|null $thumbnail = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to set the thumbnail of a regular or mask sticker set. The format of the thumbnail file must be same with the format of the stickers in the set. Returns True on success.
  * @method static bool|responseError setCustomEmojiStickerSetThumbnail (string|array $name, string|null $custom_emoji_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to set the thumbnail of a custom emoji sticker set. Returns True on success.
  * @method static bool|responseError deleteStickerSet (string|array $name, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to delete a sticker set that was created by the bot. Returns True on success.
- * @method static bool|responseError answerInlineQuery (inlineQueryResult[]|array $results, string|null $inline_query_id = null, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, string|null $switch_pm_text = null, string|null $switch_pm_parameter = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
- * @method static bool|responseError answerInline (inlineQueryResult[]|array $results, string|null $inline_query_id = null, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, string|null $switch_pm_text = null, string|null $switch_pm_parameter = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
+ * @method static bool|responseError answerInlineQuery (inlineQueryResult[]|array $results, string|null $inline_query_id = null, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, inlineQueryResultsButton|object|array|null $button = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
+ * @method static bool|responseError answerInline (inlineQueryResult[]|array $results, string|null $inline_query_id = null, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, inlineQueryResultsButton|object|array|null $button = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to an inline query. On success, True is returned.No more than 50 results per query are allowed.
  * @method static sentWebAppMessage|responseError answerWebAppQuery (string|array $web_app_query_id, inlineQueryResult|object|array $result, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
  * @method static sentWebAppMessage|responseError answerWebApp (string|array $web_app_query_id, inlineQueryResult|object|array $result, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
  * @method static sentWebAppMessage|responseError answerWeb (string|array $web_app_query_id, inlineQueryResult|object|array $result, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated. On success, a SentWebAppMessage object is returned.
@@ -456,6 +460,10 @@ class request {
         'deletecommands'                    => 'deleteMyCommands',
         'getmycommands'                     => 'getMyCommands',
         'getcommands'                       => 'getMyCommands',
+        'setmyname'                         => 'setMyName',
+        'setname'                           => 'setMyName',
+        'getmyname'                         => 'getMyName',
+        'getname'                           => 'getMyName',
         'setmydescription'                  => 'setMyDescription',
         'setdescription'                    => 'setMyDescription',
         'getmydescription'                  => 'getMyDescription',
@@ -615,6 +623,8 @@ class request {
         'setMyCommands'                     => ['commands', 'scope', 'language_code', 'token', 'forgot', 'answer'],
         'deleteMyCommands'                  => ['scope', 'language_code', 'token', 'forgot', 'answer'],
         'getMyCommands'                     => ['scope', 'language_code', 'token', 'forgot', 'answer'],
+        'setMyName'                         => ['name', 'language_code', 'token', 'forgot', 'answer'],
+        'getMyName'                         => ['language_code', 'token', 'forgot', 'answer'],
         'setMyDescription'                  => ['description', 'language_code', 'token', 'forgot', 'answer'],
         'getMyDescription'                  => ['language_code', 'token', 'forgot', 'answer'],
         'setMyShortDescription'             => ['short_description', 'language_code', 'token', 'forgot', 'answer'],
@@ -646,7 +656,7 @@ class request {
         'setStickerSetThumbnail'            => ['name', 'user_id', 'thumbnail', 'token', 'forgot', 'answer'],
         'setCustomEmojiStickerSetThumbnail' => ['name', 'custom_emoji_id', 'token', 'forgot', 'answer'],
         'deleteStickerSet'                  => ['name', 'token', 'forgot', 'answer'],
-        'answerInlineQuery'                 => ['results', 'inline_query_id', 'cache_time', 'is_personal', 'next_offset', 'switch_pm_text', 'switch_pm_parameter', 'token', 'forgot', 'answer'],
+        'answerInlineQuery'                 => ['results', 'inline_query_id', 'cache_time', 'is_personal', 'next_offset', 'button', 'token', 'forgot', 'answer'],
         'answerWebAppQuery'                 => ['web_app_query_id', 'result', 'token', 'forgot', 'answer'],
         'sendInvoice'                       => ['title', 'description', 'payload', 'provider_token', 'currency', 'prices', 'chat_id', 'message_thread_id', 'max_tip_amount', 'suggested_tip_amounts', 'start_parameter', 'provider_data', 'photo_url', 'photo_size', 'photo_width', 'photo_height', 'need_name', 'need_phone_number', 'need_email', 'need_shipping_address', 'send_phone_number_to_provider', 'send_email_to_provider', 'is_flexible', 'disable_notification', 'protect_content', 'reply_to_message_id', 'allow_sending_without_reply', 'reply_markup', 'token', 'forgot', 'answer'],
         'createInvoiceLink'                 => ['title', 'description', 'payload', 'provider_token', 'currency', 'prices', 'max_tip_amount', 'suggested_tip_amounts', 'provider_data', 'photo_url', 'photo_size', 'photo_width', 'photo_height', 'need_name', 'need_phone_number', 'need_email', 'need_shipping_address', 'send_phone_number_to_provider', 'send_email_to_provider', 'is_flexible', 'token', 'forgot', 'answer'],
@@ -790,6 +800,7 @@ class request {
         'getForumTopicIconStickers'       => ['BPT\types\sticker'],
         'createForumTopic'                => 'BPT\types\forumTopic',
         'getMyCommands'                   => ['BPT\types\botCommand'],
+        'getMyName'                       => 'BPT\types\botName',
         'getMyDescription'                => 'BPT\types\botDescription',
         'getMyShortDescription'           => 'BPT\types\botShortDescription',
         'getChatMenuButton'               => 'BPT\types\menuButton',

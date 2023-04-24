@@ -8,8 +8,8 @@ use stdClass;
  * This object represents a sticker set.
  */
 class stickerSet extends types {
-    /** Keep all of properties which has sub properties */
-    private const subs = ['array' => ['stickers' => 'BPT\types\sticker'], 'thumb' => 'BPT\types\photoSize'];
+    /** Keep all properties which has sub properties */
+    private const subs = ['array' => ['stickers' => 'BPT\types\sticker'], 'thumbnail' => 'BPT\types\photoSize'];
 
     /** Sticker set name */
     public string $name;
