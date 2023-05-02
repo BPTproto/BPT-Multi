@@ -461,13 +461,36 @@ CREATE TABLE `users`
         return $values;
     }
 
-    private static function selectBuilder(string &$query, string|array $columns): void {
+    private static function selectBuilder (string &$query, string|array $columns): void {
         if ($columns == '*') {
             $query .= " * ";
+            return;
         }
-        else {
-            $query .= ' `' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '` ';
+        if (is_string($columns)) {
+            $query .= " `$columns` ";
+            return;
         }
+        $query .= ' ';
+        foreach ($columns as $key => $column) {
+            if (is_array($column)) {
+                $function = array_key_first($column);
+                $column = $column[$function];
+                $formatted = "`$column`";
+                if ($column == '*') {
+                    $formatted = '*';
+                    $column = 'all';
+                }
+                $query .= strtoupper($function) . "($formatted) as `{$function}_$column`";
+            }
+            else {
+                $query .= "`$column`";
+            }
+
+            if ($key != array_key_last($columns)) {
+                $query .= ', ';
+            }
+        }
+        $query .= ' ';
     }
 
     /**
