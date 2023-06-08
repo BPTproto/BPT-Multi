@@ -328,7 +328,7 @@ CREATE TABLE `users`
             return [];
         }
 
-        $query .= " WHERE";
+        $query .= ' WHERE';
         $first = true;
         $values = [];
 
@@ -346,39 +346,53 @@ CREATE TABLE `users`
                 continue;
             }
 
-            $operator = substr($value,0,2);
-            $operator_value = substr($value,2);
-            switch ($operator) {
-                case '>=':
-                    $query .= " `$name` >= ?";
-                    $value = $operator_value;
-                    break;
-                case '<=':
-                    $query .= " `$name` <= ?";
-                    $value = $operator_value;
-                    break;
-                case '> ':
-                    $query .= " `$name` > ?";
-                    $value = $operator_value;
-                    break;
-                case '< ':
-                    $query .= " `$name` < ?";
-                    $value = $operator_value;
-                    break;
-                case '% ':
-                    $query .= " `$name` like ?";
-                    $value = $operator_value;
-                    break;
-                case '!=':
-                    $query .= " `$name` != ?";
-                    $value = $operator_value;
-                    break;
-                default:
-                    $query .= " `$name` = ?";
-                    break;
+            if (!is_array($value)) {
+                $value = [$value];
             }
 
-            $values[] = $value;
+            $sub_first = true;
+            foreach ($value as $sub_value) {
+                if ($sub_first) {
+                    $sub_first = false;
+                }
+                else {
+                    $query .= ' AND';
+                }
+                $operator = substr($sub_value,0,2);
+                $operator_value = substr($sub_value,2);
+                switch ($operator) {
+                    case '>=':
+                        $query .= " `$name` >= ?";
+                        $sub_value = $operator_value;
+                        break;
+                    case '<=':
+                        $query .= " `$name` <= ?";
+                        $sub_value = $operator_value;
+                        break;
+                    case '> ':
+                        $query .= " `$name` > ?";
+                        $sub_value = $operator_value;
+                        break;
+                    case '< ':
+                        $query .= " `$name` < ?";
+                        $sub_value = $operator_value;
+                        break;
+                    case '% ':
+                        $query .= " `$name` like ?";
+                        $sub_value = $operator_value;
+                        break;
+                    case '!=':
+                        $query .= " `$name` != ?";
+                        $sub_value = $operator_value;
+                        break;
+                    default:
+                        $query .= " `$name` = ?";
+                        break;
+                }
+
+                $values[] = $sub_value;
+            }
+
         }
 
         return $values;
@@ -490,7 +504,7 @@ CREATE TABLE `users`
 
     private static function selectBuilder (string &$query, string|array $columns): void {
         if ($columns == '*') {
-            $query .= " * ";
+            $query .= ' * ';
             return;
         }
         if (is_string($columns)) {
@@ -535,6 +549,7 @@ CREATE TABLE `users`
     public static function delete (string $table, array $where = null, int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
         $query = "DELETE FROM `$table`";
         $vars = self::whereBuilder($query, $where, $ignore_default_where);
+        self::countBuilder($query, $count, $offset);
         return self::query($query, $vars, false);
     }
 
@@ -594,7 +609,7 @@ CREATE TABLE `users`
      * @return mysqli_result|bool
      */
     public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): mysqli_result|bool {
-        $query = "SELECT";
+        $query = 'SELECT';
         self::selectBuilder($query, $columns);
         $query .= "FROM `$table`";
         $var = self::whereBuilder($query,$where, $ignore_default_where);
@@ -696,7 +711,7 @@ CREATE TABLE `users`
             if ($table_data) {
                 $total_rows = self::query("SELECT COUNT(*) as `cnt` FROM `$table`")->fetch_object()->cnt;
                 for ($i = 0; $i < $total_rows; $i = $i + 1000) {
-                    $sql .= "INSERT INTO " . $table . " VALUES";
+                    $sql .= 'INSERT INTO ' . $table . ' VALUES';
                     $result = self::select($table, '*' , null, 1000, $i);
                     $field_count = $result->field_count;
                     $affected_rows = self::affected_rows();
