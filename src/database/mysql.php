@@ -26,6 +26,8 @@ class mysql {
 
     private static string $db_name = '';
 
+    private static array $default_where = [];
+
     /**
      * If you want to use it in standalone mode , you MUST set `auto_process` to `false`
      */
@@ -144,6 +146,27 @@ CREATE TABLE `users`
                 self::update('users', ['blocked' => true], ['id' => $update->from->id], 1);
             }
         }
+    }
+
+    /**
+     * Add default where to mysql queries, it will apply on every query automatically
+     *
+     * Note : where parameter in each query has more priority and will rewrite if already exist
+     *
+     * Note : only builder method support this(methods with where parameter like select, update and ...)
+     *
+     * @param array $where
+     *
+     * @return bool
+     */
+    public static function addDefaultWhere (array $where): bool {
+        if (empty(self::$default_where)) {
+            self::$default_where = $where;
+        }
+        else {
+            self::$default_where = array_merge(self::$default_where, $where);
+        }
+        return true;
     }
 
     /**
@@ -296,7 +319,11 @@ CREATE TABLE `users`
         return $need_result ? $prepare->get_result() : true;
     }
 
-    private static function whereBuilder(string &$query, array $where = null): array {
+    private static function whereBuilder(string &$query, array $where = null, bool $ignore_default_where = false): array {
+        if (!$ignore_default_where) {
+            $where = array_merge(self::$default_where, $where);
+        }
+
         if (empty($where)) {
             return [];
         }
@@ -505,9 +532,9 @@ CREATE TABLE `users`
      *
      * @return bool
      */
-    public static function delete (string $table, array $where = null, int $count = null, int $offset = null): bool {
+    public static function delete (string $table, array $where = null, int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
         $query = "DELETE FROM `$table`";
-        $vars = self::whereBuilder($query, $where);
+        $vars = self::whereBuilder($query, $where, $ignore_default_where);
         return self::query($query, $vars, false);
     }
 
@@ -524,10 +551,10 @@ CREATE TABLE `users`
      *
      * @return bool
      */
-    public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null): bool {
+    public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
         $query = "UPDATE `$table` SET";
         $modify_vars = self::updateBuilder($query, $modify);
-        $where_vars = self::whereBuilder($query, $where);
+        $where_vars = self::whereBuilder($query, $where, $ignore_default_where);
         self::countBuilder($query, $count, $offset);
         return self::query($query, array_merge($modify_vars, $where_vars), false);
     }
@@ -566,11 +593,11 @@ CREATE TABLE `users`
      *
      * @return mysqli_result|bool
      */
-    public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = []): mysqli_result|bool {
+    public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): mysqli_result|bool {
         $query = "SELECT";
         self::selectBuilder($query, $columns);
         $query .= "FROM `$table`";
-        $var = self::whereBuilder($query,$where);
+        $var = self::whereBuilder($query,$where, $ignore_default_where);
         self::groupByBuilder($query, $group_by);
         self::orderByBuilder($query, $order_by);
         self::countBuilder($query,$count,$offset);
@@ -590,8 +617,8 @@ CREATE TABLE `users`
      *
      * @return null|bool|array
      */
-    public static function selectArray (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []): bool|array|null {
-        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by);
+    public static function selectArray (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|array|null {
+        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             return $res->fetch_assoc();
         }
@@ -609,8 +636,8 @@ CREATE TABLE `users`
      * @param array|string $group_by group result based on these columns
      * @param array|string $order_by order result based on these columns
      */
-    public static function selectObject (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = []) {
-        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by);
+    public static function selectObject (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false) {
+        $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             return $res->fetch_object();
         }
@@ -633,8 +660,8 @@ CREATE TABLE `users`
      *
      * @return bool|Generator
      */
-    public static function selectEach (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = []): bool|Generator {
-        $res = self::select($table, $columns, $where, $count, $offset, $group_by, $order_by);
+    public static function selectEach (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|Generator {
+        $res = self::select($table, $columns, $where, $count, $offset, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             while ($row = $res->fetch_assoc()) yield $row;
         }
