@@ -852,7 +852,7 @@ class request {
     }
 
     private static function checkArguments(array &$arguments): void {
-        if (isset($arguments[0][0]) && count($arguments) === 1 && is_array($arguments[0])) {
+        if (isset($arguments[0]) && count($arguments) === 1 && is_array($arguments[0]) && !isset($arguments[0][0])) {
             $arguments = $arguments[0];
         }
     }
@@ -922,7 +922,7 @@ class request {
     }
 
     private static function setDefaults(string $name, array &$arguments): void {
-        $defaults = self::METHODS_EXTRA_DEFAULTS[$name];
+        $defaults = self::METHODS_EXTRA_DEFAULTS[$name] ?? [];
         foreach ($defaults as $key => $default) {
             if (is_numeric($key)) {
                 if (!isset($arguments[$default])){
