@@ -385,6 +385,19 @@ CREATE TABLE `users`
                         $query .= " `$name` != ?";
                         $sub_value = $operator_value;
                         break;
+                    case '##':
+                        $operator = substr($operator_value,0,2);
+                        $column = substr($operator_value,2);
+                        $query .= match ($operator) {
+                            '>=' => " `$name` >= `$column`",
+                            '<=' => " `$name` <= `$column`",
+                            '> ' => " `$name` > `$column`",
+                            '< ' => " `$name` < `$column`",
+                            '% ' => " `$name` like `$column`",
+                            '!=' => " `$name` != `$column`",
+                            default => " `$name` = `$column`",
+                        };
+                        continue 2;
                     default:
                         $query .= " `$name` = ?";
                         break;
@@ -436,7 +449,7 @@ CREATE TABLE `users`
 
     private static function countBuilder(string &$query, int $count = null, int $offset = null): void {
         if (!empty($count)) {
-            $query .= !empty($offset) ? " LIMIT $offset,$count" : " LIMIT $count";
+            $query .= !empty($offset) ? " LIMIT $offset, $count" : " LIMIT $count";
         }
         elseif (!empty($offset)) {
             $query .= " OFFSET $offset";
@@ -452,7 +465,7 @@ CREATE TABLE `users`
                 $first = false;
             }
             else {
-                $query .= ' ,';
+                $query .= ',';
             }
 
             if (empty($value)) {
