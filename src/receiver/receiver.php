@@ -42,7 +42,7 @@ class receiver {
 
     protected static function processUpdate(string|stdClass|update $update = null): void {
         if (!is_object($update)) {
-            $update = json_decode($update ?? file_get_contents("php://input"));
+            $update = json_decode($update ?? file_get_contents('php://input'));
             if (!$update) {
                 BPT::exit();
             }
@@ -67,80 +67,82 @@ class receiver {
     }
 
     protected static function setMessageExtra (update &$update): void {
-        if ((isset($update->message) && isset($update->message->text)) || (isset($update->edited_message) && isset($update->edited_message->text))) {
-            $type = isset($update->message) ? 'message' : 'edited_message';
-            $text = &$update->$type->text;
-            if (settings::$security) {
-                $text = tools::clearText($text);
+        if (!isset($update->message->text) && !isset($update->edited_message->text)) {
+            return;
+        }
+        $type = isset($update->message) ? 'message' : 'edited_message';
+        $text = &$update->$type->text;
+        if (settings::$security) {
+            $text = tools::clearText($text);
+        }
+        if (str_starts_with($text, '/')) {
+            preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
+            if (isset($result[1])) {
+                $update->$type->command = $result[1];
             }
-            if (str_starts_with($text, '/')) {
-                preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
-                if (isset($result[1])) {
-                    $update->$type->command = $result[1];
-                }
-                if (isset($result[2])) {
-                    $update->$type->command_username = $result[2];
-                }
-                if (isset($result[3])) {
-                    $update->$type->command_payload = trim($result[3]);
-                }
+            if (isset($result[2])) {
+                $update->$type->command_username = $result[2];
+            }
+            if (isset($result[3])) {
+                $update->$type->command_payload = trim($result[3]);
             }
         }
     }
 
     private static function processHandler(): void {
-        if (settings::$handler) {
-            if (isset(BPT::$update->message)) {
-                if (self::handlerExist('message')) {
-                    BPT::$handler->message(BPT::$update->message);
-                }
+        if (!settings::$handler) {
+            return;
+        }
+        if (isset(BPT::$update->message)) {
+            if (self::handlerExist('message')) {
+                BPT::$handler->message(BPT::$update->message);
             }
-            elseif (isset(BPT::$update->edited_message)) {
-                if (self::handlerExist('edited_message')) {
-                    BPT::$handler->edited_message(BPT::$update->edited_message);
-                }
+        }
+        elseif (isset(BPT::$update->edited_message)) {
+            if (self::handlerExist('edited_message')) {
+                BPT::$handler->edited_message(BPT::$update->edited_message);
             }
-            elseif (isset(BPT::$update->channel_post)) {
-                if (self::handlerExist('channel_post')) {
-                    BPT::$handler->channel_post(BPT::$update->channel_post);
-                }
+        }
+        elseif (isset(BPT::$update->channel_post)) {
+            if (self::handlerExist('channel_post')) {
+                BPT::$handler->channel_post(BPT::$update->channel_post);
             }
-            elseif (isset(BPT::$update->edited_channel_post)) {
-                if (self::handlerExist('edited_channel_post')) {
-                    BPT::$handler->edited_channel_post(BPT::$update->edited_channel_post);
-                }
+        }
+        elseif (isset(BPT::$update->edited_channel_post)) {
+            if (self::handlerExist('edited_channel_post')) {
+                BPT::$handler->edited_channel_post(BPT::$update->edited_channel_post);
             }
-            elseif (isset(BPT::$update->inline_query)) {
-                if (self::handlerExist('inline_query')) {
-                    BPT::$handler->inline_query(BPT::$update->inline_query);
-                }
+        }
+        elseif (isset(BPT::$update->inline_query)) {
+            if (self::handlerExist('inline_query')) {
+                BPT::$handler->inline_query(BPT::$update->inline_query);
             }
-            elseif (isset(BPT::$update->callback_query)) {
-                if (self::handlerExist('callback_query')) {
-                    BPT::$handler->callback_query(BPT::$update->callback_query);
-                }
+        }
+        elseif (isset(BPT::$update->callback_query)) {
+            if (self::handlerExist('callback_query')) {
+                BPT::$handler->callback_query(BPT::$update->callback_query);
             }
-            elseif (isset(BPT::$update->my_chat_member)) {
-                if (self::handlerExist('my_chat_member')) {
-                    BPT::$handler->my_chat_member(BPT::$update->my_chat_member);
-                }
+        }
+        elseif (isset(BPT::$update->my_chat_member)) {
+            if (self::handlerExist('my_chat_member')) {
+                BPT::$handler->my_chat_member(BPT::$update->my_chat_member);
             }
-            elseif (isset(BPT::$update->chat_member)) {
-                if (self::handlerExist('chat_member')) {
-                    BPT::$handler->chat_member(BPT::$update->chat_member);
-                }
+        }
+        elseif (isset(BPT::$update->chat_member)) {
+            if (self::handlerExist('chat_member')) {
+                BPT::$handler->chat_member(BPT::$update->chat_member);
             }
-            elseif (isset(BPT::$update->chat_join_request)) {
-                if (self::handlerExist('chat_join_request')) {
-                    BPT::$handler->chat_join_request(BPT::$update->chat_join_request);
-                }
+        }
+        elseif (isset(BPT::$update->chat_join_request)) {
+            if (self::handlerExist('chat_join_request')) {
+                BPT::$handler->chat_join_request(BPT::$update->chat_join_request);
             }
-            elseif (self::handlerExist('something_else')) {
-                BPT::$handler->something_else(BPT::$update);
-            }
-            else {
-                logger::write('Update received but handlers are not set',loggerTypes::WARNING);
-            }
+        }
+        elseif (self::handlerExist('something_else')) {
+            BPT::$handler->something_else(BPT::$update);
+        }
+        else {
+            logger::write('Update received but handlers are not set',loggerTypes::WARNING);
         }
     }
 

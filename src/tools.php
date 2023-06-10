@@ -642,7 +642,7 @@ class tools{
             $keyboard_object->setKeyboard($rows);
             return $keyboard_object;
         }
-        elseif (!empty($inline)) {
+        if (!empty($inline)) {
             $keyboard_object = new inlineKeyboardMarkup();
             $rows = [];
             foreach ($inline as $row) {
@@ -667,10 +667,8 @@ class tools{
             $keyboard_object->setInline_keyboard($rows);
             return $keyboard_object;
         }
-        else {
-            logger::write("tools::eKey function used\nkeyboard or inline parameter must be set",loggerTypes::ERROR);
-            throw new bptException('ARGUMENT_NOT_FOUND_KEYBOARD_INLINE');
-        }
+        logger::write("tools::eKey function used\nkeyboard or inline parameter must be set",loggerTypes::ERROR);
+        throw new bptException('ARGUMENT_NOT_FOUND_KEYBOARD_INLINE');
     }
 
     /**
@@ -723,7 +721,7 @@ class tools{
             $output = base64_encode(openssl_encrypt($text, 'AES-256-CBC', $key, 1, $iv));
             return ['hash' => $output, 'key' => $key, 'iv' => $iv];
         }
-        elseif ($action === codecAction::DECRYPT) {
+        if ($action === codecAction::DECRYPT) {
             if (empty($key)) {
                 logger::write("tools::codec function used\nkey parameter is not set",loggerTypes::ERROR);
                 throw new bptException('ARGUMENT_NOT_FOUND_KEY');
@@ -734,10 +732,8 @@ class tools{
             }
             return openssl_decrypt(base64_decode($text), 'AES-256-CBC', $key, 1, $iv);
         }
-        else {
-            logger::write("tools::codec function used\naction is not right, its must be `encode` or `decode`",loggerTypes::WARNING);
-            return false;
-        }
+        logger::write("tools::codec function used\naction is not right, its must be `encode` or `decode`",loggerTypes::WARNING);
+        return false;
     }
 
     /**

@@ -130,45 +130,48 @@ class settings {
      * @internal Only for BPT self usage , Don't use it in your source!
      */
     public static function done (): void {
-        if (self::$logger) {
-            $estimated = round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 2);
-            $status_message = match (true) {
-                $estimated < 100 => 'Excellent',
-                $estimated < 500 => 'Very good',
-                $estimated < 1000 => 'Good',
-                $estimated < 3000 => 'You could do better',
-                default => 'You need to do something , its take to much time'
-            };
-            $type = $estimated > 3000 ? loggerTypes::WARNING : loggerTypes::NONE;
-            logger::write("BPT Done in $estimated ms , $status_message", $type);
+        if (!self::$logger) {
+            return;
         }
+        $estimated = round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT']) * 1000, 2);
+        $status_message = match (true) {
+            $estimated < 100 => 'Excellent',
+            $estimated < 500 => 'Very good',
+            $estimated < 1000 => 'Good',
+            $estimated < 3000 => 'You could do better',
+            default => 'You need to do something , its take to much time'
+        };
+        $type = $estimated > 3000 ? loggerTypes::WARNING : loggerTypes::NONE;
+        logger::write("BPT Done in $estimated ms , $status_message", $type);
     }
 
     private static function security (): void {
-        if (self::$security) {
-            ini_set('magic_quotes_gpc', 'off');
-            ini_set('sql.safe_mode', 'on');
-            ini_set('max_execution_time', 30);
-            ini_set('max_input_time', 30);
-            ini_set('memory_limit', '20M');
-            ini_set('post_max_size', '8K');
-            ini_set('expose_php', 'off');
-            ini_set('file_uploads', 'off');
-            ini_set('display_errors', 0);
-            ini_set('error_reporting', 0);
+        if (!self::$security) {
+            return;
         }
+        ini_set('magic_quotes_gpc', 'off');
+        ini_set('sql.safe_mode', 'on');
+        ini_set('max_execution_time', 30);
+        ini_set('max_input_time', 30);
+        ini_set('memory_limit', '20M');
+        ini_set('post_max_size', '8K');
+        ini_set('expose_php', 'off');
+        ini_set('file_uploads', 'off');
+        ini_set('display_errors', 0);
+        ini_set('error_reporting', 0);
     }
 
     private static function secureFolder (): void {
-        if (self::$secure_folder) {
-            $address = explode('/', $_SERVER['REQUEST_URI']);
-            unset($address[count($address) - 1]);
-            $address = implode('/', $address) . '/BPT.php';
-            $text = "ErrorDocument 404 $address\nErrorDocument 403 $address\n Options -Indexes\n  Order Deny,Allow\nDeny from all\nAllow from 127.0.0.1\n<Files *.php>\n    Order Allow,Deny\n    Allow from all\n</Files>";
-            $htaccess = realpath('.htaccess');
-            if (!file_exists($htaccess) || filesize($htaccess) != strlen($text)) {
-                file_put_contents('.htaccess', $text);
-            }
+        if (!self::$secure_folder) {
+            return;
+        }
+        $address = explode('/', $_SERVER['REQUEST_URI']);
+        unset($address[count($address) - 1]);
+        $address = implode('/', $address) . '/BPT.php';
+        $text = "ErrorDocument 404 $address\nErrorDocument 403 $address\n Options -Indexes\n  Order Deny,Allow\nDeny from all\nAllow from 127.0.0.1\n<Files *.php>\n    Order Allow,Deny\n    Allow from all\n</Files>";
+        $htaccess = realpath('.htaccess');
+        if (!file_exists($htaccess) || filesize($htaccess) != strlen($text)) {
+            file_put_contents('.htaccess', $text);
         }
     }
 
