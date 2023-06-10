@@ -509,9 +509,9 @@ CREATE TABLE `users`
     }
 
     private static function insertBuilder(string &$query, string|array $columns, array|string $values): array {
-        $query .= '(`' . (is_string($columns) ? $columns : implode('`,`', $columns)) . '`) VALUES (';
+        $query .= '(`' . (is_string($columns) ? $columns : implode('`, `', $columns)) . '`) VALUES (';
         if (is_string($values)) $values = [$values];
-        $query .= '?' . str_repeat(',?', count($values) - 1) . ')';
+        $query .= '?' . str_repeat(', ?', count($values) - 1) . ')';
         return $values;
     }
 
@@ -602,6 +602,31 @@ CREATE TABLE `users`
         $query = "INSERT INTO `$table`";
         $values = self::insertBuilder($query, $columns, $values);
         return self::query($query, $values, false);
+    }
+
+    /**
+     * Run insert query with update on duplicate key
+     *
+     * These kind of query need to act on a key(primary key, unique key, ...)
+     *
+     * So your table must have a key column and your query must use it somehow(in insert part)
+     *
+     * e.g.(date is our key) : `mysql::insertUpdate('stats', ['date', 'new_users'], ['2020/04/08', 1], ['new_users' => '+=1']);`
+     *
+     *
+     * @param string       $table   table name
+     * @param string|array $columns sets columns that you want to fill
+     * @param array|string $values  sets value that you want to set
+     * @param array        $modify Set the data's you want to modify
+     *
+     * @return bool
+     */
+    public static function insertUpdate (string $table, string|array $columns, array|string $values, array $modify): bool {
+        $query = "INSERT INTO `$table`";
+        $values = self::insertBuilder($query, $columns, $values);
+        $query .= ' ON DUPLICATE KEY UPDATE';
+        $modify_vars = self::updateBuilder($query, $modify);
+        return self::query($query, array_merge($values, $modify_vars), false);
     }
 
     /**
