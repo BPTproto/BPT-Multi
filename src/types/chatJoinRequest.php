@@ -54,4 +54,8 @@ class chatJoinRequest extends types {
     public function deny(): responseError|bool {
         return telegram::declineChatJoinRequest($this->chat->id,$this->from->id);
     }
+
+    public function revokeLink(): responseError|bool {
+        return telegram::revokeChatInviteLink($this->invite_link->invite_link, $this->chat->id);
+    }
 }

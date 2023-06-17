@@ -392,7 +392,18 @@ class message extends types {
         return telegram::banChatMember($this->chat->id, $this->from->id);
     }
 
+    public function kickMember(): responseError|bool {
+        if ($this->chat->isPrivate()) {
+            return false;
+        }
+        return telegram::unbanChatMember($this->chat->id, $this->from->id);
+    }
+
     public function delete (): responseError|bool {
+        return telegram::deleteMessage($this->chat->id,$this->id);
+    }
+
+    public function pinChatMessage (): responseError|bool {
         return telegram::deleteMessage($this->chat->id,$this->id);
     }
 

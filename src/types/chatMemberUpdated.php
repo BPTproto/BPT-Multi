@@ -67,7 +67,7 @@ class chatMemberUpdated extends types {
     }
 
     public function isJoined(): bool {
-        return $this->new_chat_member->status === chatMemberStatus::MEMBER;
+        return $this->new_chat_member->status === chatMemberStatus::MEMBER && !$this->isOldAdmin();
     }
 
     public function isJoinedByLink(): bool {
@@ -83,7 +83,7 @@ class chatMemberUpdated extends types {
     }
 
     public function isOldAdmin (): bool {
-        return $this->old_chat_member->status === chatMemberStatus::ADMINISTRATOR && $this->isJoined();
+        return $this->old_chat_member->status === chatMemberStatus::ADMINISTRATOR;
     }
 
     public function isNewAdmin (): bool {
