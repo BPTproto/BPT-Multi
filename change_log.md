@@ -85,3 +85,14 @@
 - 1.9.0
   - Update to Telegram API v6.7
   - Fix a bug that caused some type class show thumbnail error
+- 1.10.0
+  - A new function added (`strReplace`)
+  - From now on, you can use mysql functions (`sum`, `count`, ...) in our select query builder
+  - Fix reported bugs
+  - Now you can specify default where for every query builder (`mysql` class)
+  - Now you can specify multi condition on same column in where builder (`mysql` class)
+  - Now you can specify condition based on columns instead of value (`mysql` class)
+  - Added a new method called `insertUpdate` in `mysql` class
+  - Some new method to types classes
+  - Use `tools` class from `tools` folder instead of main folder (old class will be removed in `1.11.0`)
+  - `cpanel` class added

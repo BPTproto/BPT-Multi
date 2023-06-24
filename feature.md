@@ -43,8 +43,7 @@ support a lot of update types for listening
 support exec and curl way for doing that
 
 ### 11- A good way for handling database
-for now only `json` and `mysql` type supported<br>
-medoo will be added soon
+for now only `json` and `mysql` type supported
 
 ### 12- A lot of extra methods and functions for making your job easier
 See this for more info [tools class](#tools-class)
@@ -74,14 +73,19 @@ Examples :
 - `isUsername` method for checking is it a username or not
 - `isJoined` method for checking is user joined in our selected channels or not
 
+#### `mysql`, `idpay`, `zarinpal`, `crypto` and a lot more of useful classes
+
 #### `function file`
-for now its only has one function
+for now its only has two function
 
 `object` function for creating objects easily
 
 Examples :
 
 `object(key: 'value');`
+
+`strReplace` same as str_replace but with a small difference
+
 
 #### constants classes
 a lot of classes for simplify some texts and params and names
@@ -99,5 +103,7 @@ Examples :
 - [x] crypto payment
 - [x] rial payment
 - [ ] ezPay
+- [ ] cronjob manager
 - [ ] anti spam
-- [ ] forward to all
+- [ ] broadcast
+- 
