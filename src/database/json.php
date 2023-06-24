@@ -2,7 +2,6 @@
 
 namespace BPT\database;
 
-use BPT\telegram\telegram;
 use BPT\BPT;
 use BPT\constants\chatMemberStatus;
 use BPT\constants\chatType;
@@ -11,7 +10,8 @@ use BPT\database\json\groupUserInterface;
 use BPT\database\json\userInterface;
 use BPT\exception\bptException;
 use BPT\settings;
-use BPT\tools;
+use BPT\telegram\telegram;
+use BPT\tools\tools;
 use BPT\types\callbackQuery;
 use BPT\types\chatMemberUpdated;
 use BPT\types\inlineQuery;

@@ -9,6 +9,7 @@ use BPT\exception\bptException;
 use BPT\pay\pay;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
+use BPT\tools\tools;
 use CURLFile;
 use Error;
 use stdClass;

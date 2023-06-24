@@ -10,7 +10,7 @@ use BPT\exception\bptException;
 use BPT\lock;
 use BPT\logger;
 use BPT\settings;
-use BPT\tools;
+use BPT\tools\tools;
 use BPT\types\callbackQuery;
 use BPT\types\chatMemberUpdated;
 use BPT\types\inlineQuery;

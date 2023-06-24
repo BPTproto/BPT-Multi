@@ -10,6 +10,7 @@ use BPT\logger;
 use BPT\settings;
 use BPT\types\update;
 use JetBrains\PhpStorm\NoReturn;
+use stdClass;
 
 /**
  * getUpdates class , For receiving updates by polling methods

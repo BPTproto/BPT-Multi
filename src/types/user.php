@@ -3,7 +3,7 @@
 namespace BPT\types;
 
 use BPT\telegram\telegram;
-use BPT\tools;
+use BPT\tools\tools;
 use stdClass;
 
 /**

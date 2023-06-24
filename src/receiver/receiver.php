@@ -9,7 +9,7 @@ use BPT\database\db;
 use BPT\logger;
 use BPT\settings;
 use BPT\telegram\telegram;
-use BPT\tools;
+use BPT\tools\tools;
 use BPT\types\update;
 use stdClass;
 

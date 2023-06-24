@@ -8,7 +8,6 @@ use BPT\exception\bptException;
 use BPT\lock;
 use BPT\logger;
 use BPT\settings;
-use BPT\tools;
 use CURLFile;
 use JetBrains\PhpStorm\NoReturn;
 
