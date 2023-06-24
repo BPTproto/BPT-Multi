@@ -69,6 +69,8 @@ class settings {
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 
+    public static bool $use_types_classes = true;
+
     public static array|null $db = null;
 
     public static array|null $pay = null;

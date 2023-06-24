@@ -297,7 +297,7 @@ use stdClass;
  * @method gameHighScore[]|responseError getGameHigh (int|array|null $user_id = null, int|null $chat_id = null, int|null $message_id = null, string|null $inline_message_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to get data for high score tables. Will return the score of the specified user and several of their neighbors in a game. Returns an Array of GameHighScore objects.
  */
 class BPT extends telegram{
-    public static update $update;
+    public static stdClass|update $update;
 
     public static BPT $handler;
 

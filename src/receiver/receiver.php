@@ -55,7 +55,7 @@ class receiver {
             }
         }
 
-        if (!is_a($update,'update')) {
+        if (settings::$use_types_classes && !is_a($update,'update')) {
             $update = new update($update);
         }
 
@@ -66,7 +66,7 @@ class receiver {
         db::save();
     }
 
-    protected static function setMessageExtra (update &$update): void {
+    protected static function setMessageExtra (stdClass|update &$update): void {
         if (!isset($update->message->text) && !isset($update->edited_message->text)) {
             return;
         }

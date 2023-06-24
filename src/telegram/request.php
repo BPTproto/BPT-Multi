@@ -907,6 +907,9 @@ class request {
     }
 
     private static function methodReturn(string $name,stdClass $response) {
+        if (!settings::$use_types_classes) {
+            return $response;
+        }
         if (!isset(self::METHODS_RETURN[$name])) {
             return $response->result;
         }
