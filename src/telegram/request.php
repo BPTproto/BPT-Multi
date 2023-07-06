@@ -954,6 +954,7 @@ class request {
         self::$pure_response = $response;
         if (!$response->ok) {
             logger::write("Telegram $name method failed : " . json_encode($response), loggerTypes::WARNING);
+            unset($response->ok);
             return new responseError($response);
         }
         return self::methodReturn($name,$response);
