@@ -70,7 +70,7 @@ class curl {
         elseif ($method === 'getUpdates' || $method === 'setWebhook'){
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, 5000);
         }
-        else{
+        elseif (settings::$base_timeout > 0) {
             curl_setopt($curl_handler, CURLOPT_TIMEOUT_MS, settings::$base_timeout);
         }
     }
