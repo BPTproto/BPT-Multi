@@ -698,11 +698,13 @@ class tools{
      *
      * string parameter is your hash(received when use encrypt) or the text you want to encrypt
      *
-     * for decrypt , you must have key and iv parameter. you can found them in result of encrypt
+     * for decrypt , you must have key and iv parameter. you can found them in result of encrypt(or if you specified them in encrypt call)
      *
      * e.g. => tools::codec(action: 'decrypt', text: '9LqUf9DSuRRwfo03RnA5Kw==', key: '39aaadf402f9b921b1d44e33ee3b022716a518e97d6a7b55de8231de501b4f34', iv: 'a2e5904a4110169e');
      *
      * e.g. => tools::codec(codecAction::ENCRYPT,'hello world');
+     *
+     * e.g. => tools::codec(codecAction::ENCRYPT,'hello world', 'key' ,'iv');
      *
      * @param string      $action e.g. => codecAction::ENCRYPT | 'encrypt'
      * @param string      $text   e.g. => 'hello world'
@@ -718,8 +720,8 @@ class tools{
             throw new bptException('OPENSSL_EXTENSION_MISSING');
         }
         if ($action === codecAction::ENCRYPT) {
-            $key = self::randomString(64);
-            $iv = self::randomString();
+            $key = $key ?? self::randomString(64);
+            $iv = $iv ?? self::randomString();
             $output = base64_encode(openssl_encrypt($text, 'AES-256-CBC', $key, 1, $iv));
             return ['hash' => $output, 'key' => $key, 'iv' => $iv];
         }
