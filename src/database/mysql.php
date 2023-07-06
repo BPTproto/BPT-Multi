@@ -174,8 +174,8 @@ CREATE TABLE `users`
      *
      * @return mysqli
      */
-    public static function getMysqli (): mysqli {
-        return self::$connection;
+    public static function getMysqli (): mysqli|false {
+        return self::$connection ?? false;
     }
 
     /**
