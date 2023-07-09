@@ -319,7 +319,7 @@ CREATE TABLE `users`
         return $need_result ? $prepare->get_result() : true;
     }
 
-    private static function whereBuilder(string &$query, array $where = null, bool $ignore_default_where = false): array {
+    private static function whereBuilder(string &$query, array $where = [], bool $ignore_default_where = false): array {
         if (!$ignore_default_where) {
             $where = array_merge(self::$default_where, $where);
         }
@@ -552,14 +552,15 @@ CREATE TABLE `users`
      *
      * e.g. : `mysql::delete('users',['id'=>123456789],1);`
      *
-     * @param string     $table  table name
-     * @param array|null $where  Set your ifs default : null
-     * @param int|null   $count  Set if you want to delete specific amount of row default : null
-     * @param int|null   $offset Set if you want to delete rows after specific row default : null
+     * @param string   $table  table name
+     * @param array    $where  Set your ifs
+     * @param int|null $count  Set if you want to delete specific amount of row default : null
+     * @param int|null $offset Set if you want to delete rows after specific row default : null
+     * @param bool     $ignore_default_where
      *
      * @return bool
      */
-    public static function delete (string $table, array $where = null, int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
+    public static function delete (string $table, array $where = [], int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
         $query = "DELETE FROM `$table`";
         $vars = self::whereBuilder($query, $where, $ignore_default_where);
         self::countBuilder($query, $count, $offset);
@@ -571,15 +572,16 @@ CREATE TABLE `users`
      *
      * e.g. : mysql::update('users',['step'=>'panel'],['id'=>123456789],1);
      *
-     * @param string     $table  table name
-     * @param array      $modify Set the data's you want to modify
-     * @param array|null $where  Set your ifs default : null
-     * @param int|null   $count  Set if you want to update specific amount of row default : null
-     * @param int|null   $offset Set if you want to update rows after specific row default : null
+     * @param string   $table  table name
+     * @param array    $modify Set the data's you want to modify
+     * @param array    $where  Set your ifs
+     * @param int|null $count  Set if you want to update specific amount of row default : null
+     * @param int|null $offset Set if you want to update rows after specific row default : null
+     * @param bool     $ignore_default_where
      *
      * @return bool
      */
-    public static function update (string $table, array $modify, array $where = null, int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
+    public static function update (string $table, array $modify, array $where = [], int $count = null, int $offset = null, bool $ignore_default_where = false): bool {
         $query = "UPDATE `$table` SET";
         $modify_vars = self::updateBuilder($query, $modify);
         $where_vars = self::whereBuilder($query, $where, $ignore_default_where);
@@ -636,17 +638,18 @@ CREATE TABLE `users`
      *
      * e.g. : mysql::select('users',['step','referrals'],['id'=>123456789],1);
      *
-     * @param string       $table   table name
-     * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
-     * @param array|null   $where   Set your ifs default : null
-     * @param int|null     $count   Set if you want to select specific amount of row default : null
-     * @param int|null     $offset  Set if you want to select rows after specific row default : null
+     * @param string       $table    table name
+     * @param array|string $columns  sets column that you want to retrieve , set '*' to retrieve all , default : '*'
+     * @param array        $where    Set your ifs
+     * @param int|null     $count    Set if you want to select specific amount of row default : null
+     * @param int|null     $offset   Set if you want to select rows after specific row default : null
      * @param array|string $group_by group result based on these columns
      * @param array|string $order_by order result based on these columns
+     * @param bool         $ignore_default_where
      *
      * @return mysqli_result|bool
      */
-    public static function select (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): mysqli_result|bool {
+    public static function select (string $table, array|string $columns = '*', array $where = [], int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): mysqli_result|bool {
         $query = 'SELECT';
         self::selectBuilder($query, $columns);
         $query .= "FROM `$table`";
@@ -662,15 +665,16 @@ CREATE TABLE `users`
      *
      * mysql::selectArray('users','*',['id'=>123456789]);
      *
-     * @param string       $table   table name
-     * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
-     * @param array|null   $where   Set your ifs default : null
+     * @param string       $table    table name
+     * @param array|string $columns  sets column that you want to retrieve , set '*' to retrieve all , default : '*'
+     * @param array        $where    Set your ifs
      * @param array|string $group_by group result based on these columns
      * @param array|string $order_by order result based on these columns
+     * @param bool         $ignore_default_where
      *
      * @return null|bool|array
      */
-    public static function selectArray (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|array|null {
+    public static function selectArray (string $table, array|string $columns = '*', array $where = [], array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|array|null {
         $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             return $res->fetch_assoc();
@@ -683,13 +687,16 @@ CREATE TABLE `users`
      *
      * mysql::selectObject('users','*',['id'=>123456789]);
      *
-     * @param string       $table   table name
-     * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
-     * @param array|null   $where   Set your ifs default : null
+     * @param string       $table    table name
+     * @param array|string $columns  sets column that you want to retrieve , set '*' to retrieve all , default : '*'
+     * @param array        $where    Set your ifs
      * @param array|string $group_by group result based on these columns
      * @param array|string $order_by order result based on these columns
+     * @param bool         $ignore_default_where
+     *
+     * @return null|object
      */
-    public static function selectObject (string $table, array|string $columns = '*', array $where = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false) {
+    public static function selectObject (string $table, array|string $columns = '*', array $where = [], array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false) {
         $res = self::select($table, $columns, $where, 1, 0, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             return $res->fetch_object();
@@ -703,17 +710,18 @@ CREATE TABLE `users`
      * e.g. : mysql::selectEach('users','*',['id'=>123456789],1);
      * e.g. : mysql::selectEach('users',['id']);
      *
-     * @param string       $table   table name
-     * @param array|string $columns sets column that you want to retrieve , set '*' to retrieve all , default : '*'
-     * @param array|null   $where   Set your ifs default : null
-     * @param int|null     $count   Set if you want to select specific amount of row default : null
-     * @param int|null     $offset  Set if you want to select rows after specific row default : null
+     * @param string       $table    table name
+     * @param array|string $columns  sets column that you want to retrieve , set '*' to retrieve all , default : '*'
+     * @param array        $where    Set your ifs
+     * @param int|null     $count    Set if you want to select specific amount of row default : null
+     * @param int|null     $offset   Set if you want to select rows after specific row default : null
      * @param array|string $group_by group result based on these columns
      * @param array|string $order_by order result based on these columns
+     * @param bool         $ignore_default_where
      *
      * @return bool|Generator
      */
-    public static function selectEach (string $table, array|string $columns = '*', array $where = null, int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|Generator {
+    public static function selectEach (string $table, array|string $columns = '*', array $where = [], int $count = null, int $offset = null, array|string $group_by = [], array|string $order_by = [], bool $ignore_default_where = false): bool|Generator {
         $res = self::select($table, $columns, $where, $count, $offset, $group_by, $order_by, ignore_default_where: $ignore_default_where);
         if ($res) {
             while ($row = $res->fetch_assoc()) yield $row;
@@ -724,14 +732,14 @@ CREATE TABLE `users`
     /**
      * get backup from database, you can get full backup or specific table backup
      *
-     * @param array|null $wanted_tables set if you want specific table which exist
+     * @param array $wanted_tables set if you want specific table which exist
      * @param bool       $table_data set false if you only want the creation queries(no data)
      * @param bool       $save set false if you want to receive sql as string
      * @param string     $file_name file name for saving
      *
      * @return string if save is true , return file name otherwise return sql data
      */
-    public static function backup (array $wanted_tables = null, bool $table_data = true, bool $save = true, string $file_name = ''): string {
+    public static function backup (array $wanted_tables = [], bool $table_data = true, bool $save = true, string $file_name = ''): string {
         self::setCharset('utf8mb4');
 
         $tables = array_column(self::query('SHOW TABLES')->fetch_all(),0);
