@@ -3,10 +3,10 @@
 namespace BPT\pay\crypto;
 
 /**
- * @property $id
- * @property $token_id
- * @property $pay_amount
- * @property $expiration_estimate_date
+ * @property int $id
+ * @property string $token_id
+ * @property float|int $pay_amount
+ * @property string $expiration_estimate_date
  */
 interface estimateUpdateInterface {
 }
