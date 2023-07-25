@@ -1157,9 +1157,9 @@ class request {
     /**
      * send file with only file_id
      *
-     * e.g. => tools::sendFile('file_id_asdadsadadadadadada');
+     * e.g. => request::sendFile('file_id_asdadsadadadadadada');
      *
-     * e.g. => tools::sendFile('file_id_asdadsadadadadadada','hello');
+     * e.g. => request::sendFile('file_id_asdadsadadadadadada','hello');
      *
      * @param string          $file_id
      * @param int|string|null $chat_id
