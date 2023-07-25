@@ -1145,12 +1145,12 @@ class request {
      *
      * e.g. => tools::downloadFile('test.mp4','file_id_asdadadadadadad);
      *
-     * @param string|null $destination destination for save the file
+     * @param string $destination destination for save the file
      * @param string|null $file_id     file_id for download, if not set, will generate by request::catchFields method
      *
      * @return bool
      */
-    public static function downloadFile (string|null $destination = null, string|null $file_id = null): bool {
+    public static function downloadFile (string $destination, string|null $file_id = null): bool {
         return tools::downloadFile(self::fileLink($file_id), $destination);
     }
 
