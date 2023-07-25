@@ -24,6 +24,8 @@ class mysql {
 
     private static bool $auto_process = true;
 
+    private static bool $auto_load = false;
+
     private static string $db_name = '';
 
     private static array $default_where = [];
@@ -37,6 +39,7 @@ class mysql {
         $user = settings::$db['user'] ?? settings::$db['username'] ?? $username;
         $pass = settings::$db['pass'] ?? settings::$db['password'] ?? $password;
         self::$auto_process = $auto_process ?? (!isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
+        self::$auto_load = settings::$db['auto_load'] ?? false;
         $dbname = settings::$db['dbname'] ?? $dbname;
         self::$db_name = $dbname;
         self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
@@ -44,13 +47,15 @@ class mysql {
             logger::write('SQL connection has problem : ' . self::$connection->connect_error, loggerTypes::ERROR);
             throw new bptException('SQL_CONNECTION_PROBLEM');
         }
-        if (self::$auto_process && !lock::exist('BPT-MYSQL')) {
+
+        if (!lock::exist('BPT-MYSQL')) {
             self::install();
         }
     }
 
     private static function install (): void {
-        self::pureQuery("
+        if (self::$auto_process) {
+            self::pureQuery("
 CREATE TABLE `users`
 (
     `id`           BIGINT(20) NOT NULL,
@@ -64,7 +69,24 @@ CREATE TABLE `users`
     `value`        TEXT NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;");
-        lock::set('BPT-MYSQL');
+        }
+
+        if (self::$auto_load) {
+            $allowed_file_names = ['db.sql', 'database.sql', 'mysql.sql', 'tables.sql'];
+            $mysqli = self::getMysqli();
+            $loaded = false;
+            foreach ($allowed_file_names as $allowed_file_name) {
+                if (file_exists($allowed_file_name)) {
+                    $mysqli->multi_query(file_get_contents($allowed_file_name));
+                    while ($mysqli->next_result()){if (!$mysqli->more_results()) break;}
+                    $loaded = true;
+                }
+            }
+        }
+
+        if (self::$auto_process || (isset($loaded) && $loaded)) {
+            lock::set('BPT-MYSQL');
+        }
     }
 
     /**
