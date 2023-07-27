@@ -2,6 +2,7 @@
 
 namespace BPT;
 
+use BPT\settings\easySettings;
 use BPT\types\botCommand;
 use BPT\types\botCommandScope;
 use BPT\types\botDescription;
@@ -302,7 +303,7 @@ class BPT extends telegram{
     public static BPT $handler;
 
 
-    public function __construct (array|stdClass $settings) {
+    public function __construct (array|easySettings $settings) {
         static::$handler = &$this;
         settings::init($settings);
     }

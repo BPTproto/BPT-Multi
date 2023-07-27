@@ -9,6 +9,7 @@ use BPT\exception\bptException;
 use BPT\pay\pay;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
+use BPT\settings\easySettings;
 use BPT\tools\tools;
 use CURLFile;
 use Error;
@@ -78,8 +79,10 @@ class settings {
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
-    public static function init (array|stdClass $settings): void {
-        $settings = (array) $settings;
+    public static function init (array|easySettings $settings): void {
+        if (!is_array($settings)) {
+            $settings = $settings->getSettings();
+        }
         foreach ($settings as $setting => $value) {
             try {
                 if ($setting === 'name') {
