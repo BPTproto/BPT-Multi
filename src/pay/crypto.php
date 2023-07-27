@@ -513,5 +513,7 @@ class crypto {
             callback::callHandler('cryptoCallback', $callback_data);
             return true;
         }
+
+        return false;
     }
 }
