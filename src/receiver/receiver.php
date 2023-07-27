@@ -34,8 +34,11 @@ class receiver {
         if (settings::$telegram_verify) {
             $ip = $ip ?? tools::remoteIP();
             if (!tools::isTelegram($ip)) {
-                logger::write('not authorized access denied. IP : '. $ip ?? 'unknown',loggerTypes::WARNING);
-                BPT::exit();
+                if (!callback::process()) {
+                    logger::write('not authorized access denied. IP : '. $ip ?? 'unknown',loggerTypes::WARNING);
+                    BPT::exit();
+                }
+                die('callback handler stole the process :(');
             }
         }
     }

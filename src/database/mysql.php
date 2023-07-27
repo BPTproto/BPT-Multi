@@ -69,6 +69,17 @@ CREATE TABLE `users`
     `value`        TEXT NULL DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;");
+            self::pureQuery('
+CREATE TABLE `orders`
+(
+    `id`          INT          NOT NULL AUTO_INCREMENT,
+    `user_id`     BIGINT(20)   NOT NULL,
+    `type`        VARCHAR(30)  NOT NULL,
+    `amount`      DOUBLE(13, 4) NOT NULL,
+    `description` TEXT         NOT NULL,
+    `extra_info`  longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+    PRIMARY KEY (`id`)
+) ENGINE = InnoDB;');
         }
 
         if (self::$auto_load) {
