@@ -117,15 +117,11 @@ class webhook extends receiver {
         set_time_limit($timeout);
         ignore_user_abort(true);
         if (function_exists('fastcgi_finish_request')) {
-            fastcgi_finish_request();
+            return fastcgi_finish_request();
         }
-        elseif (function_exists('litespeed_finish_request')) {
-            litespeed_finish_request();
+        if (function_exists('litespeed_finish_request')) {
+            return litespeed_finish_request();
         }
-        else {
-            return false;
-        }
-
-        return true;
+        return false;
     }
 }
