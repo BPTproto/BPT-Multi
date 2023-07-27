@@ -9,7 +9,13 @@ use stdClass;
  */
 class types {
     public function __toString(): string {
-        return json_encode($this);
+        $array = json_decode(json_encode($this), true);
+
+        $cleanArray = function ($array) use (&$cleanArray) {
+            return array_filter(array_map(fn($value) => is_array($value) ? $cleanArray($value) : $value, $array));
+        };
+
+        return json_encode($cleanArray($array));
     }
 
     public function __construct(stdClass $object, array $subs = []) {
