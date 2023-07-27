@@ -45,12 +45,16 @@ support exec and curl way for doing that
 ### 11- A good way for handling database
 for now only `json` and `mysql` type supported
 
-### 12- A lot of extra methods and functions for making your job easier
+### 12- Special way for using payment
+We got crypto class for payments with cryptoCurrency
+We got idpay and zarinpal for payments with rial
+
+### 13- A lot of extra methods and functions for making your job easier
 See this for more info [tools class](#tools-class)
 
-### 13- A lot of tricks and settings for keeping your bot safe
+### 14- A lot of tricks and settings for keeping your bot safe
 
-### 14- A lot classes
+### 15- A lot classes
 
 #### `json class`
 json class is there for manage and use json database<br>
@@ -97,13 +101,20 @@ Examples :
 - `parseMode` for parse modes like html or ...
 - `updateTypes` for update types like message or ...
 
+### 16- And a lot more, just give it a try ;)
+
 
 ### Planning to add
 - [x] mysql db type
 - [x] crypto payment
 - [x] rial payment
+  - [x] zarinpal
+  - [x] idpay
 - [ ] ezPay
+  - [x] ezPay crypto
+  - [ ] ezPay zarinpal
+  - [ ] ezPay idpay
+- [ ] adding aghaye pardakht and ezPay for it
 - [ ] cronjob manager
 - [ ] anti spam
 - [ ] broadcast
-- 

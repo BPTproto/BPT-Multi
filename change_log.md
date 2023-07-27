@@ -96,3 +96,18 @@
   - Some new method to types classes
   - Use `tools` class from `tools` folder instead of main folder (old class will be removed in `1.11.0`)
   - `cpanel` class added
+- 1.11.0
+  - Fix `responseError` class bug
+  - Added new setting : `base_timeout`
+  - Fix `getMysqli` method bug from `mysql` class when connection doesn't exist
+  - Now you can specify your own `key` and `iv` in `tools::codec` `encrypt` section 
+  - Fix `webhook` security counted telegram preview request as normal request
+  - Fix a bug in `mysql` class that cause method with empty `where` parameter show exception
+  - `BPT\tools` class removed, use `BPT\tools\tools` instead
+  - Fix `sendFile` and `downloadFile` method document in `request` class
+  - Add new setting for `mysql` class : `auto_load`
+  - Update and add new interfaces related to `crypto` class
+  - Complete method detail and document in `crypto` class
+  - Callback handler added, for now only `crypto` class used it
+  - `ezPay` method added to class `crypto` , use it to create simple invoices(handling and other staff will be done by library itself!)
+  - Add new constant related to crypto class
