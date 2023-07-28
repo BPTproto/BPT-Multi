@@ -44,6 +44,6 @@ class file extends types {
     }
 
     public function link(): string {
-        return settings::$down_url . 'bot' . settings::$token . '/' . $this->file_path;
+        return settings::$down_url . '/bot' . settings::$token . '/' . $this->file_path;
     }
 }
