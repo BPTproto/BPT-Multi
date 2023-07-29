@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\constants\parseMode;
 use BPT\telegram\telegram;
 use BPT\tools\tools;
 use stdClass;
@@ -67,5 +68,21 @@ class user extends types {
 
     public function getProfiles(int|null $offset = null, int|null $limit = null): userProfilePhotos|responseError {
         return telegram::getUserProfilePhotos($this->id,$offset,$limit);
+    }
+
+    public function getMention (string $link_text = '', string $parse_mode = '') {
+        if (empty($link_text)) {
+            $link_text = $this->fullName();
+        }
+
+        if ($parse_mode === parseMode::HTML) {
+            return "<a href=\"tg://user?id=$this->id\">$link_text</a>";
+        }
+
+        if ($parse_mode === parseMode::MARKDOWN || $parse_mode === parseMode::MARKDOWNV2) {
+            return "[$link_text](tg://user?id=$this->id)";
+        }
+
+        return "tg://user?id=$this->id";
     }
 }

@@ -9,6 +9,8 @@ use stdClass;
  * this object to specify text of the button. Optional fields web_app, request_contact, request_location, and
  * request_poll are mutually exclusive.
  * @method self setText(string $value)
+ * @method self setRequestUser(keyboardButtonRequestUser $value)
+ * @method self setRequestChat(keyboardButtonRequestChat $value)
  * @method self setRequest_contact(bool $value)
  * @method self setRequest_location(bool $value)
  * @method self setRequest_poll(keyboardButtonPollType $value)
