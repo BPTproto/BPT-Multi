@@ -47,15 +47,36 @@ class chatJoinRequest extends types {
         }
     }
 
-    public function accept(): responseError|bool {
-        return telegram::approveChatJoinRequest($this->chat->id,$this->from->id);
+    /**
+     * Accept join request
+     *
+     * @param null|bool $answer
+     *
+     * @return responseError|bool
+     */
+    public function accept(bool $answer = null): responseError|bool {
+        return telegram::approveChatJoinRequest($this->chat->id,$this->from->id, answer: $answer);
     }
 
-    public function deny(): responseError|bool {
-        return telegram::declineChatJoinRequest($this->chat->id,$this->from->id);
+    /**
+     * Decline join request
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function deny(bool $answer = null): responseError|bool {
+        return telegram::declineChatJoinRequest($this->chat->id,$this->from->id, answer: $answer);
     }
 
-    public function revokeLink(): responseError|bool {
-        return telegram::revokeChatInviteLink($this->invite_link->invite_link, $this->chat->id);
+    /**
+     * Revoke invite link
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function revokeLink(bool $answer = null): responseError|bool {
+        return telegram::revokeChatInviteLink($this->invite_link->invite_link, $this->chat->id, answer: $answer);
     }
 }

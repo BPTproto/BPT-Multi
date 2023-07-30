@@ -32,7 +32,14 @@ class chatShared extends types {
         }
     }
 
-    public function getInfo (): responseError|chat {
-        return telegram::getChat($this->chat_id);
+    /**
+     * Get shared chat info by using getChat method
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|chat
+     */
+    public function getInfo (bool $answer = null): responseError|chat {
+        return telegram::getChat($this->chat_id, answer: $answer);
     }
 }

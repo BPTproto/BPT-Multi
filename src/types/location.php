@@ -42,6 +42,11 @@ class location extends types {
         }
     }
 
+    /**
+     * Get google map link for this location
+     *
+     * @return string
+     */
     public function mapLink (): string {
         return "https://www.google.com/maps/search/$this->latitude,$this->longitude";
     }

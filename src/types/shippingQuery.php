@@ -31,7 +31,19 @@ class shippingQuery extends types {
         }
     }
 
-    public function answer (bool $ok, null|array $shipping_options = null, string|null $error_message = null): responseError|bool {
-        return telegram::answerShippingQuery($ok, $this->id, $shipping_options, $error_message);
+    /**
+     * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API
+     * will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
+     * On success, True is returned.
+     *
+     * @param bool        $ok
+     * @param null|array  $shipping_options
+     * @param null|string $error_message
+     * @param bool|null   $answer
+     *
+     * @return responseError|bool
+     */
+    public function answer (bool $ok, null|array $shipping_options = null, string|null $error_message = null, bool $answer = null): responseError|bool {
+        return telegram::answerShippingQuery($ok, $this->id, $shipping_options, $error_message, answer: $answer);
     }
 }

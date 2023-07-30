@@ -39,6 +39,11 @@ class contact extends types {
         }
     }
 
+    /**
+     * Check if shared contact is for the sender user (useful for phone auth)
+     *
+     * @return bool
+     */
     public function isUserPhone(): bool {
         return $this->user_id === request::catchFields(fields::USER_ID);
     }

@@ -140,22 +140,47 @@ class chat extends types {
         }
     }
 
+    /**
+     * Is this chat is private or not
+     *
+     * @return bool
+     */
     public function isPrivate (): bool {
         return $this->type === chatType::PRIVATE;
     }
 
+    /**
+     * Is this chat is normal group or not
+     *
+     * @return bool
+     */
     public function isGroup (): bool {
         return $this->type === chatType::GROUP;
     }
 
+    /**
+     * Is this chat is suprtgroup or not
+     *
+     * @return bool
+     */
     public function isSuperGroup (): bool {
         return $this->type === chatType::SUPERGROUP;
     }
 
+    /**
+     * Is this chat is channel or not
+     *
+     * @return bool
+     */
     public function isChannel (): bool {
         return $this->type === chatType::CHANNEL;
     }
 
+    /**
+     * Leave this chat if it's not private
+     *
+     * @return responseError|bool
+     */
     public function leave(): responseError|bool {
         if ($this->isPrivate()) {
             return false;
@@ -163,52 +188,105 @@ class chat extends types {
         return telegram::leave($this->id);
     }
 
-    public function setPhoto(CURLFile|array $photo): responseError|bool {
+    /**
+     * Set this chat photo if it's not private
+     *
+     * @param CURLFile|array $photo
+     * @param null|bool      $answer
+     *
+     * @return responseError|bool
+     */
+    public function setPhoto(CURLFile|array $photo, bool $answer = null): responseError|bool {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::setChatPhoto($photo,$this->id);
+        return telegram::setChatPhoto($photo, $this->id, answer: $answer);
     }
 
-    public function delPhoto(): responseError|bool {
+    /**
+     * Delete this chat photo if it's not private
+     *
+     * @param null|bool $answer
+     *
+     * @return responseError|bool
+     */
+    public function delPhoto(bool $answer = null): responseError|bool {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::deleteChatPhoto($this->id);
+        return telegram::deleteChatPhoto($this->id, answer: $answer);
     }
 
-    public function setTitle(string|array $title): responseError|bool {
+    /**
+     * Set this chat title if it's not private
+     *
+     * @param string|array $title
+     * @param bool|null    $answer
+     *
+     * @return responseError|bool
+     */
+    public function setTitle(string|array $title, bool $answer = null): responseError|bool {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::setChatTitle($title,$this->id);
+        return telegram::setChatTitle($title, $this->id, answer: $answer);
     }
 
-    public function setDescription(string|null $description = null): responseError|bool {
+    /**
+     * Set this chat description if it's not private
+     *
+     * @param null|string $description
+     * @param bool|null   $answer
+     *
+     * @return responseError|bool
+     */
+    public function setDescription(string|null $description = null, bool $answer = null): responseError|bool {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::setChatDescription($this->id,$description);
+        return telegram::setChatDescription($this->id, $description, answer: $answer);
     }
 
-    public function getAdmins(): bool|responseError|array {
+    /**
+     * Get this chat admins if it's not private
+     *
+     * @param bool|null $answer
+     *
+     * @return bool|responseError|array
+     */
+    public function getAdmins(bool $answer = null): bool|responseError|array {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::getChatAdministrators($this->id);
+        return telegram::getChatAdministrators($this->id, answer: $answer);
     }
 
-    public function getMembersCount(): bool|responseError|int {
+    /**
+     * Get this chat members count if it's not private
+     *
+     * @param bool|null $answer
+     *
+     * @return bool|responseError|int
+     */
+    public function getMembersCount(bool $answer = null): bool|responseError|int {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::getChatMemberCount($this->id);
+        return telegram::getChatMemberCount($this->id, answer: $answer);
     }
 
-    public function getMember(int|null $user_id = null): chatMember|bool|responseError {
+    /**
+     * Get member info in this chat if it's not private
+     *
+     * @param null|int  $user_id
+     * @param bool|null $answer
+     *
+     * @return chatMember|bool|responseError
+     */
+    public function getMember(int|null $user_id = null, bool $answer = null): chatMember|bool|responseError {
         if ($this->isPrivate()) {
             return false;
         }
-        return telegram::getChatMember($this->id,$user_id);
+        return telegram::getChatMember($this->id, $user_id, answer: $answer);
     }
 }

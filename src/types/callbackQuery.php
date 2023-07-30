@@ -52,23 +52,68 @@ class callbackQuery extends types {
         }
     }
 
-    public function answer (string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null): responseError|bool {
-        return telegram::answerCallbackQuery($this->id, $text, $show_alert, $url, $cache_time);
+    /**
+     * Use this method to send answers to callback queries sent from inline keyboards.
+     * The answer will be displayed to the user as a notification at the top of the chat screen or as an alert.
+     * On success, True is returned.
+     *
+     * @param null|string $text
+     * @param null|bool   $show_alert
+     * @param null|string $url
+     * @param null|int    $cache_time
+     * @param bool|null   $answer
+     *
+     * @return responseError|bool
+     */
+    public function answer (string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null, bool $answer = null): responseError|bool {
+        return telegram::answerCallbackQuery($this->id, $text, $show_alert, $url, $cache_time, answer: $answer);
     }
 
-    public function editText (string $text): message|responseError|bool {
-        return telegram::editMessageText($text);
+    /**
+     * Edit text of the message
+     *
+     * @param string    $text
+     * @param bool|null $answer
+     *
+     * @return message|responseError|bool
+     */
+    public function editText (string $text, bool $answer = null): message|responseError|bool {
+        return telegram::editMessageText($text, answer: $answer);
     }
 
-    public function editCaption (string $text = ''): message|responseError|bool {
-        return telegram::editMessageCaption(caption: $text);
+    /**
+     * Edit caption of the message media
+     *
+     * @param string    $text
+     * @param bool|null $answer
+     *
+     * @return message|responseError|bool
+     */
+    public function editCaption (string $text = '', bool $answer = null): message|responseError|bool {
+        return telegram::editMessageCaption(caption: $text, answer: $answer);
     }
 
-    public function editKeyboard (inlineKeyboardMarkup|stdClass|array $reply_markup = null): message|responseError|bool {
-        return telegram::editMessageReplyMarkup(reply_markup: $reply_markup);
+    /**
+     * Edit keyboard of the message
+     *
+     * @param inlineKeyboardMarkup|stdClass|array|null $reply_markup
+     * @param bool|null                                $answer
+     *
+     * @return message|responseError|bool
+     */
+    public function editKeyboard (inlineKeyboardMarkup|stdClass|array $reply_markup = null, bool $answer = null): message|responseError|bool {
+        return telegram::editMessageReplyMarkup(reply_markup: $reply_markup, answer: $answer);
     }
 
-    public function editMedia (inputMedia|array|stdClass $media): message|responseError|bool {
-        return telegram::editMessageMedia($media);
+    /**
+     * Edit media of the message
+     *
+     * @param inputMedia|array|stdClass $media
+     * @param bool|null                 $answer
+     *
+     * @return message|responseError|bool
+     */
+    public function editMedia (inputMedia|array|stdClass $media, bool $answer = null): message|responseError|bool {
+        return telegram::editMessageMedia($media, answer: $answer);
     }
 }

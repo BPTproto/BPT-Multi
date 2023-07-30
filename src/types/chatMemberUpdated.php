@@ -50,42 +50,92 @@ class chatMemberUpdated extends types {
         }
     }
 
+    /**
+     * Check if user unblocked me(started chat again)
+     *
+     * @return bool
+     */
     public function isUnBlockedMe(): bool {
         return $this->chat->isPrivate() && $this->isMe() && $this->isJoined();
     }
 
+    /**
+     * Check if user blocked me(stopped chat)
+     *
+     * @return bool
+     */
     public function isBlockedMe(): bool {
         return $this->chat->isPrivate() && $this->isMe() && $this->isKicked();
     }
 
+    /**
+     * Check is it related to me(e.g: adding bot to a group)
+     *
+     * @return bool
+     */
     public function isMe (): bool {
         return $this->new_chat_member->user->id == settings::$bot_id;
     }
 
+    /**
+     * Check is it an add member update(e.g: someone added something to group)
+     *
+     * @return bool
+     */
     public function isAdded(): bool {
         return $this->isJoined() && $this->from->id !== $this->new_chat_member->user->id;
     }
 
+    /**
+     * Check is it join update(e.g: someone joined in group)
+     *
+     * @return bool
+     */
     public function isJoined(): bool {
         return $this->new_chat_member->status === chatMemberStatus::MEMBER && !$this->isOldAdmin();
     }
 
+    /**
+     * Check is it joined by link update(e.g: someone joined by link in group)
+     *
+     * @return bool
+     */
     public function isJoinedByLink(): bool {
         return $this->isJoined() && !empty($this->invite_link);
     }
 
+    /**
+     * Check if it's a leave update(e.g: someone leaved group)
+     *
+     * @return bool
+     */
     public function isLeaved (): bool {
         return $this->new_chat_member->status === chatMemberStatus::LEFT;
     }
 
+    /**
+     * Check if it's a kick update(e.g: someone kicked from group by admin)
+     *
+     * @return bool
+     */
     public function isKicked (): bool {
         return $this->new_chat_member->status === chatMemberStatus::KICKED;
     }
 
+    /**
+     * Check if it's an old admin update(e.g: an admin is demoted)
+     *
+     * @return bool
+     */
     public function isOldAdmin (): bool {
         return $this->old_chat_member->status === chatMemberStatus::ADMINISTRATOR;
     }
 
+    /**
+     * Check if it's a new admin update(e.g: someone promoted to admin)
+     *
+     * @return bool
+     */
     public function isNewAdmin (): bool {
         return $this->new_chat_member->status === chatMemberStatus::ADMINISTRATOR;
     }

@@ -369,53 +369,133 @@ class message extends types {
         }
     }
 
+    /**
+     * Is it a command message or not
+     *
+     * @return bool
+     */
     public function isCommand (): bool {
         return !empty($this->command);
     }
 
+    /**
+     * Is it forwarded or not
+     *
+     * @return bool
+     */
     public function isForwarded (): bool {
         return $this->forward_from !== null || $this->forward_from_chat !== null;
     }
 
+    /**
+     * Is user admin of the chat or not
+     *
+     * Only in not private chat
+     *
+     * @return bool
+     */
     public function isAdmin (): bool {
         return $this->chat->getMember($this->from->id)->status === chatMemberStatus::ADMINISTRATOR;
     }
 
+    /**
+     * Is user owner of the chat or not
+     *
+     * Only in not private chat
+     *
+     * @return bool
+     */
     public function isOwner (): bool {
         return $this->chat->getMember($this->from->id)->status === chatMemberStatus::CREATOR;
     }
 
-    public function banMember(): responseError|bool {
+    /**
+     * Ban member from this chat
+     *
+     * return false in private chats
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function banMember(bool $answer = null): responseError|bool {
         if ($this->chat->isPrivate()) {
             return false;
         }
-        return telegram::banChatMember($this->chat->id, $this->from->id);
+        return telegram::banChatMember($this->chat->id, $this->from->id, answer: $answer);
     }
 
-    public function kickMember(): responseError|bool {
+    /**
+     * kick member from this chat
+     *
+     * return false in private chats
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function kickMember(bool $answer = null): responseError|bool {
         if ($this->chat->isPrivate()) {
             return false;
         }
-        return telegram::unbanChatMember($this->chat->id, $this->from->id);
+        return telegram::unbanChatMember($this->chat->id, $this->from->id, answer: $answer);
     }
 
-    public function delete (): responseError|bool {
-        return telegram::deleteMessage($this->chat->id,$this->id);
+    /**
+     * Delete this message
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function delete (bool $answer = null): responseError|bool {
+        return telegram::deleteMessage($this->chat->id,$this->id, answer: $answer);
     }
 
-    public function pinChatMessage (): responseError|bool {
-        return telegram::deleteMessage($this->chat->id,$this->id);
+    /**
+     * Pin this message
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|bool
+     */
+    public function pinChatMessage (bool $answer = null): responseError|bool {
+        return telegram::deleteMessage($this->chat->id,$this->id, answer: $answer);
     }
 
-    public function editText (string $text): message|responseError|bool {
-        return telegram::editMessageText($text,$this->chat->id,$this->message_id);
+    /**
+     * Edit message text(Only for bot messages or channel messages)
+     *
+     * @param string    $text
+     * @param bool|null $answer
+     *
+     * @return message|responseError|bool
+     */
+    public function editText (string $text, bool $answer = null): message|responseError|bool {
+        return telegram::editMessageText($text,  $this->chat->id, $this->message_id, answer: $answer);
     }
 
-    public function copy (int|string $chat_id): messageId|responseError {
-        return telegram::copyMessage($chat_id);
+    /**
+     * Copy this message(Anonymous forward)
+     *
+     * @param int|string $chat_id
+     * @param bool|null  $answer
+     *
+     * @return messageId|responseError
+     */
+    public function copy (int|string $chat_id, bool $answer = null): messageId|responseError {
+        return telegram::copyMessage($chat_id, answer: $answer);
     }
 
-    public function forward (int|string $chat_id): message|responseError {
-        return telegram::forwardMessage($chat_id);
+    /**
+     * Forward this message
+     *
+     * @param int|string $chat_id
+     * @param bool|null  $answer
+     *
+     * @return message|responseError
+     */
+    public function forward (int|string $chat_id, bool $answer = null): message|responseError {
+        return telegram::forwardMessage($chat_id, answer: $answer);
     }
 }

@@ -43,6 +43,13 @@ class file extends types {
         }
     }
 
+    /**
+     * Get download link of this file
+     *
+     * It does not bypass telegram limits(e.g: Download size limit in public bot api)
+     *
+     * @return string
+     */
     public function link(): string {
         return settings::$down_url . 'bot' . settings::$token . '/' . $this->file_path;
     }

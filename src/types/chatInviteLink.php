@@ -52,6 +52,11 @@ class chatInviteLink extends types {
         }
     }
 
+    /**
+     * revoke the link if not already revoked
+     *
+     * @return responseError|bool|self
+     */
     public function revoke(): self|responseError|bool {
         return $this->is_revoked ?? telegram::revokeChatInviteLink($this->invite_link);
     }
