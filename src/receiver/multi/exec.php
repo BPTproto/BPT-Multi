@@ -39,7 +39,7 @@ class exec extends webhook {
      */
     public static function support(): bool {
         return function_exists('exec')
-            && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions'))))
+            && !in_array('exec', array_map('trim', explode(',', ini_get('disable_functions'))))
             && strtolower(ini_get('safe_mode')) != 1;
     }
 
