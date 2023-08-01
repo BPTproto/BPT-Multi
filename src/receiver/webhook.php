@@ -87,8 +87,10 @@ class webhook extends receiver {
                 logger::write('Your file address is shared on telegram, If you didnt do it then be careful(also it counts callback urls)', loggerTypes::WARNING);
                 BPT::exit();
             }
-            logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
-            self::processSetWebhook();
+            if (settings::$telegram_verify) {
+                logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
+                self::processSetWebhook();
+            }
         }
     }
 
