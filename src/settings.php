@@ -66,7 +66,7 @@ class settings {
 
     public static int $base_timeout = 1000;
 
-    public static string $receiver = receiver::WEBHOOK;
+    public static string|null $receiver = receiver::WEBHOOK;
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 

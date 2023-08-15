@@ -227,11 +227,11 @@ class easySettings {
     }
 
     /**
-     * @param string $receiver
+     * @param string|null $receiver
      *
      * @return $this
      */
-    public function setReceiver (string $receiver): self {
+    public function setReceiver (string|null $receiver): self {
         $this->settings['receiver'] = $receiver;
         return $this;
     }
