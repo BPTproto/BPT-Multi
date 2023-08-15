@@ -37,7 +37,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $log_size
+     * @param int $log_size
      *
      * @return $this
      */
@@ -47,7 +47,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $certificate
+     * @param string|CURLFile $certificate
      *
      * @return $this
      */
@@ -137,7 +137,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $secret
+     * @param string $secret
      *
      * @return $this
      */
@@ -147,7 +147,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $max_connection
+     * @param int $max_connection
      *
      * @return $this
      */
@@ -157,7 +157,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $base_url
+     * @param string $base_url
      *
      * @return $this
      */
@@ -167,7 +167,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $down_url
+     * @param string $down_url
      *
      * @return $this
      */
@@ -177,7 +177,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $default_parse_mode
+     * @param string $default_parse_mode
      *
      * @return $this
      */
@@ -197,7 +197,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $ignore_updates_older_then
+     * @param int $ignore_updates_older_then
      *
      * @return $this
      */
@@ -207,7 +207,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $forgot_time
+     * @param int $forgot_time
      *
      * @return $this
      */
@@ -217,7 +217,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $base_timeout
+     * @param int $base_timeout
      *
      * @return $this
      */
@@ -227,7 +227,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $receiver
+     * @param string $receiver
      *
      * @return $this
      */
@@ -237,7 +237,7 @@ class easySettings {
     }
 
     /**
-     * @param bool $allowed_updates
+     * @param array $allowed_updates
      *
      * @return $this
      */
@@ -270,7 +270,7 @@ class easySettings {
     }
 
     /**
-     * @param array|easyCrypto $pay
+     * @param array|easyPay $pay
      *
      * @return $this
      */
@@ -282,6 +282,9 @@ class easySettings {
         return $this;
     }
 
+    /**
+     * @return array
+     */
     public function getSettings (): array {
         return $this->settings;
     }
