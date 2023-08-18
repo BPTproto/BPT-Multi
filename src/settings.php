@@ -13,7 +13,6 @@ use BPT\settings\easySettings;
 use BPT\tools\tools;
 use CURLFile;
 use Error;
-use stdClass;
 use TypeError;
 
 /**

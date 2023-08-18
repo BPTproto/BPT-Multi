@@ -7,7 +7,6 @@ use BPT\constants\loggerTypes;
 use BPT\lock;
 use BPT\logger;
 use BPT\receiver\webhook;
-use BPT\settings;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -27,7 +26,7 @@ class curl extends webhook {
     }
 
     private static function getUpdate (): string {
-        $input = json_decode(file_get_contents("php://input"), true);
+        $input = json_decode(file_get_contents('php://input'), true);
         webhook::telegramVerify($input['ip']);
         return $input['update'];
     }
@@ -60,7 +59,7 @@ class curl extends webhook {
         file_put_contents('receiver.php', '<?php http_response_code(200);ignore_user_abort();$ch = curl_init(\'' . $file . '\');curl_setopt_array($ch, [CURLOPT_POSTFIELDS => json_encode([\'update\'=>file_get_contents(\'php://input\'),\'ip\'=>$_SERVER[\'REMOTE_ADDR\']]), CURLOPT_TIMEOUT_MS => ' . $timeout . ', CURLOPT_RETURNTRANSFER => true, CURLOPT_SSL_VERIFYPEER => false, CURLOPT_SSL_VERIFYHOST => false, CURLOPT_CONNECTTIMEOUT_MS => ' . $timeout . ', CURLOPT_HTTPHEADER => [\'accept: application/json\', \'content-type: application/json\']]);curl_exec($ch);curl_close($ch);?>');
     }
 
-    #[ArrayShape(['url' => "array|string|string[]", 'file' => "array|string|string[]"])]
+    #[ArrayShape(['url' => 'array|string|string[]', 'file' => 'array|string|string[]'])]
     private static function setURLS(): array {
         $base_url = self::setURL();
         $file = basename($_SERVER['REQUEST_URI']);

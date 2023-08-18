@@ -2,8 +2,6 @@
 
 namespace BPT\pay;
 
-use BPT\constants\loggerTypes;
-use BPT\logger;
 use BPT\pay\idpay\errorInterface;
 use BPT\pay\idpay\paymentCreateInterface;
 use BPT\pay\idpay\paymentInterface;

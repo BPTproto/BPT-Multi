@@ -898,7 +898,7 @@ class request {
         }
         if (isset($remove_answer) && isset($arguments['answer'])) {
             unset($arguments['answer']);
-            logger::write("You can not use answer while sending file", loggerTypes::WARNING);
+            logger::write('You can not use answer while sending file', loggerTypes::WARNING);
         }
     }
 
@@ -932,7 +932,7 @@ class request {
                     $arguments[$default] = self::catchFields($default);
                 }
             }
-            elseif (isset(BPT::$update->$key) || $key === 'other') {
+            elseif (isset(BPT::$update->{$key}) || $key === 'other') {
                 foreach ($default as $def) {
                     if (!isset($arguments[$def])){
                         $arguments[$def] = self::catchFields($def);
@@ -1009,14 +1009,14 @@ class request {
                 else return false;
 
                 return match(true) {
-                    isset(BPT::$update->$type->animation) => BPT::$update->$type->animation->file_id,
-                    isset(BPT::$update->$type->audio) => BPT::$update->$type->audio->file_id,
-                    isset(BPT::$update->$type->document) => BPT::$update->$type->document->file_id,
-                    isset(BPT::$update->$type->photo) => end(BPT::$update->$type->photo)->file_id,
-                    isset(BPT::$update->$type->sticker) => BPT::$update->$type->sticker->file_id,
-                    isset(BPT::$update->$type->video) => BPT::$update->$type->video->file_id,
-                    isset(BPT::$update->$type->video_note) => BPT::$update->$type->video_note->file_id,
-                    isset(BPT::$update->$type->voice) => BPT::$update->$type->voice->file_id,
+                    isset(BPT::$update->{$type}->animation) => BPT::$update->{$type}->animation->file_id,
+                    isset(BPT::$update->{$type}->audio) => BPT::$update->{$type}->audio->file_id,
+                    isset(BPT::$update->{$type}->document) => BPT::$update->{$type}->document->file_id,
+                    isset(BPT::$update->{$type}->photo) => end(BPT::$update->{$type}->photo)->file_id,
+                    isset(BPT::$update->{$type}->sticker) => BPT::$update->{$type}->sticker->file_id,
+                    isset(BPT::$update->{$type}->video) => BPT::$update->{$type}->video->file_id,
+                    isset(BPT::$update->{$type}->video_note) => BPT::$update->{$type}->video_note->file_id,
+                    isset(BPT::$update->{$type}->voice) => BPT::$update->{$type}->voice->file_id,
                     default => false
                 };
             case fields::CALLBACK_QUERY_ID :

@@ -136,7 +136,7 @@ CREATE TABLE `orders`
                     $referral = tools::shortDecode(substr($update->command_payload, 4));
                 }
             }
-            self::query("INSERT INTO `users`(`id`, `username`, `lang_code`, `first_active`, `last_active`, `referral`) VALUES (?,?,?,?,?,?) on duplicate key update `last_active` = ?, `username` = ?", [
+            self::query('INSERT INTO `users`(`id`, `username`, `lang_code`, `first_active`, `last_active`, `referral`) VALUES (?,?,?,?,?,?) on duplicate key update `last_active` = ?, `username` = ?', [
                 $user_id,
                 $username,
                 $lang_code,
@@ -791,7 +791,7 @@ CREATE TABLE `orders`
                 $total_rows = self::query("SELECT COUNT(*) as `cnt` FROM `$table`")->fetch_object()->cnt;
                 for ($i = 0; $i < $total_rows; $i = $i + 1000) {
                     $sql .= 'INSERT INTO ' . $table . ' VALUES';
-                    $result = self::select($table, '*' , null, 1000, $i);
+                    $result = self::select($table, '*' , [], 1000, $i);
                     $field_count = $result->field_count;
                     $affected_rows = self::affected_rows();
                     $counter = 1;

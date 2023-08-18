@@ -74,20 +74,20 @@ class receiver {
             return;
         }
         $type = isset($update->message) ? 'message' : 'edited_message';
-        $text = &$update->$type->text;
+        $text = &$update->{$type}->text;
         if (settings::$security) {
             $text = tools::clearText($text);
         }
         if (str_starts_with($text, '/')) {
             preg_match('/\/([a-zA-Z_0-9]{1,64})(@[a-zA-Z]\w{1,28}bot)?( [\S]{1,64})?/', $text, $result);
             if (isset($result[1])) {
-                $update->$type->command = $result[1];
+                $update->{$type}->command = $result[1];
             }
             if (isset($result[2])) {
-                $update->$type->command_username = $result[2];
+                $update->{$type}->command_username = $result[2];
             }
             if (isset($result[3])) {
-                $update->$type->command_payload = trim($result[3]);
+                $update->{$type}->command_payload = trim($result[3]);
             }
         }
     }

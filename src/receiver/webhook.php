@@ -56,8 +56,8 @@ class webhook extends receiver {
 
     protected static function setURL(): string {
         if (isset($_GET['token'])) {
-            logger::write("You can not specify token in url",loggerTypes::ERROR);
-            BPT::exit("You can not specify token in url");
+            logger::write('You can not specify token in url',loggerTypes::ERROR);
+            BPT::exit('You can not specify token in url');
         }
         return (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     }
