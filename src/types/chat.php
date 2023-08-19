@@ -11,7 +11,7 @@ use stdClass;
  * This object represents a chat.
  */
 class chat extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'photo' => 'BPT\types\chatPhoto',
         'pinned_message' => 'BPT\types\message',
@@ -52,6 +52,12 @@ class chat extends types {
 
     /** Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat. */
     public null|string $emoji_status_custom_emoji_id = null;
+
+    /**
+     * Optional. Expiration date of the emoji status of the other party in a private chat, if any.
+     * Returned only in getChat.
+     */
+    public null|int $emoji_status_expiration_date;
 
     /** Optional. Bio of the other party in a private chat. Returned only in getChat. */
     public null|string $bio = null;

@@ -10,7 +10,7 @@ use stdClass;
  * This object represents a message.
  */
 class message extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'from' => 'BPT\types\user',
         'sender_chat' => 'BPT\types\chat',
@@ -30,6 +30,7 @@ class message extends types {
         'audio' => 'BPT\types\audio',
         'document' => 'BPT\types\document',
         'sticker' => 'BPT\types\sticker',
+        'story' => 'BPT\types\story',
         'video' => 'BPT\types\video',
         'video_note' => 'BPT\types\videoNote',
         'voice' => 'BPT\types\voice',
@@ -46,11 +47,15 @@ class message extends types {
         'successful_payment' => 'BPT\types\successfulPayment',
         'user_shared' => 'BPT\types\userShared',
         'chat_shared' => 'BPT\types\chatShared',
+        'write_access_allowed' => 'BPT\types\writeAccessAllowed',
         'passport_data' => 'BPT\types\passportData',
         'proximity_alert_triggered' => 'BPT\types\proximityAlertTriggered',
         'forum_topic_created' => 'BPT\types\forumTopicCreated',
+        'forum_topic_edited' => 'BPT\types\forumTopicEdited',
         'forum_topic_closed' => 'BPT\types\forumTopicClosed',
         'forum_topic_reopened' => 'BPT\types\forumTopicReopened',
+        'general_forum_topic_hidden' => 'BPT\types\generalForumTopicHidden',
+        'general_forum_topic_unhidden' => 'BPT\types\generalForumTopicUnhidden',
         'video_chat_scheduled' => 'BPT\types\videoChatScheduled',
         'video_chat_started' => 'BPT\types\videoChatStarted',
         'video_chat_ended' => 'BPT\types\videoChatEnded',
@@ -188,6 +193,9 @@ class message extends types {
 
     /** Optional. Message is a sticker, information about the sticker */
     public null|sticker $sticker = null;
+
+    /** Optional. Message is a forwarded story */
+    public null|story $story;
 
     /** Optional. Message is a video, information about the video */
     public null|video $video = null;
