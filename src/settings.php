@@ -9,10 +9,10 @@ use BPT\exception\bptException;
 use BPT\pay\pay;
 use BPT\receiver\getUpdates;
 use BPT\receiver\webhook;
+use BPT\settings\easySettings;
 use BPT\tools\tools;
 use CURLFile;
 use Error;
-use stdClass;
 use TypeError;
 
 /**
@@ -65,7 +65,7 @@ class settings {
 
     public static int $base_timeout = 1000;
 
-    public static string $receiver = receiver::WEBHOOK;
+    public static string|null $receiver = receiver::WEBHOOK;
 
     public static array $allowed_updates = ['message', 'edited_channel_post', 'callback_query', 'inline_query'];
 
@@ -78,8 +78,10 @@ class settings {
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
-    public static function init (array|stdClass $settings): void {
-        $settings = (array) $settings;
+    public static function init (array|easySettings $settings): void {
+        if (!is_array($settings)) {
+            $settings = $settings->getSettings();
+        }
         foreach ($settings as $setting => $value) {
             try {
                 if ($setting === 'name') {

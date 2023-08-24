@@ -43,7 +43,21 @@ class inlineQuery extends types {
         }
     }
 
-    public function answer(array $results, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, string|null $switch_pm_text = null, string|null $switch_pm_parameter = null): responseError|bool {
-        return telegram::answerInlineQuery($results, $this->id, $cache_time, $is_personal, $next_offset, $switch_pm_text, $switch_pm_parameter);
+    /**
+     * Use this method to send answers to an inline query. On success, True is returned.
+     * No more than 50 results per query are allowed.
+     *
+     * @param array       $results
+     * @param null|int    $cache_time
+     * @param null|bool   $is_personal
+     * @param null|string $next_offset
+     * @param null|string $switch_pm_text
+     * @param null|string $switch_pm_parameter
+     * @param bool|null   $answer
+     *
+     * @return responseError|bool
+     */
+    public function answer(array $results, int|null $cache_time = null, bool|null $is_personal = null, string|null $next_offset = null, string|null $switch_pm_text = null, string|null $switch_pm_parameter = null, bool $answer = null): responseError|bool {
+        return telegram::answerInlineQuery($results, $this->id, $cache_time, $is_personal, $next_offset, $switch_pm_text, $switch_pm_parameter, answer: true);
     }
 }

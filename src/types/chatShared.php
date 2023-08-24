@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -29,5 +30,16 @@ class chatShared extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    /**
+     * Get shared chat info by using getChat method
+     *
+     * @param bool|null $answer
+     *
+     * @return responseError|chat
+     */
+    public function getInfo (bool $answer = null): responseError|chat {
+        return telegram::getChat($this->chat_id, answer: $answer);
     }
 }

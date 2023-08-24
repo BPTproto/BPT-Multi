@@ -7,7 +7,6 @@ use BPT\constants\loggerTypes;
 use BPT\lock;
 use BPT\logger;
 use BPT\receiver\webhook;
-use BPT\settings;
 use JetBrains\PhpStorm\ArrayShape;
 
 /**
@@ -39,7 +38,7 @@ class exec extends webhook {
      */
     public static function support(): bool {
         return function_exists('exec')
-            && !in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions'))))
+            && !in_array('exec', array_map('trim', explode(',', ini_get('disable_functions'))))
             && strtolower(ini_get('safe_mode')) != 1;
     }
 
@@ -57,7 +56,7 @@ class exec extends webhook {
         file_put_contents('receiver.php', '<?php $BPT = file_get_contents("php://input");$id = json_decode($BPT, true)[\'update_id\'];file_put_contents("{$_SERVER[\'REMOTE_ADDR\']}-$id.update",$BPT);exec("php ' . $file . ' > /dev/null &");');
     }
 
-    #[ArrayShape(['url' => "array|string|string[]", 'file' => "string"])]
+    #[ArrayShape(['url' => 'array|string|string[]', 'file' => 'string'])]
     private static function setURLS(): array {
         $base_url = self::setURL();
         return [

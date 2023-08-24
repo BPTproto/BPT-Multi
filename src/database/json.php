@@ -471,21 +471,19 @@ class json {
                     }
                 }
             }
-            else {
-                if ($old_user->status === chatMemberStatus::LEFT || $old_user->status === chatMemberStatus::KICKED) {
-                    self::$group_user->presence = true;
-                    self::$group_user->removed = false;
-                    self::$group_user->removed_by = null;
-                    self::$group_user->invite_link = !empty($invite_link) ? $invite_link->invite_link : null;
-                    if ($by_id !== $user_id) {
-                        if (!empty($invite_link)) {
-                            self::$group_user->accepted_by = $by_id;
-                            self::$group_user->invited_by = null;
-                        }
-                        else {
-                            self::$group_user->invited_by = $by_id;
-                            self::$group_user->accepted_by = null;
-                        }
+            elseif ($old_user->status === chatMemberStatus::LEFT || $old_user->status === chatMemberStatus::KICKED) {
+                self::$group_user->presence = true;
+                self::$group_user->removed = false;
+                self::$group_user->removed_by = null;
+                self::$group_user->invite_link = !empty($invite_link) ? $invite_link->invite_link : null;
+                if ($by_id !== $user_id) {
+                    if (!empty($invite_link)) {
+                        self::$group_user->accepted_by = $by_id;
+                        self::$group_user->invited_by = null;
+                    }
+                    else {
+                        self::$group_user->invited_by = $by_id;
+                        self::$group_user->accepted_by = null;
                     }
                 }
             }

@@ -2,6 +2,7 @@
 
 namespace BPT;
 
+use BPT\settings\easySettings;
 use BPT\types\botCommand;
 use BPT\types\botCommandScope;
 use BPT\types\botDescription;
@@ -197,6 +198,8 @@ use stdClass;
  * @method bool|responseError hideGeneralTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
  * @method bool|responseError unhideGeneralForumTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
  * @method bool|responseError unhideGeneralTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
+ * @method bool|responseError unpinAllGeneralForumTopicMessages (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
+ * @method bool|responseError unpinAllGeneralTopicMessages (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
  * @method bool|responseError answerCallbackQuery (string|array|null $callback_query_id = null, string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
  * @method bool|responseError answer (string|array|null $callback_query_id = null, string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
  * @method bool|responseError setMyCommands (botCommand[]|array $commands, botCommandScope|object|array|null $scope = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
@@ -302,7 +305,7 @@ class BPT extends telegram{
     public static BPT $handler;
 
 
-    public function __construct (array|stdClass $settings) {
+    public function __construct (array|easySettings $settings) {
         static::$handler = &$this;
         settings::init($settings);
     }

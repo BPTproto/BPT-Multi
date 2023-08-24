@@ -289,7 +289,7 @@ class crypto {
         }
         $request_data = json_decode($request_json, true);
         ksort($request_data);
-        $hmac = hash_hmac("sha512", json_encode($request_data, JSON_UNESCAPED_SLASHES), trim(self::$ipn_secret));
+        $hmac = hash_hmac('sha512', json_encode($request_data, JSON_UNESCAPED_SLASHES), trim(self::$ipn_secret));
         return $hmac == $_SERVER['HTTP_X_NOWPAYMENTS_SIG'];
     }
 
@@ -513,5 +513,7 @@ class crypto {
             callback::callHandler('cryptoCallback', $callback_data);
             return true;
         }
+
+        return false;
     }
 }

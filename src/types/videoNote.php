@@ -59,6 +59,13 @@ class videoNote extends types {
         return telegram::downloadFile($destination ?? 'unknown.mp4',$this->file_id);
     }
 
+    /**
+     * Get download link of this file
+     *
+     * It does not bypass telegram limits(e.g: Download size limit in public bot api)
+     *
+     * @return string
+     */
     public function link(): string {
         return telegram::fileLink($this->file_id);
     }

@@ -2,6 +2,8 @@
 
 namespace BPT\types;
 
+use BPT\constants\fields;
+use BPT\telegram\request;
 use stdClass;
 
 /**
@@ -35,5 +37,14 @@ class contact extends types {
         if ($object != null) {
             parent::__construct($object, self::subs);
         }
+    }
+
+    /**
+     * Check if shared contact is for the sender user (useful for phone auth)
+     *
+     * @return bool
+     */
+    public function isUserPhone(): bool {
+        return $this->user_id === request::catchFields(fields::USER_ID);
     }
 }

@@ -56,8 +56,8 @@ class webhook extends receiver {
 
     protected static function setURL(): string {
         if (isset($_GET['token'])) {
-            logger::write("You can not specify token in url",loggerTypes::ERROR);
-            BPT::exit("You can not specify token in url");
+            logger::write('You can not specify token in url',loggerTypes::ERROR);
+            BPT::exit('You can not specify token in url');
         }
         return (isset(settings::$certificate) ? 'http://' : 'https://') . $_SERVER['SERVER_NAME'] . $_SERVER['REQUEST_URI'];
     }
@@ -87,8 +87,10 @@ class webhook extends receiver {
                 logger::write('Your file address is shared on telegram, If you didnt do it then be careful(also it counts callback urls)', loggerTypes::WARNING);
                 BPT::exit();
             }
-            logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
-            self::processSetWebhook();
+            if (settings::$telegram_verify) {
+                logger::write('This is not webhook set by BPT, webhook will reset',loggerTypes::WARNING);
+                self::processSetWebhook();
+            }
         }
     }
 

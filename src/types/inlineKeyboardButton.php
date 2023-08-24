@@ -54,10 +54,7 @@ class inlineKeyboardButton extends types {
     /**
      * Optional. If set, pressing the button will prompt the user to select one of their chats, open that chat and
      * insert the bot's username and the specified inline query in the input field. May be empty, in which case just
-     * the bot's username will be inserted.Note: This offers an easy way for users to start using your bot in inline
-     * mode when they are currently in a private chat with it. Especially useful when combined with switch_pm…
-     * actions - in this case the user will be automatically returned to the chat they switched from, skipping the
-     * chat selection screen.
+     * the bot's username will be inserted.
      */
     public string $switch_inline_query;
 
@@ -74,6 +71,7 @@ class inlineKeyboardButton extends types {
      * open that chat and insert the bot's username and the specified inline query in the input field
      */
     public switchInlineQueryChosenChat $switch_inline_query_chosen_chat;
+
     /**
      * Optional. Description of the game that will be launched when the user presses the button.NOTE: This type of
      * button must always be the first button in the first row.

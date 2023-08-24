@@ -200,6 +200,8 @@ use stdClass;
  * @method static bool|responseError hideGeneralTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to hide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. The topic will be automatically closed if it was open. Returns True on success.
  * @method static bool|responseError unhideGeneralForumTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
  * @method static bool|responseError unhideGeneralTopic (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to unhide the 'General' topic in a forum supergroup chat. The bot must be an administrator in the chat for this to work and must have the can_manage_topics administrator rights. Returns True on success.
+ * @method static bool|responseError unpinAllGeneralForumTopicMessages (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
+ * @method static bool|responseError unpinAllGeneralTopicMessages (int|string|array|null $chat_id = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to clear the list of pinned messages in a General forum topic. The bot must be an administrator in the chat for this to work and must have the can_pin_messages administrator right in the supergroup. Returns True on success.
  * @method static bool|responseError answerCallbackQuery (string|array|null $callback_query_id = null, string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
  * @method static bool|responseError answer (string|array|null $callback_query_id = null, string|null $text = null, bool|null $show_alert = null, string|null $url = null, int|null $cache_time = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to send answers to callback queries sent from inline keyboards. The answer will be displayed to the user as a notification at the top of the chat screen or as an alert. On success, True is returned.
  * @method static bool|responseError setMyCommands (botCommand[]|array $commands, botCommandScope|object|array|null $scope = null, string|null $language_code = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to change the list of the bot's commands. See this manual for more details about bot commands. Returns True on success.
@@ -454,6 +456,8 @@ class request {
         'hidegeneraltopic'                  => 'hideGeneralForumTopic',
         'unhidegeneralforumtopic'           => 'unhideGeneralForumTopic',
         'unhidegeneraltopic'                => 'unhideGeneralForumTopic',
+        'unpinallgeneralforumtopicmessages' => 'unpinAllGeneralForumTopicMessages',
+        'unpinallgeneraltopicmessages'      => 'unpinAllGeneralForumTopicMessages',
         'answercallbackquery'               => 'answerCallbackQuery',
         'answer'                            => 'answerCallbackQuery',
         'setmycommands'                     => 'setMyCommands',
@@ -621,6 +625,7 @@ class request {
         'reopenGeneralForumTopic'           => ['chat_id', 'token', 'forgot', 'answer'],
         'hideGeneralForumTopic'             => ['chat_id', 'token', 'forgot', 'answer'],
         'unhideGeneralForumTopic'           => ['chat_id', 'token', 'forgot', 'answer'],
+        'unpinAllGeneralForumTopicMessages' => ['chat_id', 'token', 'forgot', 'answer'],
         'answerCallbackQuery'               => ['callback_query_id', 'text', 'show_alert', 'url', 'cache_time', 'token', 'forgot', 'answer'],
         'setMyCommands'                     => ['commands', 'scope', 'language_code', 'token', 'forgot', 'answer'],
         'deleteMyCommands'                  => ['scope', 'language_code', 'token', 'forgot', 'answer'],
@@ -745,6 +750,7 @@ class request {
         'reopenGeneralForumTopic'           => ['chat_id'],
         'hideGeneralForumTopic'             => ['chat_id'],
         'unhideGeneralForumTopic'           => ['chat_id'],
+        'unpinAllGeneralForumTopicMessages' => ['chat_id'],
         'answerCallbackQuery'               => ['callback_query_id'],
         'setChatMenuButton'                 => ['chat_id'],
         'getChatMenuButton'                 => ['chat_id'],
@@ -898,7 +904,7 @@ class request {
         }
         if (isset($remove_answer) && isset($arguments['answer'])) {
             unset($arguments['answer']);
-            logger::write("You can not use answer while sending file", loggerTypes::WARNING);
+            logger::write('You can not use answer while sending file', loggerTypes::WARNING);
         }
     }
 
@@ -932,7 +938,7 @@ class request {
                     $arguments[$default] = self::catchFields($default);
                 }
             }
-            elseif (isset(BPT::$update->$key) || $key === 'other') {
+            elseif (isset(BPT::$update->{$key}) || $key === 'other') {
                 foreach ($default as $def) {
                     if (!isset($arguments[$def])){
                         $arguments[$def] = self::catchFields($def);
@@ -1009,14 +1015,14 @@ class request {
                 else return false;
 
                 return match(true) {
-                    isset(BPT::$update->$type->animation) => BPT::$update->$type->animation->file_id,
-                    isset(BPT::$update->$type->audio) => BPT::$update->$type->audio->file_id,
-                    isset(BPT::$update->$type->document) => BPT::$update->$type->document->file_id,
-                    isset(BPT::$update->$type->photo) => end(BPT::$update->$type->photo)->file_id,
-                    isset(BPT::$update->$type->sticker) => BPT::$update->$type->sticker->file_id,
-                    isset(BPT::$update->$type->video) => BPT::$update->$type->video->file_id,
-                    isset(BPT::$update->$type->video_note) => BPT::$update->$type->video_note->file_id,
-                    isset(BPT::$update->$type->voice) => BPT::$update->$type->voice->file_id,
+                    isset(BPT::$update->{$type}->animation) => BPT::$update->{$type}->animation->file_id,
+                    isset(BPT::$update->{$type}->audio) => BPT::$update->{$type}->audio->file_id,
+                    isset(BPT::$update->{$type}->document) => BPT::$update->{$type}->document->file_id,
+                    isset(BPT::$update->{$type}->photo) => end(BPT::$update->{$type}->photo)->file_id,
+                    isset(BPT::$update->{$type}->sticker) => BPT::$update->{$type}->sticker->file_id,
+                    isset(BPT::$update->{$type}->video) => BPT::$update->{$type}->video->file_id,
+                    isset(BPT::$update->{$type}->video_note) => BPT::$update->{$type}->video_note->file_id,
+                    isset(BPT::$update->{$type}->voice) => BPT::$update->{$type}->voice->file_id,
                     default => false
                 };
             case fields::CALLBACK_QUERY_ID :

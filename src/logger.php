@@ -20,7 +20,7 @@ class logger {
     public static function init (int $log_size = 10): void {
         self::$log_size = $log_size;
         $log_file = realpath(settings::$name.'BPT.log');
-        $mode = file_exists($log_file) && !(filesize($log_file) > self::$log_size * 1024 * 1024) ? 'a' : 'w';
+        $mode = file_exists($log_file) && self::$log_size * 1024 * 1024 > filesize($log_file) ? 'a' : 'w';
         self::$handler = fopen(settings::$name.'BPT.log', $mode);
         if ($mode === 'w') {
             fwrite(self::$handler,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT Library LOG STARTED ...\nwarning : this file automatically deleted when its size reached log_size setting, do not delete it manually\n\n");
@@ -35,7 +35,7 @@ class logger {
     /**
      * Use this for write in logger file
      *
-     * It's better to not use it and lets library use it by it self
+     * It's better to not use it and lets library use it by itself
      *
      * @param string $data
      * @param string $type

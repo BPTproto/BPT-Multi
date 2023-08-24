@@ -325,18 +325,17 @@ class tools{
         $rootPath = realpath($path);
         $zip = new ZipArchive();
         $zip->open($destination, ZipArchive::CREATE | ZipArchive::OVERWRITE);
-        if (is_dir($path)) {
-            $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootPath), RecursiveIteratorIterator::LEAVES_ONLY);
-            $root_len = strlen($rootPath) + 1;
-            foreach ($files as $file) {
-                if (!$file->isDir()) {
-                    $filePath = $file->getRealPath();
-                    $zip->addFile($filePath, substr($filePath, $root_len));
-                }
-            }
-        }
-        else {
+        if (!is_dir($path)) {
             $zip->addFile($path, basename($path));
+            return $zip->close();
+        }
+        $files = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($rootPath), RecursiveIteratorIterator::LEAVES_ONLY);
+        $root_len = strlen($rootPath) + 1;
+        foreach ($files as $file) {
+            if (!$file->isDir()) {
+                $filePath = $file->getRealPath();
+                $zip->addFile($filePath, substr($filePath, $root_len));
+            }
         }
         return $zip->close();
     }
@@ -367,6 +366,7 @@ class tools{
         return true;
     }
 
+    /** @todo receive ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB'] from parameters */
     /**
      * Convert byte to symbolic size like 2.98 MB
      *
@@ -413,11 +413,11 @@ class tools{
      */
     public static function modeEscape (string $text, string $mode = parseMode::HTML): string|false {
         return match ($mode) {
-            parseMode::HTML => str_replace(['&', '<', '>',], ["&amp;", "&lt;", "&gt;",], $text),
+            parseMode::HTML => str_replace(['&', '<', '>',], ['&amp;', '&lt;', '&gt;',], $text),
             parseMode::MARKDOWN => str_replace(['\\', '_', '*', '`', '['], ['\\\\', '\_', '\*', '\`', '\[',], $text),
             parseMode::MARKDOWNV2 => str_replace(
-                ['_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!', '\\'],
-                ['\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!', '\\\\'],
+                ['\\', '_', '*', '[', ']', '(', ')', '~', '`', '>', '#', '+', '-', '=', '|', '{', '}', '.', '!'],
+                ['\\\\', '\_', '\*', '\[', '\]', '\(', '\)', '\~', '\`', '\>', '\#', '\+', '\-', '\=', '\|', '\{', '\}', '\.', '\!'],
                 $text),
             default => false
         };
@@ -458,11 +458,10 @@ class tools{
         $target_time = new DateTime(is_numeric($target_time) ? '@' . $target_time : $target_time . ' +00:00');
 
         $diff = $base_time->diff($target_time);
-
         $string = ['year' => 'y', 'month' => 'm', 'day' => 'd', 'hour' => 'h', 'minute' => 'i', 'second' => 's'];
         foreach ($string as $k => &$v) {
-            if ($diff->$v) {
-                $v = $diff->$v;
+            if ($diff->{$v}) {
+                $v = $diff->{$v};
             }
             else unset($string[$k]);
         }
@@ -651,16 +650,17 @@ class tools{
                 $buttons = [];
                 foreach ($row as $button_info) {
                     $button = new inlineKeyboardButton();
+                    $button->setText($button_info[0]);
                     if (isset($button_info[1])) {
                         if (filter_var($button_info[1], FILTER_VALIDATE_URL) && str_starts_with($button_info[1], 'http')) {
-                            $button->setText($button_info[0])->setUrl($button_info[1]);
+                            $button->setUrl($button_info[1]);
                         }
                         else {
-                            $button->setText($button_info[0])->setCallback_data($button_info[1]);
+                            $button->setCallback_data($button_info[1]);
                         }
                     }
                     else {
-                        $button->setText($button_info[0])->setUrl('https://t.me/BPT_CH');
+                        $button->setUrl('https://t.me/BPT_CH');
                     }
                     $buttons[] = $button;
                 }

@@ -63,6 +63,15 @@ class chatPhoto extends types {
         return telegram::downloadFile($destination ?? $this->file_name ?? 'unknown.mp4',$big ? $this->big_file_id : $this->small_file_id);
     }
 
+    /**
+     * Get download link of this file
+     *
+     * It does not bypass telegram limits(e.g: Download size limit in public bot api)
+     *
+     * @param bool $big
+     *
+     * @return string
+     */
     public function link(bool $big = true): string {
         return telegram::fileLink($big ? $this->big_file_id : $this->small_file_id);
     }

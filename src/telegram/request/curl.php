@@ -35,7 +35,7 @@ class curl {
         return json_decode($result);
     }
 
-    #[ArrayShape(['data'    => "array", 'token'   => "mixed|string", 'handler' => "\CurlHandle|false|CurlHandle"])]
+    #[ArrayShape(['data' => 'array', 'token' => 'mixed|string', 'handler' => '\CurlHandle|false|CurlHandle'])]
     private static function getInfo(array $data): array {
         if (isset($data['token']) && $data['token'] !== settings::$token) {
             $token = $data['token'];

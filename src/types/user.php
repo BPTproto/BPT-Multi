@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\constants\parseMode;
 use BPT\telegram\telegram;
 use BPT\tools\tools;
 use stdClass;
@@ -57,15 +58,70 @@ class user extends types {
         }
     }
 
+    /**
+     * Get user invite link(referral link)
+     *
+     * Same as tools::inviteLink($user_id);
+     *
+     * These links can be proceeded by library databases
+     *
+     * @return string
+     */
     public function inviteLink(): string {
         return tools::inviteLink($this->id);
     }
 
+    /**
+     * Get fullname of user
+     *
+     * If last name exist : Firstname . ' ' . lastname
+     *
+     * if not : Firstname
+     *
+     * @param bool $nameFirst
+     *
+     * @return string
+     */
     public function fullName(bool $nameFirst = true): string {
         return trim($nameFirst ? $this->first_name . ' ' . $this->last_name : $this->last_name . ' ' . $this->first_name);
     }
 
-    public function getProfiles(int|null $offset = null, int|null $limit = null): userProfilePhotos|responseError {
-        return telegram::getUserProfilePhotos($this->id,$offset,$limit);
+    /**
+     * Get user profiles
+     *
+     * @param null|int  $offset
+     * @param null|int  $limit
+     * @param null|bool $answer
+     *
+     * @return userProfilePhotos|responseError
+     */
+    public function getProfiles(int|null $offset = null, int|null $limit = null, bool $answer = null): userProfilePhotos|responseError {
+        return telegram::getUserProfilePhotos($this->id, $offset, $limit, answer: $answer);
+    }
+
+    /**
+     * Get user mention link for different parse mode
+     *
+     * if link_text parameter is empty, it will use fullname for link text
+     *
+     * @param string $link_text
+     * @param string $parse_mode
+     *
+     * @return string
+     */
+    public function getMention (string $link_text = '', string $parse_mode = '') {
+        if (empty($link_text)) {
+            $link_text = $this->fullName();
+        }
+
+        if ($parse_mode === parseMode::HTML) {
+            return "<a href=\"tg://user?id=$this->id\">$link_text</a>";
+        }
+
+        if ($parse_mode === parseMode::MARKDOWN || $parse_mode === parseMode::MARKDOWNV2) {
+            return "[$link_text](tg://user?id=$this->id)";
+        }
+
+        return "tg://user?id=$this->id";
     }
 }
