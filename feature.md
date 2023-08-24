@@ -110,6 +110,7 @@ Examples :
 - [x] rial payment
   - [x] zarinpal
   - [x] idpay
+- [ ] OpenSwoole support
 - [ ] ezPay
   - [x] ezPay crypto
   - [ ] ezPay zarinpal

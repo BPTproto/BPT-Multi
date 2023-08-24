@@ -111,3 +111,16 @@
   - Callback handler added, for now only `crypto` class used it
   - `ezPay` method added to class `crypto` , use it to create simple invoices(handling and other staff will be done by library itself!)
   - Add new constant related to crypto class
+- 1.12.0
+  - add `easySettings` classes for using settings easily
+  - change `__toString` method in type classes, it will ignore null properties now
+  - Add a missing return to `callbackProcess`
+  - Fix `link` method in file class(type class)
+  - Add more methods to type classes 
+  - Add phpdoc to type classes methods
+  - Add `answer` parameter to methods in type classes which has connection with telegram
+  - Fix `webhook` bug
+  - Fix `exec` `support` checker
+  - Fix `modeEscape` markdownV2 escaper 
+  - Add null type to `receiver` setting
+  - Update to Telegram API v6.8
