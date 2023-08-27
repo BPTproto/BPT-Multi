@@ -20,7 +20,6 @@ use BPT\pay\crypto\invoiceResponseInterface;
 use BPT\pay\crypto\ipnDataInterface;
 use BPT\pay\crypto\paymentInterface;
 use BPT\receiver\callback;
-use BPT\settings;
 use BPT\telegram\request;
 use BPT\tools\tools;
 use BPT\types\cryptoCallback;
@@ -28,8 +27,6 @@ use CurlHandle;
 use function BPT\object;
 
 class crypto {
-    private static string $api_key = '';
-
     private static string $ipn_secret = '';
 
     private static int $round_decimal = 4;
@@ -39,15 +36,14 @@ class crypto {
     private static CurlHandle $session;
 
     public static function init (string $api_key = '', string $ipn_secret = '', int $round_decimal = 4): void {
-        self::$api_key = settings::$pay['crypto']['api_key'] ?? $api_key;
-        self::$ipn_secret = settings::$pay['crypto']['ipn_secret'] ?? $ipn_secret;
-        self::$round_decimal = settings::$pay['crypto']['round_decimal'] ?? $round_decimal;
+        self::$ipn_secret = $ipn_secret;
+        self::$round_decimal = $round_decimal;
         self::$session = curl_init();
         curl_setopt(self::$session, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYPEER, 1);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt(self::$session, CURLOPT_HTTPHEADER, [
-            'X-API-KEY: ' . self::$api_key,
+            'X-API-KEY: ' . $api_key,
             'Content-Type: application/json'
         ]);
     }
