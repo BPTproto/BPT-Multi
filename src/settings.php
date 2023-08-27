@@ -102,8 +102,8 @@ class settings {
                 logger::write("$setting setting is not one of library settings", loggerTypes::WARNING);
             }
         }
-        if (!(isset($settings['logger']) && $settings['logger'] == false)) {
-            logger::init(self::$log_size);
+        if (settings::$logger) {
+            logger::init(self::$name, self::$log_size);
         }
         if (self::$token === '') {
             $secret = str_replace('---', ':', webhook::getSecret());
