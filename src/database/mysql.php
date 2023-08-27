@@ -9,7 +9,6 @@ use BPT\constants\loggerTypes;
 use BPT\exception\bptException;
 use BPT\lock;
 use BPT\logger;
-use BPT\settings;
 use BPT\tools\tools;
 use BPT\types\callbackQuery;
 use BPT\types\chatMemberUpdated;
@@ -24,8 +23,6 @@ class mysql {
 
     private static bool $auto_process = true;
 
-    private static bool $auto_load = false;
-
     private static string $db_name = '';
 
     private static array $default_where = [];
@@ -33,27 +30,21 @@ class mysql {
     /**
      * If you want to use it in standalone mode , you MUST set `auto_process` to `false`
      */
-    public static function init (string $host = 'localhost', string $username = 'root', string $password = '', string $dbname = '', bool $auto_process = null, int $port = 3306): void {
-        $host = settings::$db['host'] ?? $host;
-        $port = settings::$db['port'] ?? $port;
-        $user = settings::$db['user'] ?? settings::$db['username'] ?? $username;
-        $pass = settings::$db['pass'] ?? settings::$db['password'] ?? $password;
-        self::$auto_process = $auto_process ?? (!isset(settings::$db['auto_process']) || (isset(settings::$db['auto_process']) && settings::$db['auto_process'] == true));
-        self::$auto_load = settings::$db['auto_load'] ?? false;
-        $dbname = settings::$db['dbname'] ?? $dbname;
+    public static function init (string $host = 'localhost', string $username = 'root', string $password = '', string $dbname = '', bool $auto_process = true, int $port = 3306, bool $auto_load = false): void {
+        self::$auto_process = $auto_process;
         self::$db_name = $dbname;
-        self::$connection = new mysqli($host, $user, $pass, $dbname, $port);
+        self::$connection = new mysqli($host, $username, $password, $dbname, $port);
         if (self::$connection->connect_errno) {
             logger::write('SQL connection has problem : ' . self::$connection->connect_error, loggerTypes::ERROR);
             throw new bptException('SQL_CONNECTION_PROBLEM');
         }
 
         if (!lock::exist('BPT-MYSQL')) {
-            self::install();
+            self::install($auto_load);
         }
     }
 
-    private static function install (): void {
+    private static function install (bool $auto_load): void {
         if (self::$auto_process) {
             self::pureQuery("
 CREATE TABLE `users`
@@ -82,7 +73,7 @@ CREATE TABLE `orders`
 ) ENGINE = InnoDB;');
         }
 
-        if (self::$auto_load) {
+        if ($auto_load) {
             $allowed_file_names = ['db.sql', 'database.sql', 'mysql.sql', 'tables.sql'];
             $mysqli = self::getMysqli();
             $loaded = false;
