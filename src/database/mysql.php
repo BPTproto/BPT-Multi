@@ -77,7 +77,7 @@ CREATE TABLE `orders`
     `type`        VARCHAR(30)  NOT NULL,
     `amount`      DOUBLE(13, 4) NOT NULL,
     `description` TEXT         NOT NULL,
-    `extra_info`  longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL
+    `extra_info`  longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
     PRIMARY KEY (`id`)
 ) ENGINE = InnoDB;');
         }
