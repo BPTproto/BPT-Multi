@@ -124,3 +124,5 @@
   - Fix `modeEscape` markdownV2 escaper 
   - Add null type to `receiver` setting
   - Update to Telegram API v6.8
+- 1.12.1
+  - fix a bug in mysql class
