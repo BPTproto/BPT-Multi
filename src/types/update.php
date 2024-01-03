@@ -27,6 +27,8 @@ class update extends types {
         'my_chat_member' => 'BPT\types\chatMemberUpdated',
         'chat_member' => 'BPT\types\chatMemberUpdated',
         'chat_join_request' => 'BPT\types\chatJoinRequest',
+        'chat_boost' => 'BPT\types\chatBoostUpdated',
+        'removed_chat_boost' => 'BPT\types\chatBoostRemoved',
     ];
 
     /**
@@ -117,6 +119,18 @@ class update extends types {
      * in the chat to receive these updates.
      */
     public null|chatJoinRequest $chat_join_request = null;
+
+    /**
+     * Optional. A chat boost was added or changed. The bot must be an administrator in the chat to receive these
+     * updates.
+     */
+    public null|chatBoostUpdated $chat_boost = null;
+
+    /**
+     * Optional. A boost was removed from a chat. The bot must be an administrator in the chat to receive these
+     * updates.
+     */
+    public null|chatBoostRemoved $removed_chat_boost = null;
 
 
     public function __construct(stdClass|null $object = null) {
