@@ -23,16 +23,16 @@ use stdClass;
  * @method self setCan_manage_topics(bool $value)
  */
 class chatAdministratorRights extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /** True, if the user's presence in the chat is hidden */
     public bool $is_anonymous;
 
     /**
-     * True, if the administrator can access the chat event log, chat statistics, boost list in channels, message
-     * statistics in channels, see channel members, see anonymous administrators in supergroups and ignore slow mode.
-     * Implied by any other administrator privilege
+     * True, if the administrator can access the chat event log, boost list in channels, see channel members, report
+     * spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other
+     * administrator privilege
      */
     public bool $can_manage_chat;
 
@@ -42,7 +42,7 @@ class chatAdministratorRights extends types {
     /** True, if the administrator can manage video chats */
     public bool $can_manage_video_chats;
 
-    /** True, if the administrator can restrict, ban or unban chat members */
+    /** True, if the administrator can restrict, ban or unban chat members, or access supergroup statistics */
     public bool $can_restrict_members;
 
     /**
@@ -58,7 +58,7 @@ class chatAdministratorRights extends types {
     /** True, if the user is allowed to invite new users to the chat */
     public bool $can_invite_users;
 
-    /** Optional. True, if the administrator can post messages in the channel; channels only */
+    /** Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only */
     public bool $can_post_messages;
 
     /** Optional. True, if the administrator can edit messages of other users and can pin messages; channels only */
@@ -73,7 +73,7 @@ class chatAdministratorRights extends types {
     /** Optional. True, if the administrator can edit stories posted by other users; channels only */
     public bool $can_edit_stories;
 
-    /** Optional. True, if the administrator can delete stories posted by other users */
+    /** Optional. True, if the administrator can delete stories posted by other users; channels only */
     public bool $can_delete_stories;
 
     /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only */

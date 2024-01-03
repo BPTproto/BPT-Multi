@@ -22,10 +22,13 @@ use stdClass;
  * @method self setCan_manage_topics(bool $value)
  */
 class chatPermissions extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
-    /** Optional. True, if the user is allowed to send text messages, contacts, invoices, locations and venues */
+    /**
+     * Optional. True, if the user is allowed to send text messages, contacts, giveaways, giveaway winners, invoices,
+     * locations and venues
+     */
     public bool $can_send_messages;
 
     /** Optional. True, if the user is allowed to send audios */

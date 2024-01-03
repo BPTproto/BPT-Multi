@@ -63,10 +63,8 @@ class message extends types {
         'web_app_data' => 'BPT\types\webAppData',
         'reply_markup' => 'BPT\types\inlineKeyboardMarkup',
     ];
-    /**
-     * Unique message identifier inside this chat
-     * This will be empty for response of called methods
-     */
+
+    /** Unique message identifier inside this chat */
     public int $id;
 
     /** Unique message identifier inside this chat */
@@ -89,10 +87,10 @@ class message extends types {
      */
     public null|chat $sender_chat = null;
 
-    /** Date the message was sent in Unix time */
+    /** Date the message was sent in Unix time. It is always a positive number, representing a valid date. */
     public int $date;
 
-    /** Conversation the message belongs to */
+    /** Chat the message belongs to */
     public chat $chat;
 
     /** Optional. For forwarded messages, sender of the original message */
@@ -132,8 +130,8 @@ class message extends types {
     public null|bool $is_automatic_forward = null;
 
     /**
-     * Optional. For replies, the original message. Note that the Message object in this field will not contain
-     * further reply_to_message fields even if it itself is a reply.
+     * Optional. For replies in the same chat and message thread, the original message. Note that the Message object
+     * in this field will not contain further reply_to_message fields even if it itself is a reply.
      */
     public null|message $reply_to_message = null;
 

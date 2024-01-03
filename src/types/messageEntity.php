@@ -12,9 +12,10 @@ use stdClass;
  * @method self setUrl(string $value)
  * @method self setUser(user $value)
  * @method self setLanguage(string $value)
+ * @method self setCustom_emoji_id(string $value)
  */
 class messageEntity extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = ['user' => 'BPT\types\user'];
 
     /**
@@ -22,8 +23,9 @@ class messageEntity extends types {
      * ($USD), “bot_command” (/startjobs_bot), “url” (https://telegram.org), “email”
      * (do-not-replytelegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic
      * text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler
-     * message), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text
-     * URLs), “text_mention” (for users without usernames)
+     * message), “blockquote” (block quotation), “code” (monowidth string), “pre” (monowidth block),
+     * “text_link” (for clickable text URLs), “text_mention” (for users without usernames),
+     * “custom_emoji” (for inline custom emoji stickers)
      */
     public string $type;
 
@@ -43,8 +45,8 @@ class messageEntity extends types {
     public string $language;
 
     /**
-     * Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to get
-     * full information about the sticker
+     * Optional. For “custom_emoji” only, unique identifier of the custom emoji. Use getCustomEmojiStickers to
+     * get full information about the sticker
      */
     public string $custom_emoji_id;
 
