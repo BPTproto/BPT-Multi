@@ -14,6 +14,7 @@ class chat extends types {
     /** Keep all properties which has sub properties */
     private const subs = [
         'photo' => 'BPT\types\chatPhoto',
+        'array' => ['available_reactions' => 'BPT\types\reactionType'],
         'pinned_message' => 'BPT\types\message',
         'permissions' => 'BPT\types\chatPermissions',
         'location' => 'BPT\types\chatLocation',
@@ -49,6 +50,13 @@ class chat extends types {
 
     /** Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat. */
     public null|array $active_usernames = null;
+
+    /**
+     * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
+     * Returned only in getChat.
+     * @var reactionType[]
+     */
+    public null|array $available_reactions = null;
 
     /**
      * Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header,

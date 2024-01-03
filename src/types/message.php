@@ -18,6 +18,8 @@ class message extends types {
         'forward_from' => 'BPT\types\user',
         'forward_from_chat' => 'BPT\types\chat',
         'reply_to_message' => 'BPT\types\message',
+        'external_reply' => 'BPT\types\externalReplyInfo',
+        'quote' => 'BPT\types\textQuote',
         'via_bot' => 'BPT\types\user',
         'array' => [
             'entities' => 'BPT\types\messageEntity',
@@ -26,6 +28,7 @@ class message extends types {
             'new_chat_members' => 'BPT\types\user',
             'new_chat_photo' => 'BPT\types\photoSize',
         ],
+        'link_preview_options' => 'BPT\types\linkPreviewOptions',
         'animation' => 'BPT\types\animation',
         'audio' => 'BPT\types\audio',
         'document' => 'BPT\types\document',
@@ -56,6 +59,10 @@ class message extends types {
         'forum_topic_reopened' => 'BPT\types\forumTopicReopened',
         'general_forum_topic_hidden' => 'BPT\types\generalForumTopicHidden',
         'general_forum_topic_unhidden' => 'BPT\types\generalForumTopicUnhidden',
+        'giveaway_created' => 'BPT\types\giveawayCreated',
+        'giveaway' => 'BPT\types\giveaway',
+        'giveaway_winners' => 'BPT\types\giveawayWinners',
+        'giveaway_completed' => 'BPT\types\giveawayCompleted',
         'video_chat_scheduled' => 'BPT\types\videoChatScheduled',
         'video_chat_started' => 'BPT\types\videoChatStarted',
         'video_chat_ended' => 'BPT\types\videoChatEnded',
@@ -135,6 +142,15 @@ class message extends types {
      */
     public null|message $reply_to_message = null;
 
+    /**
+     * Optional. Information about the message that is being replied to, which may come from another chat or forum
+     * topic
+     */
+    public null|externalReplyInfo $external_reply;
+
+    /** Optional. For replies that quote part of the original message, the quoted part of the message */
+    public null|textQuote $quote;
+
     /** Optional. Bot through which the message was sent */
     public null|user $via_bot = null;
 
@@ -170,6 +186,12 @@ class message extends types {
      * @var messageEntity[]
      */
     public null|array $entities = null;
+
+    /**
+     * Optional. Options used for link preview generation for the message, if it is a text message and link preview
+     * options were changed
+     */
+    public null|linkPreviewOptions $link_preview_options;
 
     /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this
@@ -353,6 +375,18 @@ class message extends types {
 
     /** Optional. Service message: the 'General' forum topic unhidden */
     public null|generalForumTopicUnhidden $general_forum_topic_unhidden = null;
+
+    /** Optional. Service message: a scheduled giveaway was created */
+    public null|giveawayCreated $giveaway_created;
+
+    /** Optional. The message is a scheduled giveaway message */
+    public null|giveaway $giveaway;
+
+    /** Optional. A giveaway with public winners was completed */
+    public null|giveawayWinners $giveaway_winners;
+
+    /** Optional. Service message: a giveaway without public winners was completed */
+    public null|giveawayCompleted $giveaway_completed;
 
     /** Optional. Service message: video chat scheduled */
     public null|videoChatScheduled $video_chat_scheduled = null;
