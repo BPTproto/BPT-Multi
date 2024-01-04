@@ -2,6 +2,7 @@
 
 namespace BPT\types;
 
+use BPT\telegram\telegram;
 use stdClass;
 
 /**
@@ -36,10 +37,12 @@ class usersShared extends types {
      * Get shared user info by using getChat method
      *
      * @param bool|null $answer
-     *
-     * @return responseError|chat
      */
-    public function getInfo (bool $answer = null): responseError|chat {
-        return telegram::getChat($this->user_id, answer: $answer);
+    public function getInfo (bool $answer = null): array {
+        $result = [];
+        foreach ($this->user_ids as $user_id) {
+            $result[$user_id] = telegram::getChat($user_id, answer: $answer);
+        }
+        return $result;
     }
 }
