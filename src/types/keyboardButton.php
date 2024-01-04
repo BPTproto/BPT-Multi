@@ -5,21 +5,21 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * This object represents one button of the reply keyboard. For simple text buttons String can be used instead of
- * this object to specify text of the button. Optional fields web_app, request_contact, request_location, and
- * request_poll are mutually exclusive.
+ * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead
+ * of this object to specify the button text. The optional fields web_app, request_user, request_chat,
+ * request_contact, request_location, and request_poll are mutually exclusive.
  * @method self setText(string $value)
- * @method self setRequestUser(keyboardButtonRequestUser $value)
- * @method self setRequestChat(keyboardButtonRequestChat $value)
+ * @method self setRequest_users(keyboardButtonRequestUsers $value)
+ * @method self setRequest_chat(keyboardButtonRequestChat $value)
  * @method self setRequest_contact(bool $value)
  * @method self setRequest_location(bool $value)
  * @method self setRequest_poll(keyboardButtonPollType $value)
  * @method self setWeb_app(webAppInfo $value)
  */
 class keyboardButton extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
-        'request_user' => 'BPT\types\keyboardButtonRequestUser',
+        'request_users' => 'BPT\types\keyboardButtonRequestUsers',
         'request_chat' => 'BPT\types\keyboardButtonRequestChat',
         'request_poll' => 'BPT\types\keyboardButtonPollType',
         'web_app' => 'BPT\types\webAppInfo'
@@ -32,10 +32,10 @@ class keyboardButton extends types {
     public string $text;
 
     /**
-     * Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
-     * their identifier to the bot in a “user_shared” service message. Available in private chats only.
+     * Optional. If specified, pressing the button will open a list of suitable users. Identifiers of selected users
+     * will be sent to the bot in a “users_shared” service message. Available in private chats only.
      */
-    public keyboardButtonRequestUser $request_user;
+    public keyboardButtonRequestUsers $request_users;
 
     /**
      * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
