@@ -6,7 +6,6 @@ use BPT\pay\idpay\errorInterface;
 use BPT\pay\idpay\paymentCreateInterface;
 use BPT\pay\idpay\paymentInterface;
 use BPT\pay\idpay\paymentListInterface;
-use BPT\settings;
 use CurlHandle;
 
 class idpay {
@@ -21,8 +20,8 @@ class idpay {
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYHOST, 2);
         curl_setopt(self::$session, CURLOPT_HTTPHEADER, [
             'Content-Type: application/json',
-            'X-API-KEY: ' . settings::$pay['idpay']['api_key'] ?? $api_key,
-            'X-SANDBOX: ' . (int) (settings::$pay['idpay']['sandbox'] ?? $sandbox),
+            'X-API-KEY: ' . $api_key,
+            'X-SANDBOX: ' . (int) ($sandbox),
         ]);
         curl_setopt(self::$session, CURLOPT_POST, true);
     }

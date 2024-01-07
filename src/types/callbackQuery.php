@@ -12,7 +12,7 @@ use stdClass;
  * present. Exactly one of the fields data or game_short_name will be present.
  */
 class callbackQuery extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = ['from' => 'BPT\types\user', 'message' => 'BPT\types\message'];
 
     /** Unique identifier for this query */
@@ -25,7 +25,7 @@ class callbackQuery extends types {
      * Optional. Message with the callback button that originated the query. Note that message content and message
      * date will not be available if the message is too old
      */
-    public null|message $message = null;
+    public null|maybeInaccessibleMessage $message = null;
 
     /** Optional. Identifier of the message sent via the bot in inline mode, that originated the query. */
     public null|string $inline_message_id = null;

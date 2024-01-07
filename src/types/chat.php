@@ -14,6 +14,7 @@ class chat extends types {
     /** Keep all properties which has sub properties */
     private const subs = [
         'photo' => 'BPT\types\chatPhoto',
+        'array' => ['available_reactions' => 'BPT\types\reactionType'],
         'pinned_message' => 'BPT\types\message',
         'permissions' => 'BPT\types\chatPermissions',
         'location' => 'BPT\types\chatLocation',
@@ -49,6 +50,37 @@ class chat extends types {
 
     /** Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat. */
     public null|array $active_usernames = null;
+
+    /**
+     * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
+     * Returned only in getChat.
+     * @var reactionType[]
+     */
+    public null|array $available_reactions = null;
+
+    /**
+     * Optional. Identifier of the accent color for the chat name and backgrounds of the chat photo, reply header,
+     * and link preview. See accent colors for more details. Returned only in getChat. Always returned in getChat.
+     */
+    public null|int $accent_color_id = null;
+
+    /**
+     * Optional. Custom emoji identifier of emoji chosen by the chat for the reply header and link preview
+     * background. Returned only in getChat.
+     */
+    public null|string $background_custom_emoji_id = null;
+
+    /**
+     * Optional. Identifier of the accent color for the chat's profile background. See profile accent colors for more
+     * details. Returned only in getChat.
+     */
+    public null|int $profile_accent_color_id = null;
+
+    /**
+     * Optional. Custom emoji identifier of the emoji chosen by the chat for its profile background. Returned only in
+     * getChat.
+     */
+    public null|string $profile_background_custom_emoji_id = null;
 
     /** Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat. */
     public null|string $emoji_status_custom_emoji_id = null;
@@ -122,6 +154,12 @@ class chat extends types {
     /** Optional. True, if messages from the chat can't be forwarded to other chats. Returned only in getChat. */
     public null|bool $has_protected_content = null;
 
+    /**
+     * Optional. True, if new chat members will have access to old messages; available only to chat administrators.
+     * Returned only in getChat.
+     */
+    public null|bool $has_visible_history = null;
+
     /** Optional. For supergroups, name of group sticker set. Returned only in getChat. */
     public null|string $sticker_set_name = null;
 
@@ -132,7 +170,7 @@ class chat extends types {
      * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice
      * versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming
      * languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed
-     * 64 bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
+     * 64-bit integer or double-precision float type are safe for storing this identifier. Returned only in getChat.
      */
     public null|int $linked_chat_id = null;
 

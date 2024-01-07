@@ -21,6 +21,7 @@ class getUpdates extends receiver {
         lock::set('getUpdateHook');
         while(true) {
             if (!lock::exist('getUpdateHook')) {
+                logger::write('getUpdateHook deleted, loop ended.',loggerTypes::INFO);
                 break;
             }
             $updates = telegram::getUpdates($last_update_id,allowed_updates: settings::$allowed_updates);

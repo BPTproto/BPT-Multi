@@ -9,7 +9,6 @@ use BPT\constants\fields;
 use BPT\database\json\groupUserInterface;
 use BPT\database\json\userInterface;
 use BPT\exception\bptException;
-use BPT\settings;
 use BPT\telegram\telegram;
 use BPT\tools\tools;
 use BPT\types\callbackQuery;
@@ -103,20 +102,20 @@ class json {
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
-    public static function init (): void {
-        self::$folder = settings::$name.'database';
-        self::$global_default_data = settings::$db['global'] ?? self::$global_default_data;
-        self::setUserDefaultData();
-        self::setGroupUserDefaultData();
-        self::$group_default_data = settings::$db['group'] ?? self::$group_default_data;
-        self::$supergroup_default_data = settings::$db['supergroup'] ?? self::$supergroup_default_data;
-        self::$channel_default_data = settings::$db['channel'] ?? self::$channel_default_data;
+    public static function init (string $bot_name, array $global = [], array $user = [], array $group_user = [], array $group = [], array $supergroup = [], array $channel = []): void {
+        self::$folder = $bot_name . 'database';
+        self::$global_default_data = $global ?? self::$global_default_data;
+        self::setUserDefaultData($user);
+        self::setGroupUserDefaultData($group_user);
+        self::$group_default_data = $group ?? self::$group_default_data;
+        self::$supergroup_default_data = $supergroup ?? self::$supergroup_default_data;
+        self::$channel_default_data = $channel ?? self::$channel_default_data;
         self::create();
         self::load();
     }
 
-    private static function setUserDefaultData (): void {
-        self::$user_default_data = settings::$db['user'] ?? self::$user_default_data;
+    private static function setUserDefaultData (array $user = []): void {
+        self::$user_default_data = $user ?? self::$user_default_data;
         if (!isset(self::$user_default_data['step'])) {
             self::$user_default_data['step'] = 'none';
         }
@@ -134,8 +133,8 @@ class json {
         }
     }
 
-    private static function setGroupUserDefaultData (): void {
-        self::$group_user_default_data = settings::$db['group_user'] ?? self::$group_user_default_data;
+    private static function setGroupUserDefaultData (array $group_user = []): void {
+        self::$group_user_default_data = $group_user ?? self::$group_user_default_data;
         if (!isset(self::$group_user_default_data['step'])) {
             self::$group_user_default_data['step'] = 'none';
         }

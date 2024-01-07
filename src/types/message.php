@@ -11,13 +11,14 @@ use stdClass;
  */
 class message extends types {
     /** Keep all properties which has sub properties */
-    private const subs = [
+    protected const subs = [
         'from' => 'BPT\types\user',
         'sender_chat' => 'BPT\types\chat',
         'chat' => 'BPT\types\chat',
-        'forward_from' => 'BPT\types\user',
-        'forward_from_chat' => 'BPT\types\chat',
+        'forward_origin' => 'BPT\types\messageOrigin',
         'reply_to_message' => 'BPT\types\message',
+        'external_reply' => 'BPT\types\externalReplyInfo',
+        'quote' => 'BPT\types\textQuote',
         'via_bot' => 'BPT\types\user',
         'array' => [
             'entities' => 'BPT\types\messageEntity',
@@ -26,6 +27,7 @@ class message extends types {
             'new_chat_members' => 'BPT\types\user',
             'new_chat_photo' => 'BPT\types\photoSize',
         ],
+        'link_preview_options' => 'BPT\types\linkPreviewOptions',
         'animation' => 'BPT\types\animation',
         'audio' => 'BPT\types\audio',
         'document' => 'BPT\types\document',
@@ -42,10 +44,10 @@ class message extends types {
         'location' => 'BPT\types\location',
         'left_chat_member' => 'BPT\types\user',
         'message_auto_delete_timer_changed' => 'BPT\types\messageAutoDeleteTimerChanged',
-        'pinned_message' => 'BPT\types\message',
+        'pinned_message' => 'BPT\types\maybeInaccessibleMessage',
         'invoice' => 'BPT\types\invoice',
         'successful_payment' => 'BPT\types\successfulPayment',
-        'user_shared' => 'BPT\types\userShared',
+        'users_shared' => 'BPT\types\usersShared',
         'chat_shared' => 'BPT\types\chatShared',
         'write_access_allowed' => 'BPT\types\writeAccessAllowed',
         'passport_data' => 'BPT\types\passportData',
@@ -56,6 +58,10 @@ class message extends types {
         'forum_topic_reopened' => 'BPT\types\forumTopicReopened',
         'general_forum_topic_hidden' => 'BPT\types\generalForumTopicHidden',
         'general_forum_topic_unhidden' => 'BPT\types\generalForumTopicUnhidden',
+        'giveaway_created' => 'BPT\types\giveawayCreated',
+        'giveaway' => 'BPT\types\giveaway',
+        'giveaway_winners' => 'BPT\types\giveawayWinners',
+        'giveaway_completed' => 'BPT\types\giveawayCompleted',
         'video_chat_scheduled' => 'BPT\types\videoChatScheduled',
         'video_chat_started' => 'BPT\types\videoChatStarted',
         'video_chat_ended' => 'BPT\types\videoChatEnded',
@@ -63,10 +69,8 @@ class message extends types {
         'web_app_data' => 'BPT\types\webAppData',
         'reply_markup' => 'BPT\types\inlineKeyboardMarkup',
     ];
-    /**
-     * Unique message identifier inside this chat
-     * This will be empty for response of called methods
-     */
+
+    /** Unique message identifier inside this chat */
     public int $id;
 
     /** Unique message identifier inside this chat */
@@ -89,38 +93,14 @@ class message extends types {
      */
     public null|chat $sender_chat = null;
 
-    /** Date the message was sent in Unix time */
+    /** Date the message was sent in Unix time. It is always a positive number, representing a valid date. */
     public int $date;
 
-    /** Conversation the message belongs to */
+    /** Chat the message belongs to */
     public chat $chat;
 
-    /** Optional. For forwarded messages, sender of the original message */
-    public null|user $forward_from = null;
-
-    /**
-     * Optional. For messages forwarded from channels or from anonymous administrators, information about the
-     * original sender chat
-     */
-    public null|chat $forward_from_chat = null;
-
-    /** Optional. For messages forwarded from channels, identifier of the original message in the channel */
-    public null|int $forward_from_message_id = null;
-
-    /**
-     * Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator,
-     * signature of the message sender if present
-     */
-    public null|string $forward_signature = null;
-
-    /**
-     * Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
-     * forwarded messages
-     */
-    public null|string $forward_sender_name = null;
-
-    /** Optional. For forwarded messages, date the original message was sent in Unix time */
-    public null|int $forward_date = null;
+    /** Optional. Information about the original message for forwarded messages */
+    public null|messageOrigin $forward_origin = null;
 
     /** Optional. True, if the message is sent to a forum topic */
     public null|bool $is_topic_message = null;
@@ -132,10 +112,19 @@ class message extends types {
     public null|bool $is_automatic_forward = null;
 
     /**
-     * Optional. For replies, the original message. Note that the Message object in this field will not contain
-     * further reply_to_message fields even if it itself is a reply.
+     * Optional. For replies in the same chat and message thread, the original message. Note that the Message object
+     * in this field will not contain further reply_to_message fields even if it itself is a reply.
      */
     public null|message $reply_to_message = null;
+
+    /**
+     * Optional. Information about the message that is being replied to, which may come from another chat or forum
+     * topic
+     */
+    public null|externalReplyInfo $external_reply;
+
+    /** Optional. For replies that quote part of the original message, the quoted part of the message */
+    public null|textQuote $quote;
 
     /** Optional. Bot through which the message was sent */
     public null|user $via_bot = null;
@@ -172,6 +161,12 @@ class message extends types {
      * @var messageEntity[]
      */
     public null|array $entities = null;
+
+    /**
+     * Optional. Options used for link preview generation for the message, if it is a text message and link preview
+     * options were changed
+     */
+    public null|linkPreviewOptions $link_preview_options;
 
     /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this
@@ -302,7 +297,7 @@ class message extends types {
      * Optional. Specified message was pinned. Note that the Message object in this field will not contain further
      * reply_to_message fields even if it is itself a reply.
      */
-    public null|message $pinned_message = null;
+    public null|maybeInaccessibleMessage $pinned_message = null;
 
     /** Optional. Message is an invoice for a payment, information about the invoice. More about payments » */
     public null|invoice $invoice = null;
@@ -314,7 +309,7 @@ class message extends types {
     public null|successfulPayment $successful_payment = null;
 
     /** Optional. Service message: a user was shared with the bot */
-    public null|userShared $user_shared = null;
+    public null|usersShared $user_shared = null;
 
     /** Optional. Service message: a chat was shared with the bot */
     public null|chatShared $chat_shared = null;
@@ -322,7 +317,11 @@ class message extends types {
     /** Optional. The domain name of the website on which the user has logged in. More about Telegram Login » */
     public null|string $connected_website = null;
 
-    /** Optional. Service message: the user allowed the bot added to the attachment menu to write messages */
+    /**
+     * Optional. Service message: the user allowed the bot to write messages after adding it to the attachment or
+     * side menu, launching a Web App from a link, or accepting an explicit request from a Web App sent by the method
+     * requestWriteAccess
+     */
     public null|writeAccessAllowed $write_access_allowed = null;
 
     /** Optional. Telegram Passport data */
@@ -351,6 +350,18 @@ class message extends types {
 
     /** Optional. Service message: the 'General' forum topic unhidden */
     public null|generalForumTopicUnhidden $general_forum_topic_unhidden = null;
+
+    /** Optional. Service message: a scheduled giveaway was created */
+    public null|giveawayCreated $giveaway_created;
+
+    /** Optional. The message is a scheduled giveaway message */
+    public null|giveaway $giveaway;
+
+    /** Optional. A giveaway with public winners was completed */
+    public null|giveawayWinners $giveaway_winners;
+
+    /** Optional. Service message: a giveaway without public winners was completed */
+    public null|giveawayCompleted $giveaway_completed;
 
     /** Optional. Service message: video chat scheduled */
     public null|videoChatScheduled $video_chat_scheduled = null;
@@ -392,7 +403,7 @@ class message extends types {
      * @return bool
      */
     public function isForwarded (): bool {
-        return $this->forward_from !== null || $this->forward_from_chat !== null;
+        return $this->forward_origin !== null;
     }
 
     /**

@@ -17,11 +17,11 @@ class logger {
     /**
      * @internal Only for BPT self usage , Don't use it in your source!
      */
-    public static function init (int $log_size = 10): void {
+    public static function init (string $bot_name, int $log_size = 10): void {
         self::$log_size = $log_size;
-        $log_file = realpath(settings::$name.'BPT.log');
+        $log_file = realpath($bot_name.'BPT.log');
         $mode = file_exists($log_file) && self::$log_size * 1024 * 1024 > filesize($log_file) ? 'a' : 'w';
-        self::$handler = fopen(settings::$name.'BPT.log', $mode);
+        self::$handler = fopen($bot_name.'BPT.log', $mode);
         if ($mode === 'w') {
             fwrite(self::$handler,"♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nTnx for using our library\nSome information about us :\nAuthor : @Im_Miaad\nHelper : @A_LiReza_ME\nChannel : @BPT_CH\nOur Website : https://bptlib.ir\n\nIf you have any problem with our library\nContact to our supports\n♥♥♥♥♥♥♥♥♥♥♥♥♥♥ BPT Library  ♥♥♥♥♥♥♥♥♥♥♥♥♥♥\nINFO : BPT Library LOG STARTED ...\nwarning : this file automatically deleted when its size reached log_size setting, do not delete it manually\n\n");
         }

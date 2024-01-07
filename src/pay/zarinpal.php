@@ -6,7 +6,6 @@ use BPT\pay\zarinpal\refundInterface;
 use BPT\pay\zarinpal\requestInterface;
 use BPT\pay\zarinpal\unverifiedInterface;
 use BPT\pay\zarinpal\verifyInterface;
-use BPT\settings;
 use CurlHandle;
 use JetBrains\PhpStorm\NoReturn;
 
@@ -26,9 +25,9 @@ class zarinpal {
     private static CurlHandle $session;
 
     public static function init (string $merchant_id = '', bool $sandbox = false, bool $zarin_gate = false): void {
-        self::$sandbox = settings::$pay['zarinpal']['sandbox'] ?? $sandbox;
-        self::$zarin_gate = settings::$pay['zarinpal']['zarin_gate'] ?? settings::$pay['zarinpal']['zaringate'] ?? $zarin_gate;
-        self::$merchant_id = settings::$pay['zarinpal']['merchant_id'] ?? $merchant_id;
+        self::$sandbox = $sandbox;
+        self::$zarin_gate = $zarin_gate;
+        self::$merchant_id = $merchant_id;
         self::$session = curl_init();
         curl_setopt(self::$session, CURLOPT_RETURNTRANSFER, true);
         curl_setopt(self::$session, CURLOPT_SSL_VERIFYPEER, 1);
