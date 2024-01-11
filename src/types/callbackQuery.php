@@ -13,7 +13,7 @@ use stdClass;
  */
 class callbackQuery extends types {
     /** Keep all properties which has sub properties */
-    private const subs = ['from' => 'BPT\types\user', 'message' => 'BPT\types\message'];
+    private const subs = ['from' => 'BPT\types\user', 'message' => 'BPT\types\maybeInaccessibleMessage'];
 
     /** Unique identifier for this query */
     public string $id;
