@@ -9,7 +9,13 @@ use stdClass;
  */
 class story extends types {
     /** Keep all properties which has sub properties */
-    private const subs = [];
+    private const subs = ['chat' => 'BPT\types\chat'];
+
+    /** Chat that posted the story */
+    public chat $chat;
+
+    /** Unique identifier for the story in the chat */
+    public int $id;
 
     public function __construct(stdClass|null $object = null) {
         if ($object != null) {

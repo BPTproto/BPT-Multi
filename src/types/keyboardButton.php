@@ -6,7 +6,7 @@ use stdClass;
 
 /**
  * This object represents one button of the reply keyboard. For simple text buttons, String can be used instead
- * of this object to specify the button text. The optional fields web_app, request_user, request_chat,
+ * of this object to specify the button text. The optional fields web_app, request_users, request_chat, request_user,
  * request_contact, request_location, and request_poll are mutually exclusive.
  * @method self setText(string $value)
  * @method self setRequest_users(keyboardButtonRequestUsers $value)

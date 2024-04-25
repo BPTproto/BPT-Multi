@@ -30,9 +30,8 @@ class chatAdministratorRights extends types {
     public bool $is_anonymous;
 
     /**
-     * True, if the administrator can access the chat event log, boost list in channels, see channel members, report
-     * spam messages, see anonymous administrators in supergroups and ignore slow mode. Implied by any other
-     * administrator privilege
+     * True, if the administrator can access the chat event log, get boost list, see hidden supergroup and channel
+     * members, report spam messages and ignore slow mode. Implied by any other administrator privilege.
      */
     public bool $can_manage_chat;
 
@@ -67,13 +66,13 @@ class chatAdministratorRights extends types {
     /** Optional. True, if the user is allowed to pin messages; groups and supergroups only */
     public bool $can_pin_messages;
 
-    /** Optional. True, if the administrator can post stories in the channel; channels only */
+    /** True, if the administrator can post stories to the chat */
     public bool $can_post_stories;
 
-    /** Optional. True, if the administrator can edit stories posted by other users; channels only */
+    /** True, if the administrator can edit stories posted by other users */
     public bool $can_edit_stories;
 
-    /** Optional. True, if the administrator can delete stories posted by other users; channels only */
+    /** True, if the administrator can delete stories posted by other users */
     public bool $can_delete_stories;
 
     /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only */

@@ -21,6 +21,7 @@ class message extends types {
         'reply_to_message' => 'BPT\types\message',
         'external_reply' => 'BPT\types\externalReplyInfo',
         'quote' => 'BPT\types\textQuote',
+        'reply_to_story' => 'BPT\types\story',
         'via_bot' => 'BPT\types\user',
         'array' => [
             'entities' => 'BPT\types\messageEntity',
@@ -55,6 +56,7 @@ class message extends types {
         'write_access_allowed' => 'BPT\types\writeAccessAllowed',
         'passport_data' => 'BPT\types\passportData',
         'proximity_alert_triggered' => 'BPT\types\proximityAlertTriggered',
+        'boost_added' => 'BPT\types\chatBoostAdded',
         'forum_topic_created' => 'BPT\types\forumTopicCreated',
         'forum_topic_edited' => 'BPT\types\forumTopicEdited',
         'forum_topic_closed' => 'BPT\types\forumTopicClosed',
@@ -95,6 +97,9 @@ class message extends types {
      * sender user in non-channel chats, if the message was sent on behalf of a chat.
      */
     public null|chat $sender_chat = null;
+
+    /** Optional. If the sender of the message boosted the chat, the number of boosts added by the user */
+    public null|int $sender_boost_count = null;
 
     /** Date the message was sent in Unix time. It is always a positive number, representing a valid date. */
     public int $date;
@@ -168,10 +173,13 @@ class message extends types {
      * Optional. Information about the message that is being replied to, which may come from another chat or forum
      * topic
      */
-    public null|externalReplyInfo $external_reply;
+    public null|externalReplyInfo $external_reply = null;
 
     /** Optional. For replies that quote part of the original message, the quoted part of the message */
-    public null|textQuote $quote;
+    public null|textQuote $quote = null;
+
+    /** Optional. For replies to a story, the original story */
+    public null|story $reply_to_story = null;
 
     /** Optional. Bot through which the message was sent */
     public null|user $via_bot = null;
@@ -213,7 +221,7 @@ class message extends types {
      * Optional. Options used for link preview generation for the message, if it is a text message and link preview
      * options were changed
      */
-    public null|linkPreviewOptions $link_preview_options;
+    public null|linkPreviewOptions $link_preview_options = null;
 
     /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this
@@ -237,7 +245,7 @@ class message extends types {
     public null|sticker $sticker = null;
 
     /** Optional. Message is a forwarded story */
-    public null|story $story;
+    public null|story $story = null;
 
     /** Optional. Message is a video, information about the video */
     public null|video $video = null;
@@ -389,6 +397,9 @@ class message extends types {
      */
     public null|proximityAlertTriggered $proximity_alert_triggered = null;
 
+    /** Optional. Service message: user boosted the chat */
+    public null|chatBoostAdded $boost_added = null;
+
     /** Optional. Service message: forum topic created */
     public null|forumTopicCreated $forum_topic_created = null;
 
@@ -408,16 +419,16 @@ class message extends types {
     public null|generalForumTopicUnhidden $general_forum_topic_unhidden = null;
 
     /** Optional. Service message: a scheduled giveaway was created */
-    public null|giveawayCreated $giveaway_created;
+    public null|giveawayCreated $giveaway_created = null;
 
     /** Optional. The message is a scheduled giveaway message */
-    public null|giveaway $giveaway;
+    public null|giveaway $giveaway = null;
 
     /** Optional. A giveaway with public winners was completed */
-    public null|giveawayWinners $giveaway_winners;
+    public null|giveawayWinners $giveaway_winners = null;
 
     /** Optional. Service message: a giveaway without public winners was completed */
-    public null|giveawayCompleted $giveaway_completed;
+    public null|giveawayCompleted $giveaway_completed = null;
 
     /** Optional. Service message: video chat scheduled */
     public null|videoChatScheduled $video_chat_scheduled = null;

@@ -18,13 +18,13 @@ class linkPreviewOptions extends types {
     public null|string $url = null;
 
     /**
-     * Optional. True, if the media in the link preview is suppposed to be shrunk; ignored if the URL isn't
-     * explicitly specified or media size change isn't supported for the preview
+     * Optional. True, if the media in the link preview is supposed to be shrunk; ignored if the URL isn't explicitly
+     * specified or media size change isn't supported for the preview
      */
     public null|bool $prefer_small_media = null;
 
     /**
-     * Optional. True, if the media in the link preview is suppposed to be enlarged; ignored if the URL isn't
+     * Optional. True, if the media in the link preview is supposed to be enlarged; ignored if the URL isn't
      * explicitly specified or media size change isn't supported for the preview
      */
     public null|bool $prefer_large_media = null;

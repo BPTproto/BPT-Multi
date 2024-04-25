@@ -53,7 +53,7 @@ use stdClass;
 /**
  * BPT CLASS
  * Simple library for handling telegram bot and write it very easily
- * BOT API version : 7.0
+ * BOT API version : 7.1
  *
  * @method update[]|responseError getUpdates (int|array|null $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.
  * @method update[]|responseError getUp (int|array|null $offset = null, int|null $limit = null, int|null $timeout = null, string[]|null $allowed_updates = null, string|null $token = null, bool|null $forgot = null, bool|null $answer = null) Use this method to receive incoming updates using long polling (wiki). Returns an Array of Update objects.

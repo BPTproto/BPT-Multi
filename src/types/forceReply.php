@@ -13,7 +13,7 @@ use stdClass;
  * @method self setSelective(bool $value)
  */
 class forceReply extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /** Shows reply interface to the user, as if they manually selected the bot's message and tapped 'Reply' */
@@ -24,8 +24,8 @@ class forceReply extends types {
 
     /**
      * Optional. Use this parameter if you want to force reply from specific users only. Targets: 1) users that are
-     * mentioned in the text of the Message object; 2) if the bot's message is a reply (has reply_to_message_id),
-     * sender of the original message.
+     * mentioned in the text of the Message object; 2) if the bot's message is a reply to a message in the same chat
+     * and forum topic, sender of the original message.
      */
     public bool $selective;
 

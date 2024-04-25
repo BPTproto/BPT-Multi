@@ -14,7 +14,7 @@ class giveawayWinners extends types {
     /** The chat that created the giveaway */
     public chat $chat;
 
-    /** Identifier of the messsage with the giveaway in the chat */
+    /** Identifier of the message with the giveaway in the chat */
     public int $giveaway_message_id;
 
     /** Point in time (Unix timestamp) when winners of the giveaway were selected */

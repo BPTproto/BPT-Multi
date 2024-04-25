@@ -64,14 +64,14 @@ class chatMember extends types {
     /** `administrator` and `restricted` only. Optional. True, if the user is allowed to pin messages; groups and supergroups only */
     public null|bool $can_pin_messages = null;
 
-    /** administrator` only. Optional. True, if the administrator can post stories in the channel; channels only */
-    public bool $can_post_stories;
+    /** administrator` only. Optional. True, if the administrator can post stories to the chat */
+    public null|bool $can_post_stories = null;
 
-    /** administrator` only. Optional. True, if the administrator can edit stories posted by other users; channels only */
-    public bool $can_edit_stories;
+    /** administrator` only. Optional. True, if the administrator can edit stories posted by other users */
+    public null|bool $can_edit_stories = null;
 
     /** administrator` only. Optional. True, if the administrator can delete stories posted by other users */
-    public bool $can_delete_stories;
+    public null|bool $can_delete_stories = null;
 
     /**
      * `administrator` : Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only
@@ -87,22 +87,22 @@ class chatMember extends types {
     public null|bool $can_send_messages = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send audios */
-    public bool $can_send_audios;
+    public null|bool $can_send_audios = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send documents */
-    public bool $can_send_documents;
+    public null|bool $can_send_documents = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send photos */
-    public bool $can_send_photos;
+    public null|bool $can_send_photos = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send videos */
-    public bool $can_send_videos;
+    public null|bool $can_send_videos = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send video notes */
-    public bool $can_send_video_notes;
+    public null|bool $can_send_video_notes = null;
 
     /** `restricted` only. Optional. True, if the user is allowed to send voice notes */
-    public bool $can_send_voice_notes;
+    public null|bool $can_send_voice_notes = null;
 
     /** `restricted` only. True, if the user is allowed to send polls */
     public null|bool $can_send_polls = null;

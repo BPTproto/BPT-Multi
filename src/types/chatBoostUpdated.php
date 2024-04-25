@@ -14,7 +14,7 @@ class chatBoostUpdated extends types {
     /** Chat which was boosted */
     public chat $chat;
 
-    /** Infomation about the chat boost */
+    /** Information about the chat boost */
     public chatBoost $boost;
 
 
