@@ -11,10 +11,16 @@ use stdClass;
  */
 class usersShared extends types {
     /** Keep all properties which has sub properties */
-    private const subs = [];
+    private const subs = ['array' => ['users' => 'BPT\types\sharedUser']];
 
     /** Identifier of the request */
     public int $request_id;
+
+    /**
+     * Information about users shared with the bot.
+     * @var sharedUser[]
+     */
+    public array $users;
 
     /**
      * Identifiers of the shared users. These numbers may have more than 32 significant bits and some programming

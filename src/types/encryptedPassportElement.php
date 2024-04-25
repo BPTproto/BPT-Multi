@@ -8,7 +8,7 @@ use stdClass;
  * Describes documents or other Telegram Passport elements shared with the bot by the user.
  */
 class encryptedPassportElement extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
         'array' => ['files' => 'BPT\types\passportFile', 'translation' => 'BPT\types\passportFile'],
         'front_side' => 'BPT\types\passportFile',
@@ -24,7 +24,7 @@ class encryptedPassportElement extends types {
     public string $type;
 
     /**
-     * Optional. Base64-encoded encrypted Telegram Passport element data provided by the user, available for
+     * Optional. Base64-encoded encrypted Telegram Passport element data provided by the user; available only for
      * “personal_details”, “passport”, “driver_license”, “identity_card”, “internal_passport” and
      * “address” types. Can be decrypted and verified using the accompanying EncryptedCredentials.
      */
@@ -37,7 +37,7 @@ class encryptedPassportElement extends types {
     public null|string $email = null;
 
     /**
-     * Optional. Array of encrypted files with documents provided by the user, available for “utility_bill”,
+     * Optional. Array of encrypted files with documents provided by the user; available only for “utility_bill”,
      * “bank_statement”, “rental_agreement”, “passport_registration” and “temporary_registration”
      * types. Files can be decrypted and verified using the accompanying EncryptedCredentials.
      * @var passportFile[]
@@ -45,28 +45,28 @@ class encryptedPassportElement extends types {
     public null|array $files = null;
 
     /**
-     * Optional. Encrypted file with the front side of the document, provided by the user. Available for
+     * Optional. Encrypted file with the front side of the document, provided by the user; available only for
      * “passport”, “driver_license”, “identity_card” and “internal_passport”. The file can be
      * decrypted and verified using the accompanying EncryptedCredentials.
      */
     public null|passportFile $front_side = null;
 
     /**
-     * Optional. Encrypted file with the reverse side of the document, provided by the user. Available for
+     * Optional. Encrypted file with the reverse side of the document, provided by the user; available only for
      * “driver_license” and “identity_card”. The file can be decrypted and verified using the accompanying
      * EncryptedCredentials.
      */
     public null|passportFile $reverse_side = null;
 
     /**
-     * Optional. Encrypted file with the selfie of the user holding a document, provided by the user; available for
-     * “passport”, “driver_license”, “identity_card” and “internal_passport”. The file can be
-     * decrypted and verified using the accompanying EncryptedCredentials.
+     * Optional. Encrypted file with the selfie of the user holding a document, provided by the user; available if
+     * requested for “passport”, “driver_license”, “identity_card” and “internal_passport”. The file
+     * can be decrypted and verified using the accompanying EncryptedCredentials.
      */
     public null|passportFile $selfie = null;
 
     /**
-     * Optional. Array of encrypted files with translated versions of documents provided by the user. Available if
+     * Optional. Array of encrypted files with translated versions of documents provided by the user; available if
      * requested for “passport”, “driver_license”, “identity_card”, “internal_passport”,
      * “utility_bill”, “bank_statement”, “rental_agreement”, “passport_registration” and
      * “temporary_registration” types. Files can be decrypted and verified using the accompanying

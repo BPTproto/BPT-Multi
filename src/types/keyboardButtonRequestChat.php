@@ -5,8 +5,21 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * This object defines the criteria used to request a suitable chat. The identifier of the selected chat will be
- * shared with the bot when the corresponding button is pressed. More about requesting chats »
+ * This object defines the criteria used to request a suitable chat. Information about the selected chat will be
+ * shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the
+ * сhat if appropriate More about requesting chats »
+ *
+ * @method self setRequest_id(int $value)
+ * @method self setChat_is_channel(bool $value)
+ * @method self setChat_is_forum(bool $value)
+ * @method self setChat_has_username(bool $value)
+ * @method self setChat_is_created(bool $value)
+ * @method self setUser_administrator_rights(chatAdministratorRights $value)
+ * @method self setBot_administrator_rights(chatAdministratorRights $value)
+ * @method self setBot_is_member(bool $value)
+ * @method self setRequest_title(bool $value)
+ * @method self setRequest_username(bool $value)
+ * @method self setRequest_photo(bool $value)
  */
 class keyboardButtonRequestChat extends types {
     /** Keep all properties which has sub properties */
@@ -58,6 +71,15 @@ class keyboardButtonRequestChat extends types {
      * applied.
      */
     public bool $bot_is_member;
+
+    /** Optional. Pass True to request the chat's title */
+    public bool $request_title;
+
+    /** Optional. Pass True to request the chat's username */
+    public bool $request_username;
+
+    /** Optional. Pass True to request the chat's photo */
+    public bool $request_photo;
 
 
     public function __construct(stdClass|null $object = null) {

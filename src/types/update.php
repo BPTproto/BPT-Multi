@@ -15,6 +15,10 @@ class update extends types {
         'edited_message' => 'BPT\types\message',
         'channel_post' => 'BPT\types\message',
         'edited_channel_post' => 'BPT\types\message',
+        'business_connection' => 'BPT\types\businessConnection',
+        'business_message' => 'BPT\types\message',
+        'edited_business_message' => 'BPT\types\message',
+        'deleted_business_messages' => 'BPT\types\businessMessagesDeleted',
         'message_reaction' => 'BPT\types\messageReactionUpdated',
         'message_reaction_count' => 'BPT\types\messageReactionCountUpdated',
         'inline_query' => 'BPT\types\inlineQuery',
@@ -66,6 +70,21 @@ class update extends types {
      * triggered by changes to message fields that are either unavailable or not actively used by your bot.
      */
     public null|message $edited_channel_post = null;
+
+    /**
+     * Optional. The bot was connected to or disconnected from a business account, or a user edited an existing
+     * connection with the bot
+     */
+    public null|businessConnection $business_connection = null;
+
+    /** Optional. New non-service message from a connected business account */
+    public null|message $business_message = null;
+
+    /** Optional. New version of a message from a connected business account */
+    public null|message $edited_business_message = null;
+
+    /** Optional. Messages were deleted from a connected business account */
+    public null|businessMessagesDeleted $deleted_business_messages = null;
 
     /**
      * Optional. A reaction to a message was changed by a user. The bot must be an administrator in the chat and must

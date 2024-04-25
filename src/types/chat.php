@@ -14,6 +14,11 @@ class chat extends types {
     /** Keep all properties which has sub properties */
     private const subs = [
         'photo' => 'BPT\types\chatPhoto',
+        'birthdate' => 'BPT\types\birthdate',
+        'business_intro' => 'BPT\types\businessIntro',
+        'business_location' => 'BPT\types\businessLocation',
+        'business_opening_hours' => 'BPT\types\businessOpeningHours',
+        'personal_chat' => 'BPT\types\chat',
         'array' => ['available_reactions' => 'BPT\types\reactionType'],
         'pinned_message' => 'BPT\types\message',
         'permissions' => 'BPT\types\chatPermissions',
@@ -48,8 +53,28 @@ class chat extends types {
     /** Optional. Chat photo. Returned only in getChat. */
     public null|chatPhoto $photo = null;
 
-    /** Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels. Returned only in getChat. */
+    /** Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels.
+     * Returned only in getChat.
+     */
     public null|array $active_usernames = null;
+
+    /** Optional. For private chats, the date of birth of the user. Returned only in getChat. */
+    public null|birthdate $birthdate = null;
+
+    /** Optional. For private chats with business accounts, the intro of the business. Returned only in getChat. */
+    public null|businessIntro $business_intro = null;
+
+    /** Optional. For private chats with business accounts, the location of the business. Returned only in getChat. */
+    public null|businessLocation $business_location = null;
+
+    /**
+     * Optional. For private chats with business accounts, the opening hours of the business. Returned only in
+     * getChat.
+     */
+    public null|businessOpeningHours $business_opening_hours = null;
+
+    /** Optional. For private chats, the personal channel of the user. Returned only in getChat. */
+    public null|chat $personal_chat = null;
 
     /**
      * Optional. List of available reactions allowed in the chat. If omitted, then all emoji reactions are allowed.
@@ -82,12 +107,15 @@ class chat extends types {
      */
     public null|string $profile_background_custom_emoji_id = null;
 
-    /** Optional. Custom emoji identifier of emoji status of the other party in a private chat. Returned only in getChat. */
+    /**
+     * Optional. Custom emoji identifier of the emoji status of the chat or the other party in a private chat.
+     * Returned only in getChat.
+     */
     public null|string $emoji_status_custom_emoji_id = null;
 
     /**
-     * Optional. Expiration date of the emoji status of the other party in a private chat, if any.
-     * Returned only in getChat.
+     * Optional. Expiration date of the emoji status of the chat or the other party in a private chat, in Unix time,
+     * if any. Returned only in getChat.
      */
     public null|int $emoji_status_expiration_date;
 

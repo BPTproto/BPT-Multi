@@ -14,12 +14,12 @@ use stdClass;
  * @method self setCan_promote_members(bool $value)
  * @method self setCan_change_info(bool $value)
  * @method self setCan_invite_users(bool $value)
- * @method self setCan_post_messages(bool $value)
- * @method self setCan_edit_messages(bool $value)
- * @method self setCan_pin_messages(bool $value)
  * @method self setCan_post_stories(bool $value)
  * @method self setCan_edit_stories(bool $value)
  * @method self setCan_delete_stories(bool $value)
+ * @method self setCan_post_messages(bool $value)
+ * @method self setCan_edit_messages(bool $value)
+ * @method self setCan_pin_messages(bool $value)
  * @method self setCan_manage_topics(bool $value)
  */
 class chatAdministratorRights extends types {
@@ -57,15 +57,6 @@ class chatAdministratorRights extends types {
     /** True, if the user is allowed to invite new users to the chat */
     public bool $can_invite_users;
 
-    /** Optional. True, if the administrator can post messages in the channel, or access channel statistics; channels only */
-    public bool $can_post_messages;
-
-    /** Optional. True, if the administrator can edit messages of other users and can pin messages; channels only */
-    public bool $can_edit_messages;
-
-    /** Optional. True, if the user is allowed to pin messages; groups and supergroups only */
-    public bool $can_pin_messages;
-
     /** True, if the administrator can post stories to the chat */
     public bool $can_post_stories;
 
@@ -75,7 +66,19 @@ class chatAdministratorRights extends types {
     /** True, if the administrator can delete stories posted by other users */
     public bool $can_delete_stories;
 
-    /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; supergroups only */
+    /**
+     * Optional. True, if the administrator can post messages in the channel, or access channel statistics; for
+     * channels only
+     */
+    public bool $can_post_messages;
+
+    /** Optional. True, if the administrator can edit messages of other users and can pin messages; for channels only */
+    public bool $can_edit_messages;
+
+    /** Optional. True, if the user is allowed to pin messages; for groups and supergroups only */
+    public bool $can_pin_messages;
+
+    /** Optional. True, if the user is allowed to create, rename, close, and reopen forum topics; for supergroups only */
     public bool $can_manage_topics;
 
 

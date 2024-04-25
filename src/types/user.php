@@ -11,7 +11,7 @@ use stdClass;
  * This object represents a Telegram user or bot.
  */
 class user extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /**
@@ -50,6 +50,12 @@ class user extends types {
 
     /** Optional. True, if the bot supports inline queries. Returned only in getMe. */
     public null|bool $supports_inline_queries = null;
+
+    /**
+     * Optional. True, if the bot can be connected to a Telegram Business account to receive its messages. Returned
+     * only in getMe.
+     */
+    public null|bool $can_connect_to_business = null;
 
 
     public function __construct(stdClass|null $object = null) {

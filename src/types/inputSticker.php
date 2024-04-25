@@ -7,10 +7,17 @@ use stdClass;
 
 /**
  * This object describes a sticker to be added to a sticker set.
+ *
+ *
+ * @method self setSticker(string|CURLFile $value)
+ * @method self setFormat(string $value)
+ * @method self setEmoji_list(string[] $value)
+ * @method self setMask_position(maskPosition $value)
+ * @method self setKeywords(string[] $value)
  */
 class inputSticker extends types {
     /** Keep all properties which has sub properties */
-    private const subs = ['sticker' => 'BPT\types\inputFile', 'mask_position' => 'BPT\types\maskPosition'];
+    private const subs = ['sticker' => 'CURLFile', 'mask_position' => 'BPT\types\maskPosition'];
 
     /**
      * The added sticker. Pass a file_id as a String to send a file that already exists on the Telegram servers, pass
@@ -20,6 +27,12 @@ class inputSticker extends types {
      * Sending Files »
      */
     public string|CURLFile $sticker;
+
+    /**
+     * Format of the added sticker, must be one of “static” for a .WEBP or .PNG image, “animated” for a .TGS
+     * animation, “video” for a WEBM video
+     */
+    public string $format;
 
     /**
      * List of 1-20 emoji associated with the sticker

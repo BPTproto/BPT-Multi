@@ -1,6 +1,6 @@
 # What is BPT multi features?
 
-### 1- Support all telegram methods and classes (Api v7.0)
+### 1- Support all telegram methods and classes (Api v7.2)
 
 ### 2- autoload system tnx to composer (only needed file will include)
 
@@ -15,6 +15,8 @@ Examples :
 * `BPT::sendMessage('hello');`
 * `$this->sendMessage('hello'); //in handler class`
 * `$BPT->sendMessage('hello'); //$BPT is an object of BPT class`
+
+We suggest you use these formats(named arguments) because arguments order could be changed by telegram :
 * `telegram::sendMessage(['text' => 'hello']); All of above examples support this format too`
 * `telegram::sendMessage(text: 'hello'); All of above examples support this format too`
 

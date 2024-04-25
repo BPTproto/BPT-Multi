@@ -8,14 +8,14 @@ use stdClass;
  * This object represents a point on the map.
  */
 class location extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
-
-    /** Longitude as defined by sender */
-    public float $longitude;
 
     /** Latitude as defined by sender */
     public float $latitude;
+
+    /** Longitude as defined by sender */
+    public float $longitude;
 
     /** Optional. The radius of uncertainty for the location, measured in meters; 0-1500 */
     public null|float $horizontal_accuracy = null;

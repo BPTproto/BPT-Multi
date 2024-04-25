@@ -25,3 +25,7 @@ class inlineKeyboardMarkup extends types {
         }
     }
 }
+
+$x = new inlineKeyboardMarkup();
+$x->setInline_keyboard([[new inlineKeyboardButton()]]);
+var_dump($x);

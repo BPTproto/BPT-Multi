@@ -11,9 +11,9 @@ use stdClass;
  * @method self setMedia(string $value)
  * @method self setCaption(string $value)
  * @method self setParse_mode(string $value)
- * @method self setCaption_entities(array $value)
+ * @method self setCaption_entities(messageEntity[] $value)
  * @method self setHas_spoiler(bool $value)
- * @method self setThumb(CURLFile|string $value)
+ * @method self setThumbnail(CURLFile|string $value)
  * @method self setWidth(int $value)
  * @method self setHeight(int $value)
  * @method self setDuration(int $value)
@@ -25,7 +25,7 @@ use stdClass;
 class inputMedia extends types {
     /** Keep all properties which has sub properties */
     private const subs = [
-        'thumbnail' => 'BPT\types\inputFile',
+        'thumbnail' => 'CURLFile',
         'array' => ['caption_entities' => 'BPT\types\messageEntity']
     ];
 

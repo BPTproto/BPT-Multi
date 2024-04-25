@@ -10,8 +10,8 @@ use stdClass;
  * KeyboardButtonRequestChat button.
  */
 class chatShared extends types {
-    /** Keep all of properties which has sub properties */
-    private const subs = [];
+    /** Keep all properties which has sub properties */
+    private const subs = ['array' => ['photo' => 'BPT\types\photoSize']];
 
     /** Identifier of the request */
     public int $request_id;
@@ -24,6 +24,18 @@ class chatShared extends types {
      * some other means.
      */
     public int $chat_id;
+
+    /** Optional. Title of the chat, if the title was requested by the bot. */
+    public null|string $title = null;
+
+    /** Optional. Username of the chat, if the username was requested by the bot and available. */
+    public null|string $username = null;
+
+    /**
+     * Optional. Available sizes of the chat photo, if the photo was requested by the bot
+     * @var photoSize[]
+     */
+    public null|array $photo = null;
 
 
     public function __construct(stdClass|null $object = null) {
