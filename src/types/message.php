@@ -15,6 +15,8 @@ class message extends types {
         'from' => 'BPT\types\user',
         'sender_chat' => 'BPT\types\chat',
         'chat' => 'BPT\types\chat',
+        'forward_from' => 'BPT\types\user',
+        'forward_from_chat' => 'BPT\types\chat',
         'forward_origin' => 'BPT\types\messageOrigin',
         'reply_to_message' => 'BPT\types\message',
         'external_reply' => 'BPT\types\externalReplyInfo',
@@ -48,6 +50,7 @@ class message extends types {
         'invoice' => 'BPT\types\invoice',
         'successful_payment' => 'BPT\types\successfulPayment',
         'users_shared' => 'BPT\types\usersShared',
+        'user_shared' => 'BPT\types\userShared',
         'chat_shared' => 'BPT\types\chatShared',
         'write_access_allowed' => 'BPT\types\writeAccessAllowed',
         'passport_data' => 'BPT\types\passportData',
@@ -98,6 +101,50 @@ class message extends types {
 
     /** Chat the message belongs to */
     public chat $chat;
+
+    /**
+     * Optional. For forwarded messages, sender of the original message
+     *
+     * @deprecated used forward_origin instead
+     */
+    public null|user $forward_from = null;
+
+    /**
+     * Optional. For messages forwarded from channels or from anonymous administrators, information about the
+     * original sender chat
+     *
+     * @deprecated used forward_origin instead
+     */
+    public null|chat $forward_from_chat = null;
+
+    /**
+     * Optional. For messages forwarded from channels, identifier of the original message in the channel
+     *
+     * @deprecated used forward_origin instead
+     */
+    public null|int $forward_from_message_id = null;
+
+    /**
+     * Optional. For forwarded messages that were originally sent in channels or by an anonymous chat administrator,
+     * signature of the message sender if present
+     *
+     * @deprecated used forward_origin instead
+     */
+    public null|string $forward_signature = null;
+
+    /**
+     * Optional. Sender's name for messages forwarded from users who disallow adding a link to their account in
+     * forwarded messages
+     *
+     * @deprecated used forward_origin instead
+     */
+    public null|string $forward_sender_name = null;
+
+    /**
+     * Optional. For forwarded messages, date the original message was sent in Unix time
+     * @deprecated used forward_origin instead
+     */
+    public null|int $forward_date = null;
 
     /** Optional. Information about the original message for forwarded messages */
     public null|messageOrigin $forward_origin = null;
@@ -308,8 +355,17 @@ class message extends types {
      */
     public null|successfulPayment $successful_payment = null;
 
-    /** Optional. Service message: a user was shared with the bot */
-    public null|usersShared $user_shared = null;
+    /** Optional. Service message: users were shared with the bot */
+    public null|usersShared $users_shared = null;
+
+    /**
+     * Optional. Service message: a user was shared with the bot
+     *
+     * This is a legacy property, and could be removed in the future
+     *
+     * @deprecated use users_shared instead
+     */
+    public null|userShared $user_shared = null;
 
     /** Optional. Service message: a chat was shared with the bot */
     public null|chatShared $chat_shared = null;

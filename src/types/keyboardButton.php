@@ -10,6 +10,7 @@ use stdClass;
  * request_contact, request_location, and request_poll are mutually exclusive.
  * @method self setText(string $value)
  * @method self setRequest_users(keyboardButtonRequestUsers $value)
+ * @method self setRequest_user(keyboardButtonRequestUser $value) This method is deprecated. use setRequest_users instead
  * @method self setRequest_chat(keyboardButtonRequestChat $value)
  * @method self setRequest_contact(bool $value)
  * @method self setRequest_location(bool $value)
@@ -20,6 +21,7 @@ class keyboardButton extends types {
     /** Keep all properties which has sub properties */
     private const subs = [
         'request_users' => 'BPT\types\keyboardButtonRequestUsers',
+        'request_user' => 'BPT\types\keyboardButtonRequestUser',
         'request_chat' => 'BPT\types\keyboardButtonRequestChat',
         'request_poll' => 'BPT\types\keyboardButtonPollType',
         'web_app' => 'BPT\types\webAppInfo'
@@ -36,6 +38,14 @@ class keyboardButton extends types {
      * will be sent to the bot in a “users_shared” service message. Available in private chats only.
      */
     public keyboardButtonRequestUsers $request_users;
+
+    /**
+     * Optional. If specified, pressing the button will open a list of suitable users. Tapping on any user will send
+     * their identifier to the bot in a “user_shared” service message. Available in private chats only.
+     *
+     * @deprecated use keyboardButtonRequestUsers instead
+     */
+    public keyboardButtonRequestUser $request_user;
 
     /**
      * Optional. If specified, pressing the button will open a list of suitable chats. Tapping on a chat will send
