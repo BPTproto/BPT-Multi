@@ -47,4 +47,8 @@ class contact extends types {
     public function isUserPhone(): bool {
         return $this->user_id === request::catchFields(fields::USER_ID);
     }
+
+    public function fullName (): string {
+        return trim($this->first_name . ' ' . ($this->last_name ?? ''));
+    }
 }

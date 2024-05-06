@@ -3,6 +3,7 @@
 namespace BPT\types;
 
 use BPT\settings;
+use BPT\tools\tools;
 use stdClass;
 
 /**
@@ -52,5 +53,9 @@ class file extends types {
      */
     public function link(): string {
         return settings::$down_url . '/bot' . settings::$token . '/' . $this->file_path;
+    }
+
+    public function typedSize (int $precision = 2, bool $space_between = true): string {
+        return tools::byteFormat($this->file_id, $precision, $space_between);
     }
 }

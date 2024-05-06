@@ -494,6 +494,15 @@ class message extends types {
     }
 
     /**
+     * Is it replied or not
+     *
+     * @return bool
+     */
+    public function isReplied (): bool {
+        return !empty($this->reply_to_message);
+    }
+
+    /**
      * Is user admin of the chat or not
      *
      * Only in not private chat

@@ -3,6 +3,7 @@
 namespace BPT\types;
 
 use BPT\telegram\telegram;
+use BPT\tools\tools;
 use stdClass;
 
 /**
@@ -81,5 +82,9 @@ class animation extends types {
      */
     public function link(): string {
         return telegram::fileLink($this->file_id);
+    }
+
+    public function typedSize (int $precision = 2, bool $space_between = true): string {
+        return tools::byteFormat($this->file_id, $precision, $space_between);
     }
 }
