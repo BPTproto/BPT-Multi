@@ -21,7 +21,7 @@ class businessMessagesDeleted extends types {
     public chat $chat;
 
     /**
-     * A JSON-serialized list of identifiers of deleted messages in the chat of the business account
+     * The list of identifiers of deleted messages in the chat of the business account
      * @var int[]
      */
     public array $message_ids;

@@ -6,7 +6,7 @@ use stdClass;
 
 /**
  * This object represents a custom keyboard with reply options (see Introduction to bots for details and
- * examples).
+ * examples). Not supported in channels and for messages sent on behalf of a Telegram Business account.
  * @method self setKeyboard(array $value)
  * @method self setIs_persistent(bool $value)
  * @method self setResize_keyboard(bool $value)

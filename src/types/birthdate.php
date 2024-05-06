@@ -4,6 +4,9 @@ namespace BPT\types;
 
 use stdClass;
 
+/**
+ * Describes the birthdate of a user.
+ */
 class birthdate extends types {
     /** Keep all properties which has sub properties */
     private const subs = [];

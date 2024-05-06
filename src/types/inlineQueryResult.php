@@ -241,7 +241,10 @@ class inlineQueryResult extends types {
     /** `location` only. Optional. The radius of uncertainty for the location, measured in meters; 0-1500 */
     public float $horizontal_accuracy;
 
-    /** `location` only. Optional. Period in seconds for which the location can be updated, should be between 60 and 86400. */
+    /**
+     * `location` only. Optional. Period in seconds during which the location can be updated, should be between 60 and 86400, or
+     * 0x7FFFFFFF for live locations that can be edited indefinitely.
+     */
     public int $live_period;
 
     /**

@@ -4,6 +4,9 @@ namespace BPT\types;
 
 use stdClass;
 
+/**
+ * Describes the opening hours of a business.
+ */
 class businessOpeningHours extends types {
     /** Keep all properties which has sub properties */
     private const subs = ['array' => ['opening_hours' => 'BPT\types\businessOpeningHoursInterval']];

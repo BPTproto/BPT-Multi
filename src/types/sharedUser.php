@@ -5,7 +5,7 @@ namespace BPT\types;
 use stdClass;
 
 /**
- * This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUser
+ * This object contains information about a user that was shared with the bot using a KeyboardButtonRequestUsers
  * button.
  */
 class sharedUser extends types {

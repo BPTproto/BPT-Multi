@@ -7,7 +7,7 @@ use stdClass;
 /**
  * This object defines the criteria used to request a suitable chat. Information about the selected chat will be
  * shared with the bot when the corresponding button is pressed. The bot will be granted requested rights in the
- * сhat if appropriate More about requesting chats »
+ * chat if appropriate. More about requesting chats ».
  *
  * @method self setRequest_id(int $value)
  * @method self setChat_is_channel(bool $value)

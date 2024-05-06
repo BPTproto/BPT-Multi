@@ -58,6 +58,7 @@ class message extends types {
         'passport_data' => 'BPT\types\passportData',
         'proximity_alert_triggered' => 'BPT\types\proximityAlertTriggered',
         'boost_added' => 'BPT\types\chatBoostAdded',
+        'chat_background_set' => 'BPT\types\chatBackground',
         'forum_topic_created' => 'BPT\types\forumTopicCreated',
         'forum_topic_edited' => 'BPT\types\forumTopicEdited',
         'forum_topic_closed' => 'BPT\types\forumTopicClosed',
@@ -419,6 +420,9 @@ class message extends types {
 
     /** Optional. Service message: user boosted the chat */
     public null|chatBoostAdded $boost_added = null;
+
+    /** Optional. Service message: chat background set */
+    public null|chatBackground $chat_background_set = null;
 
     /** Optional. Service message: forum topic created */
     public null|forumTopicCreated $forum_topic_created = null;

@@ -4,6 +4,9 @@ namespace BPT\types;
 
 use stdClass;
 
+/**
+ * Describes an interval of time during which a business is open.
+ */
 class businessOpeningHoursInterval extends types {
     /** Keep all properties which has sub properties */
     private const subs = [];

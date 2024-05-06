@@ -8,9 +8,13 @@ use stdClass;
  * This object contains information about a poll.
  */
 class poll extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [
-        'array' => ['options' => 'BPT\types\pollOption', 'explanation_entities' => 'BPT\types\messageEntity'],
+        'array' => [
+            'question_entities' => 'BPT\types\messageEntity',
+            'options' => 'BPT\types\pollOption',
+            'explanation_entities' => 'BPT\types\messageEntity',
+        ],
     ];
 
     /** Unique poll identifier */
@@ -18,6 +22,13 @@ class poll extends types {
 
     /** Poll question, 1-300 characters */
     public string $question;
+
+    /**
+     * Optional. Special entities that appear in the question. Currently, only custom emoji entities are allowed in
+     * poll questions
+     * @var messageEntity[]
+     */
+    public array $question_entities;
 
     /**
      * List of poll options
@@ -29,16 +40,16 @@ class poll extends types {
     public int $total_voter_count;
 
     /** True, if the poll is closed */
-    public null|bool $is_closed = null;
+    public bool $is_closed;
 
     /** True, if the poll is anonymous */
-    public null|bool $is_anonymous = null;
+    public bool $is_anonymous;
 
     /** Poll type, currently can be “regular” or “quiz” */
     public string $type;
 
     /** True, if the poll allows multiple answers */
-    public null|bool $allows_multiple_answers = null;
+    public bool $allows_multiple_answers;
 
     /**
      * Optional. 0-based identifier of the correct answer option. Available only for polls in the quiz mode, which

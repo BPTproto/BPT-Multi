@@ -4,6 +4,9 @@ namespace BPT\types;
 
 use stdClass;
 
+/**
+ * Contains information about the location of a Telegram Business account.
+ */
 class businessLocation extends types {
     /** Keep all properties which has sub properties */
     private const subs = ['location' => 'BPT\types\location'];
