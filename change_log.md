@@ -131,3 +131,8 @@
   - Update to Telegram API v7.0
 - 1.13.1
   - Fix callbackQuery error because of wrong type for message property
+- 1.14.0
+  - Update to Telegram API v7.1
+  - Update to Telegram API v7.2
+  - Update to Telegram API v7.3
+  - Extra new methods for telegram types
