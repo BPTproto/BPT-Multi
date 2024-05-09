@@ -788,7 +788,7 @@ class tools{
      * @return string
      */
     public static function remoteIP(): string {
-        $ip = $_SERVER['REMOTE_ADDR'];
+        $ip = $_SERVER['REMOTE_ADDR'] ?? 'unknown';
         if (settings::$cloudflare_verify && isset($_SERVER['HTTP_CF_CONNECTING_IP']) && tools::isCloudFlare($ip)) {
             return $_SERVER['HTTP_CF_CONNECTING_IP'];
         }
