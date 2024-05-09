@@ -264,7 +264,7 @@ class crypto {
      * @return bool
      */
     public static function isNowPayments(): bool {
-        return tools::remoteIP() === '144.76.201.30';
+        return in_array(tools::remoteIP(), ['51.89.194.21', '51.75.77.69', '65.21.158.36']);
     }
 
     /**
