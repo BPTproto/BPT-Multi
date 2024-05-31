@@ -513,6 +513,25 @@ class tools{
     }
 
     /**
+     * replace `search` with `replace` in `subject` but only one of it(the last result)
+     *
+     * e.g. => tools::strReplaceLast('hello','bye','hello :)');
+     *
+     * @param string|string[] $search
+     * @param string|string[] $replace
+     * @param string|string[] $subject
+     *
+     * @return string[]|string
+     */
+    public static function strReplaceLast(string|array $search, string|array $replace, string|array $subject): string|array {
+        $pos = strrpos($subject, $search);
+        if ($pos !== false) {
+            return substr_replace($subject, $replace, $pos, strlen($search));
+        }
+        return $subject;
+    }
+
+    /**
      * Convert file_id to fileType
      *
      * Thank you [Daniil](https://github.com/danog) for file_id decode pattern
