@@ -166,6 +166,12 @@ class inlineQueryResult extends types {
      */
     public array $caption_entities;
 
+    /**
+     * `photo` and `gif` and `mpeg4Gif` and `video` and `cachedPhoto` and `cachedGif` and `cachedMpeg4Gif` and
+     * `cachedVideo` only. Optional. Pass True, if the caption must be shown above the message media
+     */
+    public bool $show_caption_above_media;
+
     /** `gif` only. A valid URL for the GIF file. File size must not exceed 1MB */
     public string $gif_url;
 

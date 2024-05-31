@@ -23,9 +23,9 @@ class messageEntity extends types {
      * ($USD), “bot_command” (/startjobs_bot), “url” (https://telegram.org), “email”
      * (do-not-replytelegram.org), “phone_number” (+1-212-555-0123), “bold” (bold text), “italic” (italic
      * text), “underline” (underlined text), “strikethrough” (strikethrough text), “spoiler” (spoiler
-     * message), “blockquote” (block quotation), “code” (monowidth string), “pre” (monowidth block),
-     * “text_link” (for clickable text URLs), “text_mention” (for users without usernames),
-     * “custom_emoji” (for inline custom emoji stickers)
+     * message), “blockquote” (block quotation), “expandable_blockquote” (collapsed-by-default block
+     * quotation), “code” (monowidth string), “pre” (monowidth block), “text_link” (for clickable text
+     * URLs), “text_mention” (for users without usernames), “custom_emoji” (for inline custom emoji stickers)
      */
     public string $type;
 

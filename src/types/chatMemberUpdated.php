@@ -41,8 +41,8 @@ class chatMemberUpdated extends types {
     public null|chatInviteLink $invite_link = null;
 
     /**
-     * Optional. True, if the user joined the chat after sending a direct join request and being approved by an
-     * administrator
+     * Optional. True, if the user joined the chat after sending a direct join request without using an invite link
+     * and being approved by an administrator
      */
     public null|bool $via_join_request = null;
 

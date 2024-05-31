@@ -9,7 +9,7 @@ use stdClass;
  * This object contains information about an incoming pre-checkout query.
  */
 class preCheckoutQuery extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = ['from' => 'BPT\types\user', 'order_info' => 'BPT\types\orderInfo'];
 
     /** Unique query identifier */
@@ -18,7 +18,7 @@ class preCheckoutQuery extends types {
     /** User who sent the query */
     public user $from;
 
-    /** Three-letter ISO 4217 currency code */
+    /** Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars */
     public string $currency;
 
     /**

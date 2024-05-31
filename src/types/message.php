@@ -244,6 +244,9 @@ class message extends types {
      */
     public null|linkPreviewOptions $link_preview_options = null;
 
+    /** Optional. Unique identifier of the message effect added to the message */
+    public null|string $effect_id = null;
+
     /**
      * Optional. Message is an animation, information about the animation. For backward compatibility, when this
      * field is set, the document field will also be set
@@ -286,6 +289,9 @@ class message extends types {
      * @var messageEntity[]
      */
     public null|array $caption_entities = null;
+
+    /** Optional. True, if the caption must be shown above the message media */
+    public null|bool $show_caption_above_media = null;
 
     /** Optional. True, if the message media is covered by a spoiler animation */
     public null|bool $has_media_spoiler = null;
@@ -371,7 +377,7 @@ class message extends types {
 
     /**
      * Optional. Specified message was pinned. Note that the Message object in this field will not contain further
-     * reply_to_message fields even if it is itself a reply.
+     * reply_to_message fields even if it itself is a reply.
      */
     public null|maybeInaccessibleMessage $pinned_message = null;
 
@@ -476,6 +482,7 @@ class message extends types {
     public function __construct(stdClass|null $object = null) {
         if ($object != null) {
             parent::__construct($object, self::subs);
+
         }
     }
 

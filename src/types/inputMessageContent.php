@@ -131,7 +131,7 @@ class inputMessageContent extends types {
      */
     public string $payload;
 
-    /** `invoice` only. Payment provider token, obtained via BotFather */
+    /** `invoice` only. Optional. Payment provider token, obtained via BotFather */
     public string $provider_token;
 
     /** `invoice` only. Three-letter ISO 4217 currency code, see more on currencies */

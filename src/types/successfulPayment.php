@@ -8,10 +8,10 @@ use stdClass;
  * This object contains basic information about a successful payment.
  */
 class successfulPayment extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = ['order_info' => 'BPT\types\orderInfo'];
 
-    /** Three-letter ISO 4217 currency code */
+    /** Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars */
     public string $currency;
 
     /**

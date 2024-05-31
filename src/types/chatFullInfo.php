@@ -60,7 +60,7 @@ class chatFullInfo extends types {
     public null|chatPhoto $photo = null;
 
     /**
-     * Optional. If non-empty, the list of all active chat usernames = null; for private chats, supergroups and channels
+     * Optional. If non-empty, the list of all active chat usernames; for private chats, supergroups and channels
      * @var string[]
      */
     public null|array $active_usernames = null;
@@ -128,7 +128,10 @@ class chatFullInfo extends types {
     /** Optional. True, if users need to join the supergroup before they can send messages */
     public null|bool $join_to_send_messages = null;
 
-    /** Optional. True, if all users directly joining the supergroup need to be approved by supergroup administrators */
+    /**
+     * Optional. True, if all users directly joining the supergroup without using an invite link need to be approved
+     * by supergroup administrators
+     */
     public null|bool $join_by_request = null;
 
     /** Optional. Description, for groups, supergroups and channel chats */
@@ -145,7 +148,7 @@ class chatFullInfo extends types {
 
     /**
      * Optional. For supergroups, the minimum allowed delay between consecutive messages sent by each unprivileged
-     * user = null; in seconds
+     * user; in seconds
      */
     public null|int $slow_mode_delay = null;
 
@@ -155,7 +158,7 @@ class chatFullInfo extends types {
      */
     public null|int $unrestrict_boost_count = null;
 
-    /** Optional. The time after which all messages sent to the chat will be automatically deleted = null; in seconds */
+    /** Optional. The time after which all messages sent to the chat will be automatically deleted; in seconds */
     public null|int $message_auto_delete_time = null;
 
     /**
@@ -187,9 +190,9 @@ class chatFullInfo extends types {
 
     /**
      * Optional. Unique identifier for the linked chat, i.e. the discussion group identifier for a channel and vice
-     * versa = null; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming
+     * versa; for supergroups and channel chats. This identifier may be greater than 32 bits and some programming
      * languages may have difficulty/silent defects in interpreting it. But it is smaller than 52 bits, so a signed
-     * 64-bit integer or double-precision float type are safe for storing this identifier.
+     * 64 bit integer or double-precision float type are safe for storing this identifier.
      */
     public null|int $linked_chat_id = null;
 

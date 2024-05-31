@@ -8,7 +8,7 @@ use stdClass;
  * This object contains basic information about an invoice.
  */
 class invoice extends types {
-    /** Keep all of properties which has sub properties */
+    /** Keep all properties which has sub properties */
     private const subs = [];
 
     /** Product name */
@@ -20,7 +20,7 @@ class invoice extends types {
     /** Unique bot deep-linking parameter that can be used to generate this invoice */
     public string $start_parameter;
 
-    /** Three-letter ISO 4217 currency code */
+    /** Three-letter ISO 4217 currency code, or “XTR” for payments in Telegram Stars */
     public string $currency;
 
     /**

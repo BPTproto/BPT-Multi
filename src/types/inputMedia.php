@@ -49,6 +49,9 @@ class inputMedia extends types {
      */
     public array $caption_entities;
 
+    /** `video` and `animation` and `photo` only. Optional. Pass True, if the caption must be shown above the message media */
+    public bool $show_caption_above_media;
+
     /** `video` and `animation` and `photo` only. Optional. Pass True if the photo needs to be covered with a spoiler animation */
     public bool $has_spoiler;
 

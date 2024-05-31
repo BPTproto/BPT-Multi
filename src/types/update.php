@@ -77,7 +77,7 @@ class update extends types {
      */
     public null|businessConnection $business_connection = null;
 
-    /** Optional. New non-service message from a connected business account */
+    /** Optional. New message from a connected business account */
     public null|message $business_message = null;
 
     /** Optional. New version of a message from a connected business account */
@@ -138,7 +138,7 @@ class update extends types {
 
     /**
      * Optional. A chat member's status was updated in a chat. The bot must be an administrator in the chat and must
-     * explicitly specify “chat_member” in the list of allowed_updates to receive these updates.
+     * explicitly specify "chat_member" in the list of allowed_updates to receive these updates.
      */
     public null|chatMemberUpdated $chat_member = null;
 
