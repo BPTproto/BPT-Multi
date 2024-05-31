@@ -631,6 +631,44 @@ CREATE TABLE `orders`
     }
 
     /**
+     * Run insert query
+     *
+     * e.g. : `mysql::multiInsert('users', ['id' => 123, 'name' => 'qwe'], ['id' => 234, 'name' => 'wer'], ['name' => 'ert', 'id' => 345]]);`
+     *
+     * @param string $table table name
+     * @param array  ...$inserts ['column_name' => 'value', 'column_name2' => 'value2']
+     *
+     * @return bool
+     */
+    public static function multiInsert (string $table, array ...$inserts): bool {
+        $all_letters = true;
+        foreach ($inserts as $insert) {
+            foreach ($insert as $column => $value) {
+                if (!is_string($column)) {
+                    $all_letters = false;
+                    break 2;
+                }
+            }
+        }
+        $columns = array_keys($inserts[0]);
+        if ($all_letters) {
+            sort($columns);
+        }
+        $query = "INSERT INTO `$table`(`" . '' . (is_string($columns) ? $columns : implode('`, `', $columns)) . '`) VALUES';
+
+        $all_values = [];
+        foreach ($inserts as $key => $insert) {
+            if ($all_letters) {
+                asort($insert);
+            }
+            $values = array_values($insert);
+            $query .= ($key != 0 ? ',' : '') . ' (?' . str_repeat(', ?', count($values) - 1) . ')';
+            $all_values = array_merge($all_values, $values);
+        }
+        return self::query($query, $all_values, false);
+    }
+
+    /**
      * Run insert query with update on duplicate key
      *
      * These kind of query need to act on a key(primary key, unique key, ...)
