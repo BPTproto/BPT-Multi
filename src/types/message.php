@@ -487,6 +487,16 @@ class message extends types {
     }
 
     /**
+     * Is it a media message or not
+     *
+     * @return bool
+     */
+    public function isMedia (): bool {
+        return isset($this->animation) || isset($this->audio) || isset($this->document) || isset($this->video) ||
+               isset($this->photo) || isset($this->voice) || isset($this->video_note) || isset($this->sticker);
+    }
+
+    /**
      * Is it a command message or not
      *
      * @return bool

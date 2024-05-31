@@ -136,3 +136,8 @@
   - Update to Telegram API v7.2
   - Update to Telegram API v7.3
   - Extra new methods for telegram types
+- 1.15.0
+  - Update to Telegram API v7.4
+  - Add `multiInsert` method to `mysql` class
+  - Add `strReplaceLast` method to `tools` class
+  - Add `toJson` method to all type classes

@@ -5,6 +5,7 @@ namespace BPT\telegram\request;
 use BPT\constants\loggerTypes;
 use BPT\logger;
 use BPT\settings;
+use BPT\types\types;
 use CurlHandle;
 use JetBrains\PhpStorm\ArrayShape;
 
@@ -77,7 +78,7 @@ class curl {
 
     private static function setData(array &$data): void {
         foreach ($data as &$value){
-            if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile'))){
+            if (is_array($value) || (is_object($value) && !is_a($value,'CURLFile') && !($value instanceof types))){
                 $value = json_encode($value);
             }
         }
