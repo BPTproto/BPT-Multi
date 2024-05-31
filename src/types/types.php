@@ -8,14 +8,30 @@ use stdClass;
  * base class of all type classes
  */
 class types {
+    /**
+     *  Return this object as json string
+     *
+     * @return string
+     */
     public function __toString(): string {
+        return $this->toJson();
+    }
+
+    /**
+     * Return this object as json string
+     *
+     * @param int $flags
+     *
+     * @return false|string
+     */
+    public function toJson (int $flags = 0): false|string {
         $array = json_decode(json_encode($this), true);
 
         $cleanArray = function ($array) use (&$cleanArray) {
             return array_filter(array_map(fn($value) => is_array($value) ? $cleanArray($value) : $value, $array));
         };
 
-        return json_encode($cleanArray($array));
+        return json_encode($cleanArray($array), $flags);
     }
 
     public function __construct(stdClass $object, array $subs = []) {
